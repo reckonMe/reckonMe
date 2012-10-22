@@ -1,0 +1,19 @@
+//
+// Prefix header for all source files of the 'PDR' target in the 'PDR' project
+//
+
+#import <Availability.h>
+
+// DEBUG on/off
+// #define DEBUG_MODE
+
+#define LogMethod(nsstring) NSLog(@"%@<%#x>:%@ %@", NSStringFromClass([self class]), (unsigned int) self, NSStringFromSelector(_cmd), nsstring);
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
