@@ -378,6 +378,11 @@ static PDRController *sharedSingleton;
     
     // cumulative rotation amount [rad] modulo 2*Pi
     pathRotationAmount = fmod(pathRotationAmount + radians, 2 * M_PI);
+    AbsoluteLocationEntry *rotationCenter = [self absoluteLocationEntryFrom:*collaborativeTraceRotationIndex];
+    
+    //notify the logger
+    [logger didReceiveManualHeadingCorrectionAround:rotationCenter
+                                                 By:pathRotationAmount];
     
     for (auto it = collaborativeTraceRotationIndex; it != collaborativeTrace.end(); ++it) {
 

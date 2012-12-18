@@ -63,6 +63,7 @@ extern NSString *const kPdrConnectionQueryFileAppendix;
     FILE *pdrPositionFile;
     FILE *pdrCollaborativeTraceFile;
     FILE *pdrManualPositionCorrectionFile;
+    FILE *pdrManualHeadingCorrectionFile;
     FILE *pdrCollaborativePositionCorrectionUpdateFile;
     FILE *pdrConnectionQueryFile;
     

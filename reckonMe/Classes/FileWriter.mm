@@ -39,6 +39,7 @@ NSString* const kGpsFileAppendix = @"_GPS";
 NSString *const kPdrPositionFileAppendix = @"_PdrTrace";
 NSString *const kPdrCollaborativeTraceFileAppendix = @"_PdrCollaborativeTrace";
 NSString *const kPdrManualPositionCorrectionFileAppendix = @"_PdrManualCorrection";
+NSString *const kPdrManualHeadingCorrectionFileAppendix = @"_PdrManualHeadingCorrection";
 NSString *const kPdrCollaborativePositionCorrectionUpdateFileAppendix = @"_PdrCollaborativeCorrection";
 NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
 
@@ -53,7 +54,8 @@ NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
 @property(nonatomic, retain) NSString *compassFileName;
 @property(nonatomic, retain) NSString *pdrPositionFileName, 
 *pdrCollaborativeTraceFileName, 
-*pdrManualPositionCorrectionFileName, 
+*pdrManualPositionCorrectionFileName,
+*pdrManualHeadingCorrectionFileName,
 *pdrCollaborativePositionCorrectionUpdateFileName, 
 *pdrConnectionQueryFileName;
 
@@ -67,6 +69,7 @@ NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
 - (void)initPdrPositionFile:(NSString *)name;
 - (void)initPdrCollaborativeTraceFile:(NSString *)name;
 - (void)initPdrManualPositionCorrectionFile:(NSString *)name;
+- (void)initPdrManualHeadingCorrectionFile:(NSString *)name;
 - (void)initPdrCollaborativePositionCorrectionUpdateFile:(NSString *)name;
 - (void)initPdrConnectionQueryFile:(NSString *)name;
 
@@ -85,7 +88,8 @@ NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
 
 @synthesize pdrPositionFileName, 
 pdrCollaborativeTraceFileName, 
-pdrManualPositionCorrectionFileName, 
+pdrManualPositionCorrectionFileName,
+pdrManualHeadingCorrectionFileName,
 pdrCollaborativePositionCorrectionUpdateFileName, 
 pdrConnectionQueryFileName;
 
@@ -117,7 +121,9 @@ pdrConnectionQueryFileName;
     
     self.pdrPositionFileName = nil;
     self.pdrCollaborativeTraceFileName = nil; 
-    self.pdrManualPositionCorrectionFileName = nil; 
+    self.pdrManualPositionCorrectionFileName = nil;
+    self.pdrManualHeadingCorrectionFileName = nil;
+    
     self.pdrCollaborativePositionCorrectionUpdateFileName = nil; 
     self.pdrConnectionQueryFileName = nil;
     
@@ -155,6 +161,7 @@ pdrConnectionQueryFileName;
         [self initPdrPositionFile:self.currentFilePrefix];
         [self initPdrCollaborativeTraceFile:self.currentFilePrefix];
         [self initPdrManualPositionCorrectionFile:self.currentFilePrefix];
+        [self initPdrManualHeadingCorrectionFile:self.currentFilePrefix];
         [self initPdrCollaborativePositionCorrectionUpdateFile:self.currentFilePrefix];
         [self initPdrConnectionQueryFile:self.currentFilePrefix];
         
@@ -183,6 +190,7 @@ pdrConnectionQueryFileName;
         fclose(pdrPositionFile);
         fclose(pdrCollaborativeTraceFile);
         fclose(pdrManualPositionCorrectionFile);
+        fclose(pdrManualHeadingCorrectionFile);
         fclose(pdrCollaborativePositionCorrectionUpdateFile);
         fclose(pdrConnectionQueryFile);
         
@@ -394,6 +402,24 @@ pdrConnectionQueryFileName;
                                                 ];	
 }
 
+- (void)initPdrManualHeadingCorrectionFile:(NSString *)name {
+    
+    self.pdrManualHeadingCorrectionFileName = [self setupTextFile:&pdrManualHeadingCorrectionFile
+                                                 withBaseFileName:name
+                                                         appendix:kPdrManualHeadingCorrectionFileAppendix
+                                                  dataDescription:@"Manual corrections of PDR heading around the specified point"
+                                                         subtitle:nil
+                                               columnDescriptions:[NSArray arrayWithObjects:
+                                                                   @"Seconds.milliseconds since 1970",
+                                                                   @"Northing delta in m",
+                                                                   @"Easting delta in m",
+                                                                   @"Northing origin in m",
+                                                                   @"Easting origin in m",
+                                                                   @"Deviation in m",
+                                                                   @"Rotation amount in radians"
+                                                                   , nil]
+                                               ];
+}
 
 - (void)initPdrCollaborativePositionCorrectionUpdateFile:(NSString *)name {
     
@@ -544,6 +570,15 @@ pdrConnectionQueryFileName;
         fprintf(pdrManualPositionCorrectionFile, "%s\n", [[position stringRepresentationForRecording] UTF8String]);
     }
     
+}
+
+// manual heading corrections of the user
+- (void)didReceiveManualHeadingCorrectionAround:(AbsoluteLocationEntry *)position By:(double)radians {
+    
+    if (isRecording) {
+        
+        fprintf(pdrManualHeadingCorrectionFile, "%s\t%f\n", [[position stringRepresentationForRecording] UTF8String], radians);
+    }
 }
 
 // collaborative localisation position update
