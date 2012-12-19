@@ -253,6 +253,7 @@ static PDRController *sharedSingleton;
     AbsoluteLocationEntry *entry = [self absoluteLocationEntryFrom:newPosition];
     
     [logger didReceiveManualPositionCorrection:entry];
+    [logger didReceiveCompleteCollaborativePath:[self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()]];
     [view didReceiveCompletePath:[self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()]];
 }
 
@@ -393,6 +394,8 @@ static PDRController *sharedSingleton;
     }
     
     NSMutableArray *rotatedViewPath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
+    
+    [logger didReceiveCompleteCollaborativePath:rotatedViewPath];
     [view didReceiveCompletePath:rotatedViewPath];
     
     pdrRunning = YES;

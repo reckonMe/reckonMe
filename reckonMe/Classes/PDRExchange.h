@@ -94,5 +94,8 @@
 
 // track of connection queries
 - (void)didReceiveConnectionQueryToPeer:(NSString *) peerID WithTimestamp:(NSTimeInterval) timestamp ShouldConnect:(bool) shouldConnect;
+
+// complete path collaborative path (rotated / manually corrected)
+- (void)didReceiveCompleteCollaborativePath:(NSArray *)path;
                                                                            
 @end

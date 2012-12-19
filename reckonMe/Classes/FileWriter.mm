@@ -611,5 +611,12 @@ pdrConnectionQueryFileName;
     }
 }
 
+// complete path collaborative path (rotated / manually corrected)
+- (void)didReceiveCompleteCollaborativePath:(NSArray *)path {
+    
+    // TODO
+}
+
+
 
 @end
