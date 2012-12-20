@@ -253,8 +253,10 @@ static PDRController *sharedSingleton;
     AbsoluteLocationEntry *entry = [self absoluteLocationEntryFrom:newPosition];
     
     [logger didReceiveManualPositionCorrection:entry];
-    [logger didReceiveCompleteCollaborativePath:[self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()]];
-    [view didReceiveCompletePath:[self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()]];
+    
+    NSMutableArray *completePath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
+    [logger didReceiveCompleteCollaborativePath:completePath];
+    [view didReceiveCompletePath:completePath];
 }
 
     
