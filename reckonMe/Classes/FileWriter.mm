@@ -42,6 +42,7 @@ NSString *const kPdrManualPositionCorrectionFileAppendix = @"_PdrManualCorrectio
 NSString *const kPdrManualHeadingCorrectionFileAppendix = @"_PdrManualHeadingCorrection";
 NSString *const kPdrCollaborativePositionCorrectionUpdateFileAppendix = @"_PdrCollaborativeCorrection";
 NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
+NSString *const kPdrCompletePathsFileAppendixFormat = @"_PdrCompletePath_%d";
 
 //anonymous category extending the class with "private" methods
 //MARK: private methods
@@ -170,6 +171,7 @@ pdrConnectionQueryFileName;
         usedGyro = NO;
         usedGPS = NO;
         usedCompass = NO;
+        completePathCounter = 0;
         
         isRecording = YES;
     }
@@ -614,7 +616,27 @@ pdrConnectionQueryFileName;
 // complete path collaborative path (rotated / manually corrected)
 - (void)didReceiveCompleteCollaborativePath:(NSArray *)path {
     
-    // TODO
+    FILE *file;
+    [self setupTextFile:&file
+       withBaseFileName:self.currentFilePrefix
+               appendix:[NSString stringWithFormat:kPdrCompletePathsFileAppendixFormat, completePathCounter++]
+        dataDescription:@"Complete path after a manual position or heading correction"
+               subtitle:nil
+     columnDescriptions:[NSArray arrayWithObjects:
+                         @"Seconds.milliseconds since 1970",
+                         @"Northing delta in m",
+                         @"Easting delta in m",
+                         @"Northing origin in m",
+                         @"Easting origin in m",
+                         @"Deviation in m"
+                         , nil]
+     ];
+    
+    for (AbsoluteLocationEntry *entry in path) {
+        
+        fprintf(file, "%s\n", [[entry stringRepresentationForRecording] UTF8String]);
+    }
+    fclose(file);
 }
 
 

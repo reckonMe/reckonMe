@@ -52,6 +52,8 @@ extern NSString *const kPdrConnectionQueryFileAppendix;
 	BOOL usedSound;
 	BOOL usedCompass;
     
+    NSInteger completePathCounter;
+    
     NSFileManager *fileManager;
 	
     //text files
