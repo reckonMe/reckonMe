@@ -1075,7 +1075,10 @@ typedef enum {
     
     if (self.status == WaitingForHeading) {
         
-        [self.compassView didReceiveCompassValueWithTrueHeading:trueHeading
+#warning dirty workaround
+        //hard-code the offset for Passau to circumvent situations where the true heading is not available (== -1) and waiting would take forever
+        double trueHeadingForPassau = magneticHeading + 2.871399;
+        [self.compassView didReceiveCompassValueWithTrueHeading:(trueHeadingForPassau < 360) ? trueHeadingForPassau : trueHeadingForPassau - 360
                                                 headingAccuracy:headingAccuracy
                                                       timestamp:timestamp];
     }
