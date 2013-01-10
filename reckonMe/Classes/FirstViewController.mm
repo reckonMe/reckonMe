@@ -824,7 +824,7 @@ typedef enum {
 -(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)newCorrectedPosition onMapView:(id<MapView>)view {
     
     self.correctedPosition = newCorrectedPosition;
-    self.correctedPosition.timestamp = -[[NSDate date] timeIntervalSince1970];
+    self.correctedPosition.timestamp = [[NSDate date] timeIntervalSince1970];
     
     [self correctPositionTo:self.correctedPosition];
 }
