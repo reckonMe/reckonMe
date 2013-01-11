@@ -37,12 +37,11 @@ NSString* const kGpsFileAppendix = @"_GPS";
 
 
 NSString *const kPdrPositionFileAppendix = @"_PdrTrace";
-NSString *const kPdrCollaborativeTraceFileAppendix = @"_PdrCollaborativeTrace";
 NSString *const kPdrManualPositionCorrectionFileAppendix = @"_PdrManualCorrection";
 NSString *const kPdrManualHeadingCorrectionFileAppendix = @"_PdrManualHeadingCorrection";
 NSString *const kPdrCollaborativePositionCorrectionUpdateFileAppendix = @"_PdrCollaborativeCorrection";
 NSString *const kPdrConnectionQueryFileAppendix = @"_PdrConnectionQuerys";
-NSString *const kPdrCompletePathsFileAppendixFormat = @"_PdrCompletePath_%d";
+NSString *const kPdrCompleteCollaborativeTracesFileAppendixFormat = @"_PdrCollaborativeTrace_%d";
 
 //anonymous category extending the class with "private" methods
 //MARK: private methods
@@ -171,7 +170,6 @@ pdrConnectionQueryFileName;
         usedGyro = NO;
         usedGPS = NO;
         usedCompass = NO;
-        completePathCounter = 0;
         
         isRecording = YES;
     }
@@ -369,10 +367,23 @@ pdrConnectionQueryFileName;
 
 - (void)initPdrCollaborativeTraceFile:(NSString *)name {
     
+	pdrCollaborativeTraceFile = NULL;
+    completePathCounter = 0;
+    
+    [self startNewCollaborativeTraceFile];
+}
+
+- (void)startNewCollaborativeTraceFile {
+    
+    if (pdrCollaborativeTraceFile) {
+        
+        fclose(pdrCollaborativeTraceFile);
+    }
+    
     self.pdrCollaborativeTraceFileName = [self setupTextFile:&pdrCollaborativeTraceFile
-                                            withBaseFileName:name
-                                                    appendix:kPdrCollaborativeTraceFileAppendix 
-                                             dataDescription:@"Collaborative PDR trace"
+                                            withBaseFileName:self.currentFilePrefix
+                                                    appendix:[NSString stringWithFormat:kPdrCompleteCollaborativeTracesFileAppendixFormat, completePathCounter++]
+                                             dataDescription:@"Complete path after a manual position, manual heading or P2P correction"
                                                     subtitle:nil
                                           columnDescriptions:[NSArray arrayWithObjects:
                                                               @"Seconds.milliseconds since 1970",
@@ -382,7 +393,7 @@ pdrConnectionQueryFileName;
                                                               @"Easting origin in m",
                                                               @"Deviation in m"
                                                               , nil]
-                                          ];	
+                                          ];
 }
 
 
@@ -616,27 +627,14 @@ pdrConnectionQueryFileName;
 // complete path collaborative path (rotated / manually corrected)
 - (void)didReceiveCompleteCollaborativePath:(NSArray *)path {
     
-    FILE *file;
-    [self setupTextFile:&file
-       withBaseFileName:self.currentFilePrefix
-               appendix:[NSString stringWithFormat:kPdrCompletePathsFileAppendixFormat, completePathCounter++]
-        dataDescription:@"Complete path after a manual position or heading correction"
-               subtitle:nil
-     columnDescriptions:[NSArray arrayWithObjects:
-                         @"Seconds.milliseconds since 1970",
-                         @"Northing delta in m",
-                         @"Easting delta in m",
-                         @"Northing origin in m",
-                         @"Easting origin in m",
-                         @"Deviation in m"
-                         , nil]
-     ];
+    //start a new file
+    [self startNewCollaborativeTraceFile];
     
+    //fill it with the whole (changed) path
     for (AbsoluteLocationEntry *entry in path) {
         
-        fprintf(file, "%s\n", [[entry stringRepresentationForRecording] UTF8String]);
+        [self didReceiveCollaborativeLocalisationPosition:entry];
     }
-    fclose(file);
 }
 
 

@@ -28,7 +28,7 @@
 #import <Foundation/Foundation.h>
 #import "PDRExchange.h"
 
-#define PRODUCT_NAME @"iphone-PDR"
+#define PRODUCT_NAME @"reckonMe"
 
 extern NSString* const kAccelerometerFileAppendix;
 extern NSString* const kGyroscopeFileAppendix;

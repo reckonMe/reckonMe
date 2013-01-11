@@ -358,9 +358,8 @@ static PDRController *sharedSingleton;
     [logger didReceiveCollaborativePositionCorrectionFrom:beforeEntry 
                                                ToPosition:afterEntry 
                                                FromPeer:peerID];
-      
-    [logger didReceiveCollaborativeLocalisationPosition:afterEntry];
     
+    //instead of only appending afterEntry to the collaborative path, make logger start a new file with the complete path (including afterEntry)
     NSMutableArray *completePath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
     [logger didReceiveCompleteCollaborativePath:completePath];
 
