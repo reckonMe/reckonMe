@@ -29,6 +29,7 @@
 #import "Gyroscope.h"
 #import "P2PestimateExchange.h"
 #import "Settings.h"
+#import <QuartzCore/QuartzCore.h>
 
 NSString* const kAccelerometerFileAppendix = @"_Accel";
 NSString* const kGyroscopeFileAppendix = @"_Gyro";
@@ -173,6 +174,51 @@ pdrConnectionQueryFileName;
         
         isRecording = YES;
     }
+}
+
+-(void)saveScreenshot {
+    
+    // Create a graphics context with the target size
+    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Iterate over every window from back to front
+    for (UIWindow *window in [[UIApplication sharedApplication] windows])
+    {
+        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
+        {
+            // -renderInContext: renders in the coordinate space of the layer,
+            // so we must first apply the layer's geometry to the graphics context
+            CGContextSaveGState(context);
+            // Center the context around the window's anchor point
+            CGContextTranslateCTM(context, [window center].x, [window center].y);
+            // Apply the window's transform about the anchor point
+            CGContextConcatCTM(context, [window transform]);
+            // Offset by the portion of the bounds left of and above the anchor point
+            CGContextTranslateCTM(context,
+                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
+                                  -[window bounds].size.height * [[window layer] anchorPoint].y);
+            
+            // Render the layer hierarchy to the current context
+            [[window layer] renderInContext:context];
+            
+            // Restore the context
+            CGContextRestoreGState(context);
+        }
+    }
+    
+    // Retrieve the screenshot image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //defer the saving to unlock the current thread ASAP
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        
+        NSData *data = UIImagePNGRepresentation(image);
+        [data writeToFile:[self.currentRecordingDirectory stringByAppendingPathComponent:@"screenshot.png"]
+               atomically:NO];
+    });
 }
 
 -(void)stopRecording {

@@ -876,8 +876,21 @@ typedef enum {
 }
 
 //MARK: - ActionSheetDelegate
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+//defer the stopping of PDR until after the actionSheet disappeared in order to get it out of the way while taking a screenshot
+-(void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
     
+    if (actionSheet == self.stopPDRactionSheet) {
+        
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            
+            [fileWriter saveScreenshot];
+            [self didReceiveEvent:StopButtonPressed];
+        }
+    }
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     if (actionSheet == self.correctHeadingActionSheet) {
         
@@ -889,15 +902,6 @@ typedef enum {
         }
         
         [self didReceiveEvent:StopHeadingCorrectionMode];
-    }
-    
-    
-    if (actionSheet == self.stopPDRactionSheet) {
-        
-        if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            
-            [self didReceiveEvent:StopButtonPressed];        
-        }
     }
     
     if (actionSheet == self.moveToGPSactionSheet || actionSheet == self.moveToGPSdestructiveActionSheet) {

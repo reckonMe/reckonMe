@@ -88,6 +88,8 @@ extern NSString *const kPdrConnectionQueryFileAppendix;
 @property(nonatomic, retain) NSString *currentFilePrefix;
 
 -(void)startRecording;
+//saves a screenshot.png to the current recording directory
+-(void)saveScreenshot;
 -(void)stopRecording;
 
 
