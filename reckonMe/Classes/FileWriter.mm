@@ -223,7 +223,10 @@ pdrConnectionQueryFileName;
 	*file = fopen([completeFilePath UTF8String],"a");
 	
 	// write an initial header
-	fprintf(*file, "%% %s recorded with '%s'\n%% \n", [description UTF8String], [PRODUCT_NAME UTF8String]);
+    NSString *version = [NSString stringWithFormat:@"v%@ (%@)",
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
+	fprintf(*file, "%% %s recorded with %s %s\n%% \n", [description UTF8String], [PRODUCT_NAME UTF8String], [version UTF8String]);
 	
     if (subtitle) {
         
