@@ -388,7 +388,8 @@ static PDRController *sharedSingleton;
     
     //notify the logger
     [logger didReceiveManualHeadingCorrectionAround:rotationCenter
-                                                 By:pathRotationAmount];
+                                                 By:radians
+                                         Cumulative:pathRotationAmount];
     
     for (auto it = collaborativeTraceRotationIndex; it != collaborativeTrace.end(); ++it) {
 
@@ -504,6 +505,7 @@ static PDRController *sharedSingleton;
     
     pdrRunning = NO;
     lastStepWasManualCorrection = NO;
+    pathRotationAmount = 0;
     pdrTrace.clear();
     collaborativeTrace.clear();
     collaborativeTraceRotationIndex = collaborativeTrace.begin();
@@ -873,11 +875,7 @@ static PDRController *sharedSingleton;
     self = [super init];
     if (self) {
         view = nil;
-        logger = nil; 
-                
-        // initialize path rotation here so that the value 
-        // remains persistent across PDR sessions
-        pathRotationAmount = 0;
+        logger = nil;
         
         lastStepWasManualCorrection = NO;
         

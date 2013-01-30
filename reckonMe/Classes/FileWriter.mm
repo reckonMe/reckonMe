@@ -478,7 +478,9 @@ pdrConnectionQueryFileName;
                                                                    @"Northing origin in m",
                                                                    @"Easting origin in m",
                                                                    @"Deviation in m",
-                                                                   @"Rotation amount in radians"
+                                                                   @"Delta rotation amount in radians",
+                                                                   @"Resulting cumulative rotation in radians",
+                                                                   @"Timestamp of correction in seconds.milliseconds since 1970"
                                                                    , nil]
                                                ];
 }
@@ -635,11 +637,15 @@ pdrConnectionQueryFileName;
 }
 
 // manual heading corrections of the user
-- (void)didReceiveManualHeadingCorrectionAround:(AbsoluteLocationEntry *)position By:(double)radians {
+- (void)didReceiveManualHeadingCorrectionAround:(AbsoluteLocationEntry *)position By:(double)radians Cumulative:(double)cumulative {
     
     if (isRecording) {
         
-        fprintf(pdrManualHeadingCorrectionFile, "%s\t%f\n", [[position stringRepresentationForRecording] UTF8String], radians);
+        fprintf(pdrManualHeadingCorrectionFile, "%s\t%f\t%f\t%10.3f\n",
+                [[position stringRepresentationForRecording] UTF8String],
+                radians,
+                cumulative,
+                [[NSDate date] timeIntervalSince1970]);
     }
 }
 

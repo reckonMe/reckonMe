@@ -87,7 +87,7 @@
 - (void)didReceiveManualPositionCorrection:(AbsoluteLocationEntry *)position;
 
 // manual position corrections of the user
-- (void)didReceiveManualHeadingCorrectionAround:(AbsoluteLocationEntry *)position By:(double)radians;
+- (void)didReceiveManualHeadingCorrectionAround:(AbsoluteLocationEntry *)position By:(double)radians Cumulative:(double)cumulative;
 
 // collaborative localisation position update
 - (void)didReceiveCollaborativePositionCorrectionFrom:(AbsoluteLocationEntry *)before ToPosition:(AbsoluteLocationEntry *)after FromPeer:(NSString *) peerID;
