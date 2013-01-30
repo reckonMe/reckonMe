@@ -388,7 +388,8 @@ static PDRController *sharedSingleton;
     
     //notify the logger
     [logger didReceiveManualHeadingCorrectionAround:rotationCenter
-                                                 By:pathRotationAmount];
+                                                 By:radians
+                                         Cumulative:pathRotationAmount];
     
     for (auto it = collaborativeTraceRotationIndex; it != collaborativeTrace.end(); ++it) {
 
@@ -504,6 +505,7 @@ static PDRController *sharedSingleton;
     
     pdrRunning = NO;
     lastStepWasManualCorrection = NO;
+    pathRotationAmount = 0;
     pdrTrace.clear();
     collaborativeTrace.clear();
     collaborativeTraceRotationIndex = collaborativeTrace.begin();
@@ -706,7 +708,7 @@ static PDRController *sharedSingleton;
     gravityPeakIndicesDouble.reserve(gravityPeakIndices.size());
     
     for (int i = 0; i < gravityPeakIndices.size(); ++i) 
-        gravityPeakIndicesDouble.push_back(gravityPeakIndices[i].index);
+        gravityPeakIndicesDouble.push_back(gravityPeakIndices[i].index - startIndex);
         
     vector<double> userAccPeakIndicesDouble;
     userAccPeakIndicesDouble.reserve(userAccPeakIndices.size());
@@ -774,7 +776,11 @@ static PDRController *sharedSingleton;
             else
                 lastPeakType = PeakEntry::up;
         }
-                
+        
+#warning Temporary workaround
+        // determine the walking direction basing on the Z-gravity peak type
+        lastPeakType = gravityPeakIndices[i].peakType;
+        
         if (lastPeakType == PeakEntry::up) {
             q1 = filtQ[j1];
             q2 = filtQ[j2];
@@ -869,11 +875,7 @@ static PDRController *sharedSingleton;
     self = [super init];
     if (self) {
         view = nil;
-        logger = nil; 
-                
-        // initialize path rotation here so that the value 
-        // remains persistent across PDR sessions
-        pathRotationAmount = 0;
+        logger = nil;
         
         lastStepWasManualCorrection = NO;
         
