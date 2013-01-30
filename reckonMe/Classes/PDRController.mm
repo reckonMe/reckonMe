@@ -706,7 +706,7 @@ static PDRController *sharedSingleton;
     gravityPeakIndicesDouble.reserve(gravityPeakIndices.size());
     
     for (int i = 0; i < gravityPeakIndices.size(); ++i) 
-        gravityPeakIndicesDouble.push_back(gravityPeakIndices[i].index);
+        gravityPeakIndicesDouble.push_back(gravityPeakIndices[i].index - startIndex);
         
     vector<double> userAccPeakIndicesDouble;
     userAccPeakIndicesDouble.reserve(userAccPeakIndices.size());
@@ -774,7 +774,11 @@ static PDRController *sharedSingleton;
             else
                 lastPeakType = PeakEntry::up;
         }
-                
+        
+#warning Temporary workaround
+        // determine the walking direction basing on the Z-gravity peak type
+        lastPeakType = gravityPeakIndices[i].peakType;
+        
         if (lastPeakType == PeakEntry::up) {
             q1 = filtQ[j1];
             q2 = filtQ[j2];
