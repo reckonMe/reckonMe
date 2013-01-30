@@ -15,6 +15,10 @@
 		8E31D16814E96CB700A28A86 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31D16714E96CB700A28A86 /* GLKit.framework */; };
 		8E3AF9FF1436159A00D88C95 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E3AF9FD1436159A00D88C95 /* settings.png */; };
 		8E3AFA001436159A00D88C95 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E3AF9FE1436159A00D88C95 /* settings@2x.png */; };
+		8E58B4C016B02B0E009989C9 /* test04-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */; };
+		8E58B4C116B02B0E009989C9 /* test04-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */; };
+		8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */; };
+		8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */; };
 		8E5C0B22159A031700E1D21C /* gps-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B20159A031600E1D21C /* gps-arrow.png */; };
 		8E5C0B23159A031700E1D21C /* gps-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B21159A031700E1D21C /* gps-arrow@2x.png */; };
 		8E5C0B4A159B77C000E1D21C /* gps-round-button-depressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B48159B77C000E1D21C /* gps-round-button-depressed.png */; };
@@ -147,6 +151,8 @@
 		8E55254314292ECE006D5D1D /* PDRController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDRController.h; sourceTree = "<group>"; };
 		8E5525461429470C006D5D1D /* LocationEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationEntry.h; sourceTree = "<group>"; };
 		8E5525471429470C006D5D1D /* LocationEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationEntry.m; sourceTree = "<group>"; };
+		8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "test04-ACC.txt"; path = "testSensorData/test04-ACC.txt"; sourceTree = "<group>"; };
+		8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "test04-GYRO.txt"; path = "testSensorData/test04-GYRO.txt"; sourceTree = "<group>"; };
 		8E5C0B20159A031600E1D21C /* gps-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps-arrow.png"; sourceTree = "<group>"; };
 		8E5C0B21159A031700E1D21C /* gps-arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps-arrow@2x.png"; sourceTree = "<group>"; };
 		8E5C0B48159B77C000E1D21C /* gps-round-button-depressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps-round-button-depressed.png"; sourceTree = "<group>"; };
@@ -554,6 +560,8 @@
 		B595D30E1407C01D00EB1A91 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */,
+				8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */,
 				8E9CDE4C15B859C300ADDC7E /* test03-ACC.txt */,
 				8E9CDE4D15B859C300ADDC7E /* test03-GYRO.txt */,
 				B595D30F1407C01D00EB1A91 /* reckonMeTests-Info.plist */,
@@ -717,6 +725,8 @@
 				B52BEDBC15AB116D00536CA6 /* aluminum.png in Resources */,
 				B52BEDBD15AB116D00536CA6 /* aluminum@2x.png in Resources */,
 				B53BC85F1602753E00044D8D /* Default-568h@2x.png in Resources */,
+				8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */,
+				8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +738,8 @@
 				B595D3141407C01D00EB1A91 /* PDRTests.h in Resources */,
 				8E9CDE4E15B859C300ADDC7E /* test03-ACC.txt in Resources */,
 				8E9CDE4F15B859C300ADDC7E /* test03-GYRO.txt in Resources */,
+				8E58B4C016B02B0E009989C9 /* test04-ACC.txt in Resources */,
+				8E58B4C116B02B0E009989C9 /* test04-GYRO.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
