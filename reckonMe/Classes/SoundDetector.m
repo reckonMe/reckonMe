@@ -597,7 +597,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     if (channel < kNumChannels) {
         
         listenToChannels[channel] = YES;
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Listening on channel: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Listening on channel %d", channel]];
     }
 }
 
@@ -606,7 +606,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     if (channel < kNumChannels) {
         
         listenToChannels[channel] = NO;
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Stop listening for: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Stop listening for %d", channel]];
     }
 }
 
@@ -629,7 +629,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                          NULL			// start time. NULL means as soon as possible.
                          );
         
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Emitting on channel: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Emitting on channel %d", channel]];
     }
 });
 }
