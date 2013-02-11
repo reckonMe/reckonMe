@@ -990,17 +990,20 @@ typedef enum {
 
         } else {
             
-            if ([Settings sharedInstance].beaconMode) {
+            if ([Settings sharedInstance].exchangeEnabled) {
                 
-                [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
-                
-            } else {
-                
-                //start the sensors
-                [[Gyroscope sharedInstance] start];
-                [[CompassAndGPS sharedInstance] start];
-                
-                [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:[Settings sharedInstance].audioChannel];
+                if ([Settings sharedInstance].beaconMode) {
+                    
+                    [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
+                    
+                } else {
+                    
+                    //start the sensors
+                    [[Gyroscope sharedInstance] start];
+                    [[CompassAndGPS sharedInstance] start];
+                    
+                    [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:[Settings sharedInstance].audioChannel];
+                }
             }
         }
         
