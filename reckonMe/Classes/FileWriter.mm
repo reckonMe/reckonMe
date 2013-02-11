@@ -272,7 +272,11 @@ pdrConnectionQueryFileName;
     NSString *version = [NSString stringWithFormat:@"v%@ (%@)",
                          [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                          [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]];
-	fprintf(*file, "%% %s recorded with %s %s\n%% \n", [description UTF8String], [PRODUCT_NAME UTF8String], [version UTF8String]);
+	fprintf(*file, "%% %s recorded with %s %s on \"%s\"\n%%\n",
+            [description UTF8String],
+            [PRODUCT_NAME UTF8String],
+            [version UTF8String],
+            [[UIDevice currentDevice].name UTF8String]);
 	
     if (subtitle) {
         
