@@ -31,9 +31,6 @@
 #import "AlertSoundPlayer.h"
 #import "Settings.h"
 
-//if defined, records all FFT results and possible detections
-#define SOUND_DEBUG
-
 const float kSoundDetectorSamplingRate = 44100.0;
 // the size of each audio buffer, which must be a power of 2 due to FFT
 const int kBufferSize = 256;//512;
