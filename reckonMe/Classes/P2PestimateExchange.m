@@ -34,8 +34,8 @@
 //the key used for saving the ID in NSUserDefaults
 NSString* const kUniqueDeviceIdentifierKey = @"uniqueDeviceIdentifierKey";
 NSString* const kDisplayNamesCache = @"displayNamesCache";
-const int kConnectionTimeout = 3;
-const int kTransmissionTimeout = 4;
+const int kConnectionTimeout = 4;
+const int kTransmissionTimeout = 5;
 
 const int kSilenceDuration = 10;//seconds
 const double kProximityCapturingInterval = 1;
@@ -62,6 +62,7 @@ const double kDeemedProximateThreshold = 10;
 -(audioChannel)maxForHistogram:(double *)histogram;
 -(void)checkHistogram;
 
+-(void)pauseEmissionForSeconds:(int)seconds;
 -(void)restartEmission;
 
 - (void)teardownExchangeWithGKPeerID:(NSString *)gkPeerID;
@@ -545,6 +546,19 @@ static P2PestimateExchange *sharedSingleton;
 #endif
 }
 
+-(void)pauseEmissionForSeconds:(int)seconds {
+    
+    [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Be quiet for %d sec", seconds]];
+    
+    [soundDetector stopEmission];
+    p2pSession.available = NO;
+    self.silenceTimer = [NSTimer scheduledTimerWithTimeInterval:seconds
+                                                         target:self
+                                                       selector:@selector(restartEmission)
+                                                       userInfo:nil
+                                                        repeats:NO];
+}
+
 -(void)restartEmission {
     
     if (isWalker) {
@@ -687,8 +701,11 @@ static P2PestimateExchange *sharedSingleton;
                     
                     if ([self isReceiver:channel]) {
                         
-                        [soundDetector startDetection];
-                        [soundDetector listenForChannel:[self channelForUniquePeerID:uniquePeerID]];
+                        if (![self isReceiver:peerChannel]) {
+                            
+                            [soundDetector startDetection];
+                            [soundDetector listenForChannel:peerChannel];
+                        }
 
                     } else {
                         
@@ -704,21 +721,17 @@ static P2PestimateExchange *sharedSingleton;
                 [self teardownExchangeWithGKPeerID:GKpeerID];
                 [session cancelConnectToPeer:GKpeerID];
                 
-                //if (isBeacon) {
+                if ([self isReceiver:channel] ) {
                     
+                    //stop listening for the peer
                     audioChannel toRemove = [self channelForUniquePeerID:uniquePeerID];
-
-                    if (toRemove < kNumChannels) {
+                    if ((toRemove < kNumChannels) && ![self isReceiver:toRemove]) {
                         
                         soundHistogram[toRemove] = 0;
-#ifdef SOUND_TESTS
                         
-#else
-                        [soundDetector stopListeningForChannel:toRemove];         
-#endif
+                        [soundDetector stopListeningForChannel:toRemove];
                     }
-                    //}
-                
+                }
                 stateString = @"U";
                 break;
                 
@@ -876,15 +889,12 @@ static P2PestimateExchange *sharedSingleton;
                                                    ofPeer:uniquePeerID];
                         
                         if (isWalker) {
-                            [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Shut up for %d sec", kSilenceDuration]];
-                            //shut up for kSilenceDuration
-                            [soundDetector stopEmission];
-                            p2pSession.available = NO;
-                            self.silenceTimer = [NSTimer scheduledTimerWithTimeInterval:kSilenceDuration
-                                                                                 target:self
-                                                                               selector:@selector(restartEmission)
-                                                                               userInfo:nil
-                                                                                repeats:NO];
+                            
+                            if (![self isReceiver:channel]) {
+                                
+                                [self pauseEmissionForSeconds:kSilenceDuration];
+                            }
+                            
                             //disconnect from the peer
                             [p2pSession disconnectFromAllPeers];
                         }
