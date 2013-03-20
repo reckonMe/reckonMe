@@ -983,24 +983,26 @@ typedef enum {
         [self.mapView stopStartingPositionFixingMode];
         [fileWriter startRecording];
         
-        //todo: clean up this whole mess!
         if (testing) {
             
             self.correctedPosition = self.lastPosition;
-
+            
         } else {
             
-            if ([Settings sharedInstance].exchangeEnabled) {
+            BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
+            BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
+            
+            if (beaconMode) {
                 
-                if ([Settings sharedInstance].beaconMode) {
-                    
-                    [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
-                    
-                } else {
-                    
-                    //start the sensors
-                    [[Gyroscope sharedInstance] start];
-                    [[CompassAndGPS sharedInstance] start];
+                [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
+                
+            } else {
+                
+                //start the sensors
+                [[Gyroscope sharedInstance] start];
+                [[CompassAndGPS sharedInstance] start];
+                
+                if (walkerMode) {
                     
                     [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:[Settings sharedInstance].audioChannel];
                 }
@@ -1010,37 +1012,17 @@ typedef enum {
         //determine the starting point and start PDR
         self.lastPosition = self.correctedPosition;
         [self.mapView setStartingPosition:self.lastPosition];
-
+        
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm", 
-                                                  lastPosition.easting,
-                                                  lastPosition.northing]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm",
+                                                         lastPosition.easting,
+                                                         lastPosition.northing]];
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
                                                                      object:self];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification 
+        [[NSNotificationQueue defaultQueue] enqueueNotification:notification
                                                    postingStyle:NSPostWhenIdle];
-        
-        //<debug>
-        /*dispatch_async(dispatch_get_main_queue(), ^(void) {
-            
-            AbsoluteLocationEntry *p1 = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                            eastingDelta:10
-                                                                           northingDelta:10
-                                                                                  origin:self.lastPosition.absolutePosition
-                                                                               Deviation:0];
-            AbsoluteLocationEntry *p2 = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                            eastingDelta:20
-                                                                           northingDelta:0
-                                                                                  origin:self.lastPosition.absolutePosition
-                                                                               Deviation:0];
-            [self didReceivePosition:[p1 autorelease]];
-            [self didReceivePosition:[p2 autorelease]];
-         });*/
-        
-        //</debug>
     }
-    
     pdrOn = YES;
 }
 
@@ -1065,7 +1047,7 @@ typedef enum {
         
         //update the toolbar items
         [self.toolbar setItems:self.toolbarItemsWhenPDRoff animated:YES];
-            
+        
         [path removeAllObjects];
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
