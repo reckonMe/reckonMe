@@ -356,8 +356,6 @@ static CompassAndGPS *sharedSingleton;
 
 - (BOOL)locationManagerShouldDisplayHeadingCalibration:(CLLocationManager *)manager {
     
-    [AlertSoundPlayer.sharedInstance playSound:calibrateSound
-                                     vibrating:NO];
     NSLog(@"Compass calibration required!");
     
     // Since we want to display the calibration window whenever necessary, we return YES
