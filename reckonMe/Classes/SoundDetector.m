@@ -31,9 +31,6 @@
 #import "AlertSoundPlayer.h"
 #import "Settings.h"
 
-//if defined, records all FFT results and possible detections
-#define SOUND_DEBUG
-
 const float kSoundDetectorSamplingRate = 44100.0;
 // the size of each audio buffer, which must be a power of 2 due to FFT
 const int kBufferSize = 256;//512;
@@ -600,7 +597,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     if (channel < kNumChannels) {
         
         listenToChannels[channel] = YES;
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Listening on channel: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Listening on channel %d", channel]];
     }
 }
 
@@ -609,7 +606,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     if (channel < kNumChannels) {
         
         listenToChannels[channel] = NO;
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Stop listening for: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Stop listening for %d", channel]];
     }
 }
 
@@ -632,7 +629,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                          NULL			// start time. NULL means as soon as possible.
                          );
         
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Emitting on channel: %d", channel]];
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Emitting on channel %d", channel]];
     }
 });
 }

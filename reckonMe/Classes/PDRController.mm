@@ -261,6 +261,10 @@ static PDRController *sharedSingleton;
 
     
 - (bool)shouldConnectToPeerID:(NSString *) peerID {
+    
+#ifdef P2P_TESTS
+    distanceBetweenConsecutiveMeetings = 1;
+#endif
 
     bool shouldConnect = false;
     
@@ -276,10 +280,12 @@ static PDRController *sharedSingleton;
         
         auto it = timestampsOfLastMeetings.find([peerID cStringUsingEncoding: [NSString defaultCStringEncoding]]);
         
-        // if we have not met the person before, approve connection
-        if (it == timestampsOfLastMeetings.end()) 
-            shouldConnect = true;
-        else {
+        // if we have not met the person before, approve connection if we have walked long enough
+        if (it == timestampsOfLastMeetings.end()) {
+
+            shouldConnect = (pdrTrace.size() > distanceBetweenConsecutiveMeetings);
+        
+        } else {
         
             double last_meeting = it->second;
             // keep the min time between the meetings

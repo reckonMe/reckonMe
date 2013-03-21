@@ -31,8 +31,6 @@
 #import "PDRExchange.h"
 #import "SoundDetector.h"
 
-//#define P2P_TESTS 1
-
 @interface P2PestimateExchange : NSObject <GKSessionDelegate, UIAlertViewDelegate, SoundDetectorDelegate> {
 	
 	GKSession *p2pSession;

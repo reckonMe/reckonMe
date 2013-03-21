@@ -34,10 +34,10 @@
 //the key used for saving the ID in NSUserDefaults
 NSString* const kUniqueDeviceIdentifierKey = @"uniqueDeviceIdentifierKey";
 NSString* const kDisplayNamesCache = @"displayNamesCache";
-const int kConnectionTimeout = 3;
-const int kTransmissionTimeout = 4;
+const int kConnectionTimeout = 4;
+const int kTransmissionTimeout = 5;
 
-const int kSilenceDuration = 10;//seconds
+const int kSilenceDuration = 5;//seconds
 const double kProximityCapturingInterval = 1;
 
 const double kDeemedProximateThreshold = 10;
@@ -62,6 +62,7 @@ const double kDeemedProximateThreshold = 10;
 -(audioChannel)maxForHistogram:(double *)histogram;
 -(void)checkHistogram;
 
+-(void)pauseEmissionForSeconds:(int)seconds;
 -(void)restartEmission;
 
 - (void)teardownExchangeWithGKPeerID:(NSString *)gkPeerID;
@@ -409,21 +410,38 @@ static P2PestimateExchange *sharedSingleton;
     
     NSString *channelNumber = [[NSNumber numberWithInt:channelOfPeer] stringValue];
     
+    //connect to the peer if not already done so
     for (NSString *gkPeerID in [p2pSession peersWithConnectionState:GKPeerStateAvailable]) {
         
         NSString *uniqueID = [self uniqueIDforGKPeerID:gkPeerID];
         
         if ([uniqueID hasPrefix:channelNumber]) {
             
-            if ([self shouldConnectToPeerWithGKPeerID:gkPeerID]) {
-                
-                [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"trying: %@", [self displayNameForUniquePeerID:uniqueID]]];
-                
-                connectionState = Connecting;
-                [p2pSession connectToPeer:gkPeerID
-                              withTimeout:kConnectionTimeout];
-                break;
+            connectionState = Connecting;
+            [p2pSession connectToPeer:gkPeerID
+                          withTimeout:kConnectionTimeout];
+            break;
+        }
+    }
+    
+    //if already connected and allowed to, initiate exchange
+    for (NSString *gkPeerID in [p2pSession peersWithConnectionState:GKPeerStateConnected]) {
+        
+        NSString *uniqueID = [self uniqueIDforGKPeerID:gkPeerID];
+        
+        if ([uniqueID hasPrefix:channelNumber]) {
+            
+            if (![self exchangePendingWithPeer:uniqueID]) {
+
+                if ([self shouldConnectToPeerWithGKPeerID:gkPeerID]) {
+                    
+                    [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"trying: %@", [self displayNameForUniquePeerID:uniqueID]]];
+                    [self sendPacketOfType:PositionEstimate
+                                    toPeer:gkPeerID];
+                    
+                }
             }
+            break;
         }
     }
 }
@@ -444,16 +462,9 @@ static P2PestimateExchange *sharedSingleton;
         if (![uniquePeerID isEqualToString:ownUniquePeerID]) {
             
             BOOL shouldConnect = [self.delegate shouldConnectToPeerID:uniquePeerID];
-            BOOL alreadyConnected = [[p2pSession peersWithConnectionState:GKPeerStateConnecting] containsObject:gkPeerID]
-            || [[p2pSession peersWithConnectionState:GKPeerStateConnected] containsObject:gkPeerID];
+            BOOL alreadyExchanging = [self exchangePendingWithPeer:uniquePeerID];
             
-#ifdef P2P_TESTS
-            if (!alreadyConnected) {
-                
-                shouldConnect = YES;
-            }
-#endif
-            return (shouldConnect && !alreadyConnected);
+            return (shouldConnect && !alreadyExchanging);
             
         } else {
             
@@ -545,11 +556,22 @@ static P2PestimateExchange *sharedSingleton;
 #endif
 }
 
+-(void)pauseEmissionForSeconds:(int)seconds {
+    
+    [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Be quiet for %d sec", seconds]];
+    
+    [soundDetector stopEmission];
+    self.silenceTimer = [NSTimer scheduledTimerWithTimeInterval:seconds
+                                                         target:self
+                                                       selector:@selector(restartEmission)
+                                                       userInfo:nil
+                                                        repeats:NO];
+}
+
 -(void)restartEmission {
     
     if (isWalker) {
         
-        p2pSession.available = YES;
         [soundDetector startEmissionOnChannel:channel];
     }
 }
@@ -687,8 +709,15 @@ static P2PestimateExchange *sharedSingleton;
                     
                     if ([self isReceiver:channel]) {
                         
-                        [soundDetector startDetection];
-                        [soundDetector listenForChannel:[self channelForUniquePeerID:uniquePeerID]];
+                        if (![self isReceiver:peerChannel]) {
+                            
+                            [soundDetector startDetection];
+                            [soundDetector listenForChannel:peerChannel];
+                            
+                            connectionState = Connecting;
+                            [p2pSession connectToPeer:GKpeerID
+                                          withTimeout:kConnectionTimeout];
+                        }
 
                     } else {
                         
@@ -704,21 +733,17 @@ static P2PestimateExchange *sharedSingleton;
                 [self teardownExchangeWithGKPeerID:GKpeerID];
                 [session cancelConnectToPeer:GKpeerID];
                 
-                //if (isBeacon) {
+                if ([self isReceiver:channel] ) {
                     
+                    //stop listening for the peer
                     audioChannel toRemove = [self channelForUniquePeerID:uniquePeerID];
-
-                    if (toRemove < kNumChannels) {
+                    if ((toRemove < kNumChannels) && ![self isReceiver:toRemove]) {
                         
                         soundHistogram[toRemove] = 0;
-#ifdef SOUND_TESTS
                         
-#else
-                        [soundDetector stopListeningForChannel:toRemove];         
-#endif
+                        [soundDetector stopListeningForChannel:toRemove];
                     }
-                    //}
-                
+                }
                 stateString = @"U";
                 break;
                 
@@ -726,15 +751,6 @@ static P2PestimateExchange *sharedSingleton;
                 
                 self.currentGKPeerIDconnectedTo = GKpeerID;
                 connectionState = Connected;
-                
-                if (isWalker) {
-                    
-                    [self sendPacketOfType:PositionEstimate
-                                    toPeer:GKpeerID];
-                    
-                    //prevent further connections
-                    p2pSession.available = NO;
-                }
                 
                 break;
                 
@@ -745,13 +761,6 @@ static P2PestimateExchange *sharedSingleton;
                 //delete its position
                 [self teardownExchangeWithGKPeerID:GKpeerID];
                 self.currentGKPeerIDconnectedTo = nil;
-                
-                //[p2pSession disconnectFromAllPeers];
-                
-                if (isWalker) {
-                    
-                    p2pSession.available = YES;   
-                }
                 
                 stateString = @"D";
                 break;
@@ -853,11 +862,11 @@ static P2PestimateExchange *sharedSingleton;
                 
                 if (payloadLength == 0) {
                     
-                    [exchangesPendingACK removeObject:uniquePeerID];
-                    
                     //acknowledge the reception of the acknowledgement :)
                     [self sendPacketOfType:PositionEstimateACKACK
                                     toPeer:peer];
+                    
+                    //removing uniquePeerID from exchangesPendingACK takes places when receiving ACKACK in order to prevent both exchangesPendingACK and exchangesPendingACKACK from not contaning the uniquePeerID, which would be interpreted as no exchange going on in exchangePendingWithPeer
                 }  
                 break;
                 
@@ -876,17 +885,11 @@ static P2PestimateExchange *sharedSingleton;
                                                    ofPeer:uniquePeerID];
                         
                         if (isWalker) {
-                            [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Shut up for %d sec", kSilenceDuration]];
-                            //shut up for kSilenceDuration
-                            [soundDetector stopEmission];
-                            p2pSession.available = NO;
-                            self.silenceTimer = [NSTimer scheduledTimerWithTimeInterval:kSilenceDuration
-                                                                                 target:self
-                                                                               selector:@selector(restartEmission)
-                                                                               userInfo:nil
-                                                                                repeats:NO];
-                            //disconnect from the peer
-                            [p2pSession disconnectFromAllPeers];
+                            
+                            if (![self isReceiver:channel]) {
+                                
+                                [self pauseEmissionForSeconds:kSilenceDuration];
+                            }
                         }
                         
                         if (isBeacon) {
@@ -907,6 +910,7 @@ static P2PestimateExchange *sharedSingleton;
                                                          vibrating:NO];
                         
                         [exchangesPendingACKACK removeObjectForKey:uniquePeerID];
+                        [exchangesPendingACK removeObject:uniquePeerID];
                     }
                 }
                 break;

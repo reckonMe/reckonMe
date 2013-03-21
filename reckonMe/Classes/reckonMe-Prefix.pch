@@ -7,6 +7,12 @@
 // DEBUG on/off
 // #define DEBUG_MODE
 
+//if defined, records all FFT results and possible detections
+//#define SOUND_DEBUG
+
+//if defined, connects unconditionally to other peers and logs connection statuses to the screen
+//#define P2P_TESTS
+
 #define LogMethod(nsstring) NSLog(@"%@<%#x>:%@ %@", NSStringFromClass([self class]), (unsigned int) self, NSStringFromSelector(_cmd), nsstring);
 
 #ifndef __IPHONE_3_0
