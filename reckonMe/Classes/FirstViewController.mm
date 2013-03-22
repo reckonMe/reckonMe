@@ -70,7 +70,8 @@ typedef enum {
     CorrectHeadingAcquired,
     
     StartHeadingCorrectionMode,
-    StopHeadingCorrectionMode
+    StopHeadingCorrectionMode,
+    AbortHeadingCorrectionMode
     
 } TrackingVCEvent;
 
@@ -123,7 +124,7 @@ typedef enum {
 -(void)startFollowPositionMode;
 -(void)stopFollowPositionMode;
 
--(void)stopHeadingCorrectionMode;
+-(void)stopHeadingCorrectionModeUseResult:(BOOL)useResult;
 -(BOOL)startHeadingCorrectionMode;
 
 -(void)startStartingPositionFixingMode;
@@ -453,7 +454,7 @@ typedef enum {
     [super viewDidUnload];
     
     //end position correction mode when the view unloads
-    [self didReceiveEvent:StopHeadingCorrectionMode];
+    [self didReceiveEvent:AbortHeadingCorrectionMode];
     
     [self releaseSubviews];
 }
@@ -531,7 +532,7 @@ typedef enum {
                         [self stopWaitingForHeading];
                         break;
                     case HeadingCorrectionMode:
-                        [self stopHeadingCorrectionMode];
+                        [self stopHeadingCorrectionModeUseResult:NO];
                         break;
                     default:
                         break;
@@ -558,7 +559,10 @@ typedef enum {
             case DetectedInPocket:
             case UserLockedScreen:
                 
-                if (self.status == TrackingPaused) {
+                if (   self.status == TrackingPaused
+                    || self.status == HeadingCorrectionMode) {
+                    
+                    [self didReceiveEvent:AbortHeadingCorrectionMode];
                     
                     [self stopPocketDetector];
                     [self startSensors];
@@ -584,18 +588,18 @@ typedef enum {
                         
                     if ([self startHeadingCorrectionMode]){
                         
-                        [self stopPocketDetector];
                         self.status = HeadingCorrectionMode;
                     }
                 }
                 break;
                 
             case StopHeadingCorrectionMode:
+            case AbortHeadingCorrectionMode:
                 
                 if (self.status == HeadingCorrectionMode) {
                     
-                    [self stopHeadingCorrectionMode];
-                    [self startPocketDetectorDelayed:YES];
+                    [self stopHeadingCorrectionModeUseResult:(event != AbortHeadingCorrectionMode)];
+                    
                     self.status = TrackingPaused;
                 }
                 break;
@@ -751,7 +755,14 @@ typedef enum {
     }
 }
 
--(void)stopHeadingCorrectionMode {
+-(void)stopHeadingCorrectionModeUseResult:(BOOL)useResult {
+    
+    if (useResult) {
+        
+        //throw away the path as it is redrawn
+        [self.mapView clearPath];
+        [pdr rotatePathBy:-lastYaw];
+    }
     
     [[Gyroscope sharedInstance] removeListener:(id<SensorListener>) self];
     
@@ -761,6 +772,17 @@ typedef enum {
 }
 
 -(void)lockScreen {
+    
+    //dismiss potentially visible UIActionSheets as they lead to a graphical glitch causing the toolbar to have no buttons
+    NSArray *actionSheets = @[correctHeadingActionSheet, stopPDRactionSheet, moveToGPSactionSheet, moveToGPSdestructiveActionSheet];
+    for (UIActionSheet *actionSheet in actionSheets) {
+        
+        if (actionSheet.isVisible) {
+            
+            [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex
+                                              animated:NO];
+        }
+    }
     
     [SecondViewController sharedInstance].delegate = self;
     [SecondViewController sharedInstance].modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -896,12 +918,12 @@ typedef enum {
         
         if (buttonIndex == actionSheet.destructiveButtonIndex) {//for us, the destructive action actually is a confirmation
             
-            //throw away the path as it is redrawn
-            [self.mapView clearPath];
-            [pdr rotatePathBy:-lastYaw];
+            [self didReceiveEvent:StopHeadingCorrectionMode];
+            
+        } else {
+            
+            [self didReceiveEvent:AbortHeadingCorrectionMode];
         }
-        
-        [self didReceiveEvent:StopHeadingCorrectionMode];
     }
     
     if (actionSheet == self.moveToGPSactionSheet || actionSheet == self.moveToGPSdestructiveActionSheet) {
