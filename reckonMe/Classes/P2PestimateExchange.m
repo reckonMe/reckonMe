@@ -71,6 +71,7 @@ const double kDeemedProximateThreshold = 10;
 - (void)stopGKSession;
 - (void)startGKSession;
 - (void)restartGKSession;
+- (void)gentlyRestartGKSession;
 
 //name conversions
 -(NSString *)displayNameForGKPeerID:(NSString *)GKpeerID;
@@ -316,8 +317,44 @@ static P2PestimateExchange *sharedSingleton;
 
 -(void)restartGKSession {
     
-    [self stopGKSession];
-    [self startGKSession];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        
+#ifdef P2P_TESTS
+        [[SecondViewController sharedInstance] addToLog:@"Restarting GKSession."];
+#endif
+       
+        [self stopGKSession];
+        [self startGKSession];
+    });
+}
+
+- (void)gentlyRestartGKSession {
+    
+    NSUInteger availableCount = [[p2pSession peersWithConnectionState:GKPeerStateAvailable] count];
+    NSUInteger connectingCount = [[p2pSession peersWithConnectionState:GKPeerStateConnecting] count];
+    NSUInteger connectedCount = [[p2pSession peersWithConnectionState:GKPeerStateConnected] count];
+    NSUInteger disconnectedCount = [[p2pSession peersWithConnectionState:GKPeerStateDisconnected] count];
+    NSUInteger unavailableCount = [[p2pSession peersWithConnectionState:GKPeerStateUnavailable] count];
+    
+#ifdef P2P_TESTS
+    [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"[%d, %d, %d, %d, %d]",
+                                                     availableCount,
+                                                     connectingCount,
+                                                     connectedCount,
+                                                     disconnectedCount,
+                                                     unavailableCount]];
+#endif
+    
+    if (   availableCount
+        == connectingCount
+        == connectedCount
+        == disconnectedCount
+        == unavailableCount
+        == 0) {
+        
+        [self restartGKSession];
+    }
+    
 }
 
 //MARK: - ID and naming conversions
@@ -410,17 +447,24 @@ static P2PestimateExchange *sharedSingleton;
     
     NSString *channelNumber = [[NSNumber numberWithInt:channelOfPeer] stringValue];
     
-    //connect to the peer if not already done so
-    for (NSString *gkPeerID in [p2pSession peersWithConnectionState:GKPeerStateAvailable]) {
+    if (![self isConnectedOrConnecting]) {
         
-        NSString *uniqueID = [self uniqueIDforGKPeerID:gkPeerID];
-        
-        if ([uniqueID hasPrefix:channelNumber]) {
+        //connect to the peer if not already done so
+        for (NSString *gkPeerID in [p2pSession peersWithConnectionState:GKPeerStateAvailable]) {
             
-            connectionState = Connecting;
-            [p2pSession connectToPeer:gkPeerID
-                          withTimeout:kConnectionTimeout];
-            break;
+            NSString *uniqueID = [self uniqueIDforGKPeerID:gkPeerID];
+            
+            if ([uniqueID hasPrefix:channelNumber]) {
+
+#ifdef P2P_TESTS
+                [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Connecting to: %@",
+                                                                 [self displayNameForGKPeerID:gkPeerID]]];
+#endif
+                connectionState = Connecting;
+                [p2pSession connectToPeer:gkPeerID
+                              withTimeout:kConnectionTimeout];
+                break;
+            }
         }
     }
     
@@ -713,7 +757,10 @@ static P2PestimateExchange *sharedSingleton;
                             
                             [soundDetector startDetection];
                             [soundDetector listenForChannel:peerChannel];
-                            
+#ifdef P2P_TESTS
+                            [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Connecting to: %@",
+                                                                             [self displayNameForGKPeerID:GKpeerID]]];
+#endif
                             connectionState = Connecting;
                             [p2pSession connectToPeer:GKpeerID
                                           withTimeout:kConnectionTimeout];
@@ -761,6 +808,8 @@ static P2PestimateExchange *sharedSingleton;
                 //delete its position
                 [self teardownExchangeWithGKPeerID:GKpeerID];
                 self.currentGKPeerIDconnectedTo = nil;
+                
+                [self gentlyRestartGKSession];
                 
                 stateString = @"D";
                 break;
