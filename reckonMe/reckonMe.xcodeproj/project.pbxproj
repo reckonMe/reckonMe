@@ -37,6 +37,7 @@
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
 		B50B09BC1432F1EF00063D86 /* FileWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = B50B09BB1432F1EF00063D86 /* FileWriter.mm */; };
+		B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */; };
 		B51F36CD159DF71400517FD7 /* UnlockSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E73DF7159DBD39000B5228 /* UnlockSlider.m */; };
 		B52414E8147DA1BA00ACBCD8 /* goodbye.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */; };
 		B5293E3314C03C8200257CE6 /* BTFancyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B5293E3214C03C8100257CE6 /* BTFancyButton.m */; };
@@ -171,6 +172,8 @@
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		B50B09BA1432F1EF00063D86 /* FileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWriter.h; sourceTree = "<group>"; };
 		B50B09BB1432F1EF00063D86 /* FileWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = FileWriter.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UntouchableTextView.h; sourceTree = "<group>"; };
+		B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UntouchableTextView.m; sourceTree = "<group>"; };
 		B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = goodbye.aiff; sourceTree = "<group>"; };
 		B5293E3114C03C8100257CE6 /* BTFancyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTFancyButton.h; sourceTree = "<group>"; };
 		B5293E3214C03C8100257CE6 /* BTFancyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTFancyButton.m; sourceTree = "<group>"; };
@@ -363,6 +366,8 @@
 				B56F909E15878C5C00456F62 /* CompassViewController.h */,
 				B56F909F15878C5C00456F62 /* CompassViewController.m */,
 				B56F90A015878C5C00456F62 /* CompassViewController.xib */,
+				B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */,
+				B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */,
 				B595D2F71407C01C00EB1A91 /* SecondViewController.h */,
 				B595D2F81407C01C00EB1A91 /* SecondViewController.mm */,
 				B595D2FD1407C01C00EB1A91 /* SecondView.xib */,
@@ -814,6 +819,7 @@
 				B56F90A115878C5C00456F62 /* CompassViewController.m in Sources */,
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
+				B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
