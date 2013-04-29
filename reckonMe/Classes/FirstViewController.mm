@@ -620,7 +620,7 @@ typedef enum {
         
         [[Gyroscope sharedInstance] addListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance playSound:startingSound 
+        [AlertSoundPlayer.sharedInstance playSound:nil
                                          vibrating:YES];
         [[SecondViewController sharedInstance] addToLog:@"Starting sensors."];
         
@@ -638,7 +638,7 @@ typedef enum {
         [[Gyroscope sharedInstance] removeListener:pdr];
         [[CompassAndGPS sharedInstance] removeListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance playSound:pausingSound
+        [AlertSoundPlayer.sharedInstance playSound:nil
                                          vibrating:YES];
         
         [[SecondViewController sharedInstance] addToLog:@"Pausing sensors."];

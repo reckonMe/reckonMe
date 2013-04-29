@@ -955,8 +955,8 @@ static P2PestimateExchange *sharedSingleton;
                                                                   peerLocation.northing, 
                                                                   peerLocation.easting]];
                         
-                        [AlertSoundPlayer.sharedInstance playSound:exchangedPositionsSound
-                                                         vibrating:NO];
+                        [AlertSoundPlayer.sharedInstance playSound:cymbalsSound
+                                                         vibrating:YES];
                         
                         [exchangesPendingACKACK removeObjectForKey:uniquePeerID];
                         [exchangesPendingACK removeObject:uniquePeerID];
