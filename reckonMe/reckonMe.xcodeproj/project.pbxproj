@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8B21ED5A176B5CEA003895B7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B21ED59176B5CEA003895B7 /* libz.dylib */; };
+		8B67BD76176B2E3C00C193E5 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD74176B2E3C00C193E5 /* libsqlite3.0.dylib */; };
+		8B67BD77176B2E3C00C193E5 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD75176B2E3C00C193E5 /* libsqlite3.dylib */; };
+		8B67BD80176B2ED900C193E5 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD7E176B2EA100C193E5 /* CoreBluetooth.framework */; };
+		8B67BD81176B2EDF00C193E5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD7A176B2E9100C193E5 /* Security.framework */; };
+		8B67BD82176B2EE500C193E5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD78176B2E8800C193E5 /* SystemConfiguration.framework */; };
+		8B67BD83176B2EEC00C193E5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */; };
+		8B67BD8B176B2F7B00C193E5 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */; };
+		8B67BD8C176B2F7B00C193E5 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */; };
+		8B67BD8D176B2F7B00C193E5 /* ios-ntp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD87176B2F6A00C193E5 /* ios-ntp.framework */; };
+		8B67BD90176B2FE500C193E5 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8BA9EE43176C60000026E82F /* ntp.hosts in Resources */ = {isa = PBXBuildFile; fileRef = 8BA9EE42176C60000026E82F /* ntp.hosts */; };
+		8BA9EE48176C64100026E82F /* Ble.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA9EE47176C64100026E82F /* Ble.m */; };
 		8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0318DE143513200014FB18 /* SettingsViewController.mm */; };
 		8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF471432407300451568 /* pdr-icon-retina.png */; };
 		8E07EF4B1432416800451568 /* pdr-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF4A1432416800451568 /* pdr-icon.png */; };
@@ -138,6 +151,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8B21ED59176B5CEA003895B7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		8B67BD74176B2E3C00C193E5 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		8B67BD75176B2E3C00C193E5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		8B67BD78176B2E8800C193E5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8B67BD7A176B2E9100C193E5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8B67BD7E176B2EA100C193E5 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
+		8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = Frameworks/CouchCocoa.framework; sourceTree = "<group>"; };
+		8B67BD87176B2F6A00C193E5 /* ios-ntp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "ios-ntp.framework"; path = "Frameworks/ios-ntp.framework"; sourceTree = "<group>"; };
+		8B67BD8E176B2FE500C193E5 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		8BA9EE42176C60000026E82F /* ntp.hosts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ntp.hosts; sourceTree = "<group>"; };
+		8BA9EE46176C64100026E82F /* Ble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ble.h; sourceTree = "<group>"; };
+		8BA9EE47176C64100026E82F /* Ble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ble.m; sourceTree = "<group>"; };
 		8E0318DD143513200014FB18 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8E0318DE143513200014FB18 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
 		8E07EF471432407300451568 /* pdr-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon-retina.png"; sourceTree = "<group>"; };
@@ -285,6 +313,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B21ED5A176B5CEA003895B7 /* libz.dylib in Frameworks */,
+				8B67BD8B176B2F7B00C193E5 /* CouchbaseLite.framework in Frameworks */,
+				8B67BD8C176B2F7B00C193E5 /* CouchCocoa.framework in Frameworks */,
+				8B67BD8D176B2F7B00C193E5 /* ios-ntp.framework in Frameworks */,
+				8B67BD83176B2EEC00C193E5 /* CFNetwork.framework in Frameworks */,
+				8B67BD82176B2EE500C193E5 /* SystemConfiguration.framework in Frameworks */,
+				8B67BD81176B2EDF00C193E5 /* Security.framework in Frameworks */,
+				8B67BD80176B2ED900C193E5 /* CoreBluetooth.framework in Frameworks */,
+				8B67BD76176B2E3C00C193E5 /* libsqlite3.0.dylib in Frameworks */,
+				8B67BD77176B2E3C00C193E5 /* libsqlite3.dylib in Frameworks */,
 				B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */,
 				B5789A2D1564170B0087502C /* libProj4.a in Frameworks */,
 				8E31D16814E96CB700A28A86 /* GLKit.framework in Frameworks */,
@@ -328,6 +366,8 @@
 				B5499E7E1425E85700BA7177 /* Gyroscope.m */,
 				B5499E7F1425E85700BA7177 /* CompassAndGPS.h */,
 				B5499E801425E85700BA7177 /* CompassAndGPS.m */,
+				8BA9EE46176C64100026E82F /* Ble.h */,
+				8BA9EE47176C64100026E82F /* Ble.m */,
 			);
 			name = Sensors;
 			sourceTree = "<group>";
@@ -486,6 +526,13 @@
 		B595D2DE1407C01C00EB1A91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */,
+				8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */,
+				8B67BD87176B2F6A00C193E5 /* ios-ntp.framework */,
+				8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */,
+				8B67BD7A176B2E9100C193E5 /* Security.framework */,
+				8B67BD78176B2E8800C193E5 /* SystemConfiguration.framework */,
+				8B67BD7E176B2EA100C193E5 /* CoreBluetooth.framework */,
 				B5C6809B156667A80099AB49 /* MapKit.framework */,
 				8E31D16714E96CB700A28A86 /* GLKit.framework */,
 				B5A3B00E14CC6140004A0E54 /* Accelerate.framework */,
@@ -503,6 +550,9 @@
 				B595D2E11407C01C00EB1A91 /* Foundation.framework */,
 				B595D2E31407C01C00EB1A91 /* CoreGraphics.framework */,
 				B595D3061407C01C00EB1A91 /* SenTestingKit.framework */,
+				8B67BD74176B2E3C00C193E5 /* libsqlite3.0.dylib */,
+				8B67BD75176B2E3C00C193E5 /* libsqlite3.dylib */,
+				8B21ED59176B5CEA003895B7 /* libz.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -516,6 +566,8 @@
 				B5499E881425E93B00BA7177 /* Views */,
 				B595D2EE1407C01C00EB1A91 /* PDRAppDelegate.h */,
 				B595D2EF1407C01C00EB1A91 /* PDRAppDelegate.mm */,
+				8B67BD8E176B2FE500C193E5 /* AsyncUdpSocket.h */,
+				8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */,
 				B561765F146ABD4000945446 /* PantsPocketDetector.h */,
 				B5617660146ABD4000945446 /* PantsPocketDetector.m */,
 				B5DF9069147D0DB900A39293 /* AlertSoundPlayer.h */,
@@ -536,6 +588,7 @@
 		B595D2E61407C01C00EB1A91 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				8BA9EE42176C60000026E82F /* ntp.hosts */,
 				B595D2E71407C01C00EB1A91 /* reckonMe-Info.plist */,
 				B595D2E81407C01C00EB1A91 /* InfoPlist.strings */,
 				B595D2EB1407C01C00EB1A91 /* main.m */,
@@ -727,6 +780,7 @@
 				B53BC85F1602753E00044D8D /* Default-568h@2x.png in Resources */,
 				8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */,
 				8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */,
+				8BA9EE43176C60000026E82F /* ntp.hosts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +868,8 @@
 				B56F90A115878C5C00456F62 /* CompassViewController.m in Sources */,
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
+				8B67BD90176B2FE500C193E5 /* AsyncUdpSocket.m in Sources */,
+				8BA9EE48176C64100026E82F /* Ble.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -906,9 +962,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[arch=*]" = "";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -938,16 +996,23 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s";
 			};
 			name = Release;
 		};
 		B595D31A1407C01D00EB1A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv7,
+					armv6,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/reckonMe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -961,9 +1026,11 @@
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_NAME = reckonMe;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -971,10 +1038,16 @@
 		B595D31B1407C01D00EB1A91 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv7,
+					armv6,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/reckonMe-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
@@ -987,9 +1060,11 @@
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = reckonMe;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

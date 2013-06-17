@@ -27,14 +27,17 @@
 
 #import <UIKit/UIKit.h>
 #import "FirstViewController.h"
+#import "Ble.h"
 
 @interface PDRAppDelegate : NSObject <UIApplicationDelegate>
 {
     FirstViewController *mainVC;
+    Ble *ble;
     
     UIBackgroundTaskIdentifier backgroundTask;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
 
 @end
