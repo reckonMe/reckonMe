@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) CBLDatabase *database;
 @property (nonatomic, strong) CBLReplication *push;
+@property (nonatomic, strong) CBLReplication *pull;
+@property (strong, nonatomic) NSURL *remoteURL;
 
 - (id) init;
 

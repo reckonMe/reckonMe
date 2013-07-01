@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Hussein Aboelseoud. All rights reserved.
 //
 
-
 #import "Ble.h"
 #import <ios-ntp/ios-ntp.h>
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -24,7 +23,7 @@
 @property (strong, retain) CBPeripheralManager   *peripheralManager;
 @property (strong, retain) NSMutableArray        *peripherals;
 @property (strong, retain) NSMutableArray        *RSSIs;
-
+@property (strong, nonatomic) NSMutableArray     *dictionaries;
 
 @end
 
@@ -33,6 +32,9 @@
 
 @synthesize database;
 @synthesize push;
+@synthesize pull;
+@synthesize remoteURL;
+
 
 #pragma mark - View Lifecycle
 
@@ -44,6 +46,7 @@
         // Initialize Arrays
         _peripherals = [[NSMutableArray alloc]init];
         _RSSIs = [[NSMutableArray alloc]init];
+        _dictionaries = [[NSMutableArray alloc]init];
     
         // Start up the CBCentralManager
         _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
@@ -57,11 +60,15 @@
         if (!self.database)
             [self showAlert: @"Couldn't open database" error: error fatal: YES];
         
-        NSURL *remoteURL = [NSURL URLWithString:@"http://192.168.31.201:5984/ble"];
-        NSArray* repls = [self.database replicateWithURL:remoteURL exclusively: YES];
+        remoteURL = [NSURL URLWithString:@"http://dfki-1239.dfki.uni-kl.de:5984/ble"];
+        //    remoteURL = [NSURL URLWithString:@"http://192.168.31.201:5984/ble"];
+        
+        NSArray *repls = [database replicateWithURL:remoteURL exclusively: NO];
+        pull = [repls objectAtIndex: 0];
+        pull.filter = @"app/dest";
         push = [repls objectAtIndex: 1];
-        push.continuous=TRUE;
-        push.persistent=TRUE;
+        
+        [NSTimer scheduledTimerWithTimeInterval:5.0 target:self  selector:@selector(sync) userInfo:nil repeats:YES];
         
     }
     return self;
@@ -167,10 +174,16 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     
+    NSString *name = [advertisementData objectForKey:@"kCBAdvDataLocalName"];
+    
+    if(name == nil)
+        return;
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     NSDate *date = [NSDate networkDate];
+    //NSDate *date = [NSDate new];
     
     NSString *milliseconds;
     NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];
@@ -181,28 +194,22 @@
         }
     }
     
-    NSLog(@"%@:%@ %@ %@", [dateFormatter stringFromDate: date], milliseconds,  [advertisementData objectForKey:@"kCBAdvDataLocalName"], RSSI);
+    NSLog(@"%@:%@ %@ %@", [dateFormatter stringFromDate: date], milliseconds, name , RSSI);
     
     NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
-        [self getMacAddress], @"Source Mac Address",
-        [NSString stringWithFormat:@"%@:%@",[dateFormatter stringFromDate: date], milliseconds], @"timestamp",
-        [advertisementData objectForKey:@"kCBAdvDataLocalName"], @"Mac Address",
-        RSSI, @"RSSI",
-        nil];
+                              name, @"dest-mac",
+                              RSSI, @"rssi",
+                              [NSString stringWithFormat:@"%@:%@",[dateFormatter stringFromDate: date], milliseconds], @"timestamp",
+                              nil];
     
-    CBLDocument* doc = [database untitledDocument];
-    NSError *error;
-                                
-    if (![doc putProperties: contents error: &error]) {
-         [self showAlert:@"Couldn't save new item" error:error fatal:FALSE];
-    }
+    [_dictionaries addObject:contents];
     
     //search for the new peripheral in the list of old peripherals
     Boolean flag = false;
     int i;
     for(i = 0; i < _peripherals.count; i++) {
-        CBPeripheral *per = [_peripherals objectAtIndex:i];
-        if([advertisementData objectForKey:@"kCBAdvDataLocalName"] == nil || [per.name isEqualToString:[advertisementData objectForKey:@"kCBAdvDataLocalName"]] ||[peripheral.name isEqualToString:per.name]) {
+        NSString *per = [_peripherals objectAtIndex:i];
+        if([per isEqualToString:name] ||[peripheral.name isEqualToString:per]) {
             flag = true;
             break;
         }
@@ -210,9 +217,10 @@
     // if peripheral is new
     if(!flag){
         //add peripheral to array
-        [_peripherals addObject:peripheral];
+        [_peripherals addObject:[NSString stringWithFormat:@"%@", name]];
         [_RSSIs addObject:RSSI.description];
     } else {
+        _peripherals [i] = name;
         // update RSSI
         _RSSIs[i] = RSSI.description;
     }
@@ -224,8 +232,29 @@
     // Start scanning
     [self.centralManager scanForPeripheralsWithServices:nil
                                                 options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
-    
-    
+}
+
+- (void) sync
+{
+    [pull start];
+    //[_appDelegate showAlert: [NSString stringWithFormat:@"%lu",(unsigned long)_appDelegate.database.documentCount] error: nil fatal: NO];
+    if([_dictionaries count] > 0){
+        CBLDocument* doc = [database untitledDocument];
+        
+        NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  [self getMacAddress], @"source-mac",
+                                  _dictionaries, @"ble",
+                                  nil];
+        
+        NSError *error;
+        if (![doc putProperties: contents error: &error]) {
+            [self showAlert:@"Couldn't save new item" error:error fatal:FALSE];
+        }
+        
+        [push start];
+        
+        _dictionaries = [[NSMutableArray alloc]init];
+    }
 }
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
