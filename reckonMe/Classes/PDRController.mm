@@ -34,6 +34,11 @@
 #include <cmath>
 #include <map>
 #include "matlab-utils.h"
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#import <ios-ntp/ios-ntp.h>
 
 using namespace std;
 
@@ -148,6 +153,9 @@ static PDRController *sharedSingleton;
 @synthesize pdrRunning;
 @synthesize originEasting;
 @synthesize originNorthing;
+@synthesize xArray;
+@synthesize yArray;
+@synthesize couch;
 
 //Is called by the runtime in a thread-safe manner exactly once, before the first use of the class.
 //This makes it the ideal place to set up the singleton.
@@ -847,12 +855,35 @@ static PDRController *sharedSingleton;
         // add the step to collaborativeTrace
         collaborativeTrace.push_back(collaborativeStep);
         
-        // notify logger & view 
-        AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
-        AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
-        [view didReceivePosition:collaborativeEntry];
-        [logger didReceivePDRPosition:pdrEntry];
-        [logger didReceiveCollaborativeLocalisationPosition:collaborativeEntry];            
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        NSDate *date = [NSDate networkDate];
+        
+        NSString *milliseconds;
+        NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];
+        for (int c = 0; c < test.length; c++){
+            if([test characterAtIndex:c] == '.'){
+                milliseconds = [test substringWithRange:NSMakeRange(c+1, 3)];
+                break;
+            }
+        }
+        
+        NSString *time = [NSString stringWithFormat:@"%@:%@", [dateFormatter stringFromDate: date], milliseconds];
+        
+        [couch pushStepWithSource:[self getMacAddress] originX:[NSNumber numberWithDouble:originEasting] originY:[NSNumber numberWithDouble:originNorthing] timestamp:time x:[NSNumber numberWithDouble:collaborativeTrace.back().x + rotatedX] y:[NSNumber numberWithDouble:collaborativeTrace.back().y + rotatedY]];
+        
+        // notify logger & view
+        
+        for(int i = 0; i < xArray.count; i++){
+            TraceEntry test(timestamp, [(NSNumber*)xArray[i] intValue], [(NSNumber*)yArray[i] intValue], 1);
+            //AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
+            //AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
+            AbsoluteLocationEntry *testEntry = [self absoluteLocationEntryFrom:test];
+            [view didReceivePosition:testEntry];
+            //[logger didReceivePDRPosition:pdrEntry];
+            //[logger didReceiveCollaborativeLocalisationPosition:testEntry];
+        }
         
         lastStepWasManualCorrection = NO;
     }
@@ -872,6 +903,80 @@ static PDRController *sharedSingleton;
     return rotatedPath;    
 }
 
+- (void) addX:(int)value {
+    [xArray addObject:[NSNumber numberWithInt:value]];
+}
+
+- (void) addY:(int)value {
+    [yArray addObject:[NSNumber numberWithInt:value]];
+}
+
+- (NSString *)getMacAddress
+{
+    int                 mgmtInfoBase[6];
+    char                *msgBuffer = NULL;
+    size_t              length;
+    unsigned char       macAddress[6];
+    struct if_msghdr    *interfaceMsgStruct;
+    struct sockaddr_dl  *socketStruct;
+    NSString            *errorFlag = NULL;
+    
+    // Setup the management Information Base (mib)
+    mgmtInfoBase[0] = CTL_NET;        // Request network subsystem
+    mgmtInfoBase[1] = AF_ROUTE;       // Routing table info
+    mgmtInfoBase[2] = 0;
+    mgmtInfoBase[3] = AF_LINK;        // Request link layer information
+    mgmtInfoBase[4] = NET_RT_IFLIST;  // Request all configured interfaces
+    
+    // With all configured interfaces requested, get handle index
+    if ((mgmtInfoBase[5] = if_nametoindex("en0")) == 0)
+        errorFlag = @"if_nametoindex failure";
+    else
+    {
+        // Get the size of the data available (store in len)
+        if (sysctl(mgmtInfoBase, 6, NULL, &length, NULL, 0) < 0)
+            errorFlag = @"sysctl mgmtInfoBase failure";
+        else
+        {
+            // Alloc memory based on above call
+            msgBuffer =(char *) malloc(length);
+            if (msgBuffer == NULL)
+                errorFlag = @"buffer allocation failure";
+            else
+            {
+                // Get system information, store in buffer
+                if (sysctl(mgmtInfoBase, 6, msgBuffer, &length, NULL, 0) < 0)
+                    errorFlag = @"sysctl msgBuffer failure";
+            }
+        }
+    }
+    
+    // Befor going any further...
+    if (errorFlag != NULL)
+    {
+        NSLog(@"Error: %@", errorFlag);
+        return errorFlag;
+    }
+    
+    // Map msgbuffer to interface message structure
+    interfaceMsgStruct = (struct if_msghdr *) msgBuffer;
+    
+    // Map to link-level socket structure
+    socketStruct = (struct sockaddr_dl *) (interfaceMsgStruct + 1);
+    
+    // Copy link layer address data in socket structure to an array
+    memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
+    
+    // Read from char array into a string object, into traditional Mac address format
+    NSString *macAddressString = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                  macAddress[0], macAddress[1], macAddress[2],
+                                  macAddress[3], macAddress[4], macAddress[5] + 1];
+    
+    // Release the buffer memory
+    free(msgBuffer);
+    
+    return macAddressString;
+}
     
 #pragma mark -
 
@@ -882,6 +987,7 @@ static PDRController *sharedSingleton;
     if (self) {
         view = nil;
         logger = nil;
+        couch = [CouchDBController sharedInstance];
         
         lastStepWasManualCorrection = NO;
         

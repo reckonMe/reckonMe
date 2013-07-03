@@ -19,7 +19,8 @@
 		8B67BD8D176B2F7B00C193E5 /* ios-ntp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD87176B2F6A00C193E5 /* ios-ntp.framework */; };
 		8B67BD90176B2FE500C193E5 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		8BA9EE43176C60000026E82F /* ntp.hosts in Resources */ = {isa = PBXBuildFile; fileRef = 8BA9EE42176C60000026E82F /* ntp.hosts */; };
-		8BA9EE48176C64100026E82F /* Ble.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BA9EE47176C64100026E82F /* Ble.m */; };
+		8BA9EE48176C64100026E82F /* Ble.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BA9EE47176C64100026E82F /* Ble.mm */; };
+		8BAB19B217842E9A00A941BC /* CouchDBController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB19B117842E9A00A941BC /* CouchDBController.m */; };
 		8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0318DE143513200014FB18 /* SettingsViewController.mm */; };
 		8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF471432407300451568 /* pdr-icon-retina.png */; };
 		8E07EF4B1432416800451568 /* pdr-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF4A1432416800451568 /* pdr-icon.png */; };
@@ -165,7 +166,9 @@
 		8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		8BA9EE42176C60000026E82F /* ntp.hosts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ntp.hosts; sourceTree = "<group>"; };
 		8BA9EE46176C64100026E82F /* Ble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ble.h; sourceTree = "<group>"; };
-		8BA9EE47176C64100026E82F /* Ble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ble.m; sourceTree = "<group>"; };
+		8BA9EE47176C64100026E82F /* Ble.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ble.mm; sourceTree = "<group>"; };
+		8BAB19B017842E8200A941BC /* CouchDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouchDBController.h; sourceTree = "<group>"; };
+		8BAB19B117842E9A00A941BC /* CouchDBController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouchDBController.m; sourceTree = "<group>"; };
 		8E0318DD143513200014FB18 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8E0318DE143513200014FB18 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
 		8E07EF471432407300451568 /* pdr-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon-retina.png"; sourceTree = "<group>"; };
@@ -367,7 +370,7 @@
 				B5499E7F1425E85700BA7177 /* CompassAndGPS.h */,
 				B5499E801425E85700BA7177 /* CompassAndGPS.m */,
 				8BA9EE46176C64100026E82F /* Ble.h */,
-				8BA9EE47176C64100026E82F /* Ble.m */,
+				8BA9EE47176C64100026E82F /* Ble.mm */,
 			);
 			name = Sensors;
 			sourceTree = "<group>";
@@ -569,6 +572,8 @@
 				8B67BD8E176B2FE500C193E5 /* AsyncUdpSocket.h */,
 				8B67BD8F176B2FE500C193E5 /* AsyncUdpSocket.m */,
 				B561765F146ABD4000945446 /* PantsPocketDetector.h */,
+				8BAB19B017842E8200A941BC /* CouchDBController.h */,
+				8BAB19B117842E9A00A941BC /* CouchDBController.m */,
 				B5617660146ABD4000945446 /* PantsPocketDetector.m */,
 				B5DF9069147D0DB900A39293 /* AlertSoundPlayer.h */,
 				B5DF906A147D0DB900A39293 /* AlertSoundPlayer.m */,
@@ -869,7 +874,8 @@
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
 				8B67BD90176B2FE500C193E5 /* AsyncUdpSocket.m in Sources */,
-				8BA9EE48176C64100026E82F /* Ble.m in Sources */,
+				8BA9EE48176C64100026E82F /* Ble.mm in Sources */,
+				8BAB19B217842E9A00A941BC /* CouchDBController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

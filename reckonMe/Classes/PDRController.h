@@ -29,6 +29,7 @@
 #import <GLKit/GLKMath.h>
 #import "LocationEntry.h"
 #import "PDRExchange.h"
+#import "CouchDBController.h"
 #include <list>
 #include <map>
 
@@ -38,11 +39,17 @@
 
 @property(nonatomic, assign) id<PDRView> view;
 @property(nonatomic, assign) id<PDRLogger> logger;
+@property(nonatomic, assign) CouchDBController *couch;
 
 @property(readonly) double originEasting;
 @property(readonly) double originNorthing;
 
 @property(readonly) bool pdrRunning;
+@property(strong, retain) NSMutableArray *xArray;
+@property(strong, retain) NSMutableArray *yArray;
+
+- (void) addX:(int)value;
+- (void) addY:(int)value;
 
 @end
 

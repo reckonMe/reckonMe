@@ -9,13 +9,10 @@
 #import "Ble.h"
 #import <ios-ntp/ios-ntp.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-#import <UIKit/UIKit.h>
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
-#import <Couchbaselite/CouchbaseLite.h>
-#import <CouchbaseLite/CBLJSON.h>
 
 @interface Ble () <CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 
@@ -24,6 +21,7 @@
 @property (strong, retain) NSMutableArray        *peripherals;
 @property (strong, retain) NSMutableArray        *RSSIs;
 @property (strong, nonatomic) NSMutableArray     *dictionaries;
+@property (assign, nonatomic) BOOL               added;
 
 @end
 
@@ -34,7 +32,9 @@
 @synthesize push;
 @synthesize pull;
 @synthesize remoteURL;
-
+@synthesize pdr;
+@synthesize query;
+@synthesize dataSource;
 
 #pragma mark - View Lifecycle
 
@@ -65,10 +65,27 @@
         
         NSArray *repls = [database replicateWithURL:remoteURL exclusively: NO];
         pull = [repls objectAtIndex: 0];
-        pull.filter = @"app/dest";
+        pull.filter = @"ble/myposition";
         push = [repls objectAtIndex: 1];
         
         [NSTimer scheduledTimerWithTimeInterval:5.0 target:self  selector:@selector(sync) userInfo:nil repeats:YES];
+        
+        CBLView* view = [database viewNamed: @"dest"];
+        [view setMapBlock: MAPBLOCK({
+            id dest = [doc objectForKey: @"dest"];
+            if (dest && [dest isEqualToString: [self getMacAddress]])
+                emit(dest, doc);
+        }) version: @"1.0"];
+        
+        query = [[[database viewNamed:@"dest"] query] asLiveQuery];
+        query.descending = YES;
+        
+        dataSource = [[CBLUITableSource alloc] init];
+        dataSource.query = query;
+        
+        pdr = [PDRController sharedInstance];
+        
+        _added = false;
         
     }
     return self;
@@ -116,7 +133,8 @@
         else
         {
             // Alloc memory based on above call
-            if ((msgBuffer = malloc(length)) == NULL)
+            msgBuffer =(char *) malloc(length);
+            if (msgBuffer == NULL)
                 errorFlag = @"buffer allocation failure";
             else
             {
@@ -183,7 +201,6 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     NSDate *date = [NSDate networkDate];
-    //NSDate *date = [NSDate new];
     
     NSString *milliseconds;
     NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];
@@ -237,7 +254,28 @@
 - (void) sync
 {
     [pull start];
-    //[_appDelegate showAlert: [NSString stringWithFormat:@"%lu",(unsigned long)_appDelegate.database.documentCount] error: nil fatal: NO];
+    
+    //NSLog(@"%lu",(unsigned long)database.documentCount);
+    
+    CBLQueryRow *row = [dataSource rowAtIndex:0];
+    CBLDocument *doc = [row document];
+    
+    NSMutableDictionary *docContent = [doc.properties mutableCopy];
+    NSMutableDictionary *location = [docContent valueForKey:@"location"];
+    NSMutableArray *positions = [location valueForKey:@"positions"];
+    if(!_added){
+        pdr.xArray = [[NSMutableArray alloc]init];
+        pdr.yArray = [[NSMutableArray alloc]init];
+        for(int i = 0; i < positions.count ; i++){
+            int x = [[positions[i] valueForKey:@"x"] intValue];
+            int y = [[positions[i] valueForKey:@"y"] intValue];
+            [pdr addX:x];
+            [pdr addY:y];
+                
+        }
+        _added = true;
+    }
+    
     if([_dictionaries count] > 0){
         CBLDocument* doc = [database untitledDocument];
         
@@ -251,10 +289,10 @@
             [self showAlert:@"Couldn't save new item" error:error fatal:FALSE];
         }
         
-        [push start];
         
         _dictionaries = [[NSMutableArray alloc]init];
     }
+    [push start];
 }
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
