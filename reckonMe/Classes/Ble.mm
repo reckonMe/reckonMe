@@ -21,20 +21,13 @@
 @property (strong, retain) NSMutableArray        *peripherals;
 @property (strong, retain) NSMutableArray        *RSSIs;
 @property (strong, nonatomic) NSMutableArray     *dictionaries;
-@property (assign, nonatomic) BOOL               added;
 
 @end
 
 
 @implementation Ble
 
-@synthesize database;
-@synthesize push;
-@synthesize pull;
-@synthesize remoteURL;
-@synthesize pdr;
-@synthesize query;
-@synthesize dataSource;
+@synthesize couch;
 
 #pragma mark - View Lifecycle
 
@@ -54,39 +47,9 @@
         // Start up the CBPeripheralManager
         _peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:nil];
         
-        NSError* error;
-        self.database = [[CBLManager sharedInstance] createDatabaseNamed: @"ble"
-                                                                   error: &error];
-        if (!self.database)
-            [self showAlert: @"Couldn't open database" error: error fatal: YES];
-        
-        remoteURL = [NSURL URLWithString:@"http://dfki-1239.dfki.uni-kl.de:5984/ble"];
-        //    remoteURL = [NSURL URLWithString:@"http://192.168.31.201:5984/ble"];
-        
-        NSArray *repls = [database replicateWithURL:remoteURL exclusively: NO];
-        pull = [repls objectAtIndex: 0];
-        pull.filter = @"ble/myposition";
-        push = [repls objectAtIndex: 1];
+        couch = [CouchDBController sharedInstance];
         
         [NSTimer scheduledTimerWithTimeInterval:5.0 target:self  selector:@selector(sync) userInfo:nil repeats:YES];
-        
-        CBLView* view = [database viewNamed: @"dest"];
-        [view setMapBlock: MAPBLOCK({
-            id dest = [doc objectForKey: @"dest"];
-            if (dest && [dest isEqualToString: [self getMacAddress]])
-                emit(dest, doc);
-        }) version: @"1.0"];
-        
-        query = [[[database viewNamed:@"dest"] query] asLiveQuery];
-        query.descending = YES;
-        
-        dataSource = [[CBLUITableSource alloc] init];
-        dataSource.query = query;
-        
-        pdr = [PDRController sharedInstance];
-        
-        _added = false;
-        
     }
     return self;
 }
@@ -253,46 +216,17 @@
 
 - (void) sync
 {
-    [pull start];
-    
-    //NSLog(@"%lu",(unsigned long)database.documentCount);
-    
-    CBLQueryRow *row = [dataSource rowAtIndex:0];
-    CBLDocument *doc = [row document];
-    
-    NSMutableDictionary *docContent = [doc.properties mutableCopy];
-    NSMutableDictionary *location = [docContent valueForKey:@"location"];
-    NSMutableArray *positions = [location valueForKey:@"positions"];
-    if(!_added){
-        pdr.xArray = [[NSMutableArray alloc]init];
-        pdr.yArray = [[NSMutableArray alloc]init];
-        for(int i = 0; i < positions.count ; i++){
-            int x = [[positions[i] valueForKey:@"x"] intValue];
-            int y = [[positions[i] valueForKey:@"y"] intValue];
-            [pdr addX:x];
-            [pdr addY:y];
-                
-        }
-        _added = true;
-    }
-    
     if([_dictionaries count] > 0){
-        CBLDocument* doc = [database untitledDocument];
-        
         NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
                                   [self getMacAddress], @"source-mac",
                                   _dictionaries, @"ble",
                                   nil];
         
-        NSError *error;
-        if (![doc putProperties: contents error: &error]) {
-            [self showAlert:@"Couldn't save new item" error:error fatal:FALSE];
-        }
-        
+        [couch pushBluetoothDataDocument:contents];
         
         _dictionaries = [[NSMutableArray alloc]init];
     }
-    [push start];
+    
 }
 
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral

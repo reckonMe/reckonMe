@@ -39,6 +39,7 @@
 #include <net/if.h>
 #include <net/if_dl.h>
 #import <ios-ntp/ios-ntp.h>
+#import "CouchDBController.h"
 
 using namespace std;
 
@@ -874,6 +875,8 @@ static PDRController *sharedSingleton;
         [couch pushStepWithSource:[self getMacAddress] originX:[NSNumber numberWithDouble:originEasting] originY:[NSNumber numberWithDouble:originNorthing] timestamp:time x:[NSNumber numberWithDouble:collaborativeTrace.back().x + rotatedX] y:[NSNumber numberWithDouble:collaborativeTrace.back().y + rotatedY]];
         
         // notify logger & view
+        
+        NSLog(@"%@", couch);
         
         for(int i = 0; i < xArray.count; i++){
             TraceEntry test(timestamp, [(NSNumber*)xArray[i] intValue], [(NSNumber*)yArray[i] intValue], 1);

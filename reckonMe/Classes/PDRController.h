@@ -29,9 +29,10 @@
 #import <GLKit/GLKMath.h>
 #import "LocationEntry.h"
 #import "PDRExchange.h"
-#import "CouchDBController.h"
 #include <list>
 #include <map>
+
+@class CouchDBController;
 
 @interface PDRController : NSObject <PDRControllerProtocol, SensorListener>
 
