@@ -21,6 +21,7 @@
 		8BA9EE43176C60000026E82F /* ntp.hosts in Resources */ = {isa = PBXBuildFile; fileRef = 8BA9EE42176C60000026E82F /* ntp.hosts */; };
 		8BA9EE48176C64100026E82F /* Ble.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BA9EE47176C64100026E82F /* Ble.mm */; };
 		8BAB19B217842E9A00A941BC /* CouchDBController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BAB19B117842E9A00A941BC /* CouchDBController.mm */; };
+		8BBFCEC8178C532800A5D75E /* dfki-2.OG-trimmed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BBFCEC7178C532800A5D75E /* dfki-2.OG-trimmed.png */; };
 		8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0318DE143513200014FB18 /* SettingsViewController.mm */; };
 		8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF471432407300451568 /* pdr-icon-retina.png */; };
 		8E07EF4B1432416800451568 /* pdr-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF4A1432416800451568 /* pdr-icon.png */; };
@@ -169,6 +170,7 @@
 		8BA9EE47176C64100026E82F /* Ble.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Ble.mm; sourceTree = "<group>"; };
 		8BAB19B017842E8200A941BC /* CouchDBController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouchDBController.h; sourceTree = "<group>"; };
 		8BAB19B117842E9A00A941BC /* CouchDBController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CouchDBController.mm; sourceTree = "<group>"; };
+		8BBFCEC7178C532800A5D75E /* dfki-2.OG-trimmed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dfki-2.OG-trimmed.png"; sourceTree = "<group>"; };
 		8E0318DD143513200014FB18 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8E0318DE143513200014FB18 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
 		8E07EF471432407300451568 /* pdr-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon-retina.png"; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 		B57550381413D9A100193A4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8BBFCEC7178C532800A5D75E /* dfki-2.OG-trimmed.png */,
 				B53BC85E1602753E00044D8D /* Default-568h@2x.png */,
 				B52BEDBA15AB116D00536CA6 /* aluminum.png */,
 				B52BEDBB15AB116D00536CA6 /* aluminum@2x.png */,
@@ -786,6 +789,7 @@
 				8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */,
 				8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */,
 				8BA9EE43176C60000026E82F /* ntp.hosts in Resources */,
+				8BBFCEC8178C532800A5D75E /* dfki-2.OG-trimmed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

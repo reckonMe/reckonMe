@@ -198,7 +198,7 @@ static CouchDBController *sharedSingleton;
     if(notyet){
         CBLQueryRow *row = [dataSource rowAtIndex:0];
         CBLDocument *doc = [row document];
-        
+
         NSMutableDictionary *docContent = [doc.properties mutableCopy];
         NSMutableDictionary *location = [docContent valueForKey:@"location"];
         NSMutableArray *positions = [location valueForKey:@"positions"];
