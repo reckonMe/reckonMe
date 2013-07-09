@@ -859,7 +859,7 @@ static PDRController *sharedSingleton;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         
-        NSDate *date = [NSDate networkDate];
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
         
         NSString *milliseconds;
         NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];
@@ -876,16 +876,14 @@ static PDRController *sharedSingleton;
         
         // notify logger & view
         
-        NSLog(@"%@", couch);
-        
         for(int i = 0; i < xArray.count; i++){
             TraceEntry test(timestamp, [(NSNumber*)xArray[i] intValue], [(NSNumber*)yArray[i] intValue], 1);
             //AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
             //AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
             AbsoluteLocationEntry *testEntry = [self absoluteLocationEntryFrom:test];
             [view didReceivePosition:testEntry];
-            //[logger didReceivePDRPosition:pdrEntry];
-            //[logger didReceiveCollaborativeLocalisationPosition:testEntry];
+            [logger didReceivePDRPosition:testEntry];
+            [logger didReceiveCollaborativeLocalisationPosition:testEntry];
         }
         
         lastStepWasManualCorrection = NO;

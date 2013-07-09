@@ -26,7 +26,7 @@
 **/
 
 #import "Gyroscope.h"
-
+#import <ios-ntp/ios-ntp.h>
 
 //anonymous category extending the class with "private" methods
 @interface Gyroscope () 
@@ -255,15 +255,15 @@ static Gyroscope *sharedSingleton;
             timestampOffsetFrom1970 = [self getTimestamp] - motion.timestamp;
             timestampOffsetInitialized = YES;
         }
-        
-        NSTimeInterval timestamp = motion.timestamp + timestampOffsetFrom1970;
+        double time = [[NSDate networkDate] timeIntervalSince1970];
+        //        NSTimeInterval timestamp = motion.timestamp + timestampOffsetFrom1970;
         if (isActive) {
             
             id<SensorListener> listener;
             for (listener in listeners) {
 
                 [listener didReceiveDeviceMotion:motion
-                                       timestamp:timestamp];
+                                       timestamp:time];
             }
             
         }

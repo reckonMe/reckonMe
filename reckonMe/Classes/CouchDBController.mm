@@ -183,7 +183,6 @@ static CouchDBController *sharedSingleton;
     NSError *error;
 
     [doc putProperties: contents error: &error];
-    NSLog(@"%i", database.documentCount);
 }
 
 - (void)pushBluetoothDataDocument:(NSDictionary*)dictionary{
