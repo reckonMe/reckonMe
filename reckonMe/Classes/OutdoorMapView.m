@@ -109,17 +109,17 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         rotationAnchor.title = rotationAnchorPinTitle;
         rotationAnchor.subtitle = correctingPinSubtitle;
         
-        CLLocationCoordinate2D itzCenter = CLLocationCoordinate2DMake(49.42909818405562,7.75110125541687);
+        CLLocationCoordinate2D itzCenter = CLLocationCoordinate2DMake(48.565735,13.450134);
         /*NSString *path = [[NSBundle mainBundle] pathForResource:@"itz-floorplanRotated.pdf"
                                                          ofType:nil];
         floorPlanOverlay = [[FloorPlanOverlay alloc] initWithCenter:itzCenter
                                                            planPath:path
                                                 scalePixelsPerMeter:8.09];*/
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"dfki-2.OG-trimmed.png"
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"itz-grayHalf.png"
                                                          ofType:nil];
         floorPlanOverlay = [[FloorPlanOverlay alloc] initWithCenter:itzCenter
                                                            planPath:path
-                                                scalePixelsPerMeter:12];
+                                                scalePixelsPerMeter:8];
         
         [mapView addOverlay:floorPlanOverlay];
         
