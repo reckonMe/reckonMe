@@ -29,6 +29,7 @@
 #import "PDRController.h"
 #import "GeodeticProjection.h"
 #import "Settings.h"
+#include <math.h>
 #include <vector>
 #include <string>
 #include <cmath>
@@ -40,6 +41,9 @@
 #include <net/if_dl.h>
 #import <ios-ntp/ios-ntp.h>
 #import "CouchDBController.h"
+
+#define RAD_TO_DEG	57.29577951308232
+#define DEG_TO_RAD	.0174532925199432958
 
 using namespace std;
 
@@ -113,6 +117,11 @@ struct TraceEntry {
     TraceEntry() : x(0), y(0), deviation(1.0) {}  
 };
 
+struct Position{
+    double x, y;
+    Position(double _x, double _y) : x(_x), y(_y) {}
+};
+
 @interface PDRController () 
 
 - (void)runPdrWithTimestamp:(NSTimeInterval) timestamp;
@@ -169,6 +178,12 @@ static PDRController *sharedSingleton;
     {
         initialized = YES;
         sharedSingleton = [[PDRController alloc] init];
+        
+//        NSLog(@"%f %f", [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857) withX:0.000002 withY:0.000001].latitude, [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857) withX:0.000002 withY:0.000001].longitude);
+//        
+//        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.429107471116805, 7.750998865203857) from:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857)];
+//        
+//        NSLog(@"%f %f %f", result.x, result.y, sqrt(result.x*result.x + result.y*result.y)*6371);
     }
 }
 
@@ -977,6 +992,14 @@ static PDRController *sharedSingleton;
     free(msgBuffer);
     
     return macAddressString;
+}
+
+- (CLLocationCoordinate2D)getGPSLocationFrom:(CLLocationCoordinate2D)origin withX:(double)x withY:(double)y{
+    return CLLocationCoordinate2DMake((y + origin.latitude * DEG_TO_RAD) * RAD_TO_DEG, (origin.longitude * DEG_TO_RAD + x/cos((origin.latitude + (y + origin.latitude * DEG_TO_RAD) * RAD_TO_DEG)/2)) * RAD_TO_DEG);
+}
+
+- (Position) get2DDistanceOf: (CLLocationCoordinate2D)gps2 from:(CLLocationCoordinate2D)gps1{
+    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude)/2), gps2.latitude * DEG_TO_RAD - gps1.latitude * DEG_TO_RAD);
 }
     
 #pragma mark -
