@@ -33,7 +33,6 @@
 #import "AlertSoundPlayer.h"
 #import "MapMarker.h"
 #import "OutdoorMapView.h"
-#import "CompassViewController.h"
 #import "SettingsViewController.h"
 #import "Settings.h"
 
@@ -99,8 +98,6 @@ typedef enum {
 
 @property(nonatomic, retain) NSTimer *pocketDetectorStarter;
 
-@property(nonatomic, retain) CompassViewController *compassView;
-
 -(void)commonInit;
 
 -(void)followPositionButtonPressed:(UIBarButtonItem *)sender;
@@ -129,9 +126,6 @@ typedef enum {
 -(void)startStartingPositionFixingMode;
 -(void)stopStartingPositionFixingMode;
 
--(void)startWaitingForHeading;
--(void)stopWaitingForHeading;
-
 -(void)correctPositionTo:(AbsoluteLocationEntry *)correctTo;
 -(void)lockScreen;
 
@@ -153,7 +147,6 @@ typedef enum {
 @synthesize toolbarSpacer;
 @synthesize toolbarItemsWhenPDRon, toolbarItemsWhenPDRoff;
 @synthesize correctHeadingActionSheet, stopPDRactionSheet, moveToGPSactionSheet, moveToGPSdestructiveActionSheet;
-@synthesize compassView;
 
 //the last position obtained by PDR computation
 @synthesize lastPosition;
@@ -226,8 +219,6 @@ typedef enum {
     [[CompassAndGPS sharedInstance] addListener:(id<SensorListener>) self];
     
     [P2PestimateExchange sharedInstance].delegate = pdr;
-    
-    self.compassView = nil;
     
     self.status = DoNothing;
 }
@@ -476,8 +467,6 @@ typedef enum {
     self.correctHeadingActionSheet = nil;
     self.moveToGPSactionSheet = nil;
     self.moveToGPSdestructiveActionSheet = nil;
-    
-    self.compassView = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -510,16 +499,16 @@ typedef enum {
                     [self stopStartingPositionFixingMode];
                     self.status = WaitingForHeading;
                     
-                    if ([Settings sharedInstance].beaconMode) {
+                    //if ([Settings sharedInstance].beaconMode) {
                         
                         //skip the waiting-for-heading screen
                         [self didReceiveEvent:CorrectHeadingAcquired];
                         [self didReceiveEvent:UserLockedScreen];
                         
-                    } else {
+                   // } else {
                         
-                        [self startWaitingForHeading];
-                    }
+                      //  [self startWaitingForHeading];
+                    //}
                 }
                 break;
                 
@@ -528,7 +517,7 @@ typedef enum {
                 switch (self.status) {
 
                     case WaitingForHeading:
-                        [self stopWaitingForHeading];
+                        //[self stopWaitingForHeading];
                         break;
                     case HeadingCorrectionMode:
                         [self stopHeadingCorrectionMode];
@@ -548,7 +537,7 @@ typedef enum {
                 
                 if (self.status == WaitingForHeading) {
                     
-                    [self stopWaitingForHeading];
+                    //[self stopWaitingForHeading];
                     [self startPDR];
                     [self startPocketDetectorDelayed:NO];
                     self.status = TrackingPaused;
@@ -701,29 +690,6 @@ typedef enum {
     [[CompassAndGPS sharedInstance] stopGPS];
     
     [self.mapView stopStartingPositionFixingMode];
-}
-
--(void)startWaitingForHeading {
-    
-    if (!self.compassView) {
-        
-        self.compassView = [[[CompassViewController alloc] initWithNibName:nil
-                                                                    bundle:nil] autorelease];
-        self.compassView.delegate = self;
-        self.compassView.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    }
-    
-    [self presentModalViewController:self.compassView
-                            animated:YES];
-    
-    [[CompassAndGPS sharedInstance] startCompass];
-}
-
--(void)stopWaitingForHeading {
-    
-    [self dismissModalViewControllerAnimated:YES];
-    
-    [[CompassAndGPS sharedInstance] stopCompass];
 }
 
 -(BOOL)startHeadingCorrectionMode {
@@ -1066,10 +1032,7 @@ typedef enum {
         
 #warning dirty workaround
         //hard-code the offset for Passau to circumvent situations where the true heading is not available (== -1) and waiting would take forever
-        double trueHeadingForPassau = magneticHeading + 2.871399;
-        [self.compassView didReceiveCompassValueWithTrueHeading:(trueHeadingForPassau < 360) ? trueHeadingForPassau : trueHeadingForPassau - 360
-                                                headingAccuracy:headingAccuracy
-                                                      timestamp:timestamp];
+        //double trueHeadingForPassau = magneticHeading + 2.871399;
     }
 }
 

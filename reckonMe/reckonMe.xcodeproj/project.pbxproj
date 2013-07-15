@@ -78,8 +78,6 @@
 		B56F909B15878C0700456F62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909515878C0700456F62 /* PDFView.m */; };
 		B56F909C15878C0700456F62 /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909715878C0700456F62 /* UIImage+PDF.m */; };
 		B56F909D15878C0700456F62 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909915878C0700456F62 /* UIView+Image.m */; };
-		B56F90A115878C5C00456F62 /* CompassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909F15878C5C00456F62 /* CompassViewController.m */; };
-		B56F90A215878C5C00456F62 /* CompassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B56F90A015878C5C00456F62 /* CompassViewController.xib */; };
 		B57000211471C1EA0037A2F3 /* x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B570001F1471C1EA0037A2F3 /* x@2x.png */; };
 		B57000221471C1EA0037A2F3 /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = B57000201471C1EA0037A2F3 /* x.png */; };
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
@@ -242,9 +240,6 @@
 		B56F909715878C0700456F62 /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PDF.m"; sourceTree = "<group>"; };
 		B56F909815878C0700456F62 /* UIView+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Image.h"; sourceTree = "<group>"; };
 		B56F909915878C0700456F62 /* UIView+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Image.m"; sourceTree = "<group>"; };
-		B56F909E15878C5C00456F62 /* CompassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompassViewController.h; sourceTree = "<group>"; };
-		B56F909F15878C5C00456F62 /* CompassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompassViewController.m; sourceTree = "<group>"; };
-		B56F90A015878C5C00456F62 /* CompassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompassViewController.xib; sourceTree = "<group>"; };
 		B570001F1471C1EA0037A2F3 /* x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x@2x.png"; sourceTree = "<group>"; };
 		B57000201471C1EA0037A2F3 /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x.png; sourceTree = "<group>"; };
 		B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "itz-floorplanRotated.pdf"; sourceTree = "<group>"; };
@@ -405,9 +400,6 @@
 				B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */,
 				B595D2F41407C01C00EB1A91 /* FirstViewController.h */,
 				B595D2F51407C01C00EB1A91 /* FirstViewController.mm */,
-				B56F909E15878C5C00456F62 /* CompassViewController.h */,
-				B56F909F15878C5C00456F62 /* CompassViewController.m */,
-				B56F90A015878C5C00456F62 /* CompassViewController.xib */,
 				B595D2F71407C01C00EB1A91 /* SecondViewController.h */,
 				B595D2F81407C01C00EB1A91 /* SecondViewController.mm */,
 				B595D2FD1407C01C00EB1A91 /* SecondView.xib */,
@@ -771,7 +763,6 @@
 				B5DD31BA14FD2DF0006D1F35 /* cymbalsShort.aiff in Resources */,
 				B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */,
 				B56F909015877CD900456F62 /* compass.pdf in Resources */,
-				B56F90A215878C5C00456F62 /* CompassViewController.xib in Resources */,
 				8E5C0B22159A031700E1D21C /* gps-arrow.png in Resources */,
 				8E5C0B23159A031700E1D21C /* gps-arrow@2x.png in Resources */,
 				B5FA8D11159B551600D1358C /* itz-gray.png in Resources */,
@@ -874,7 +865,6 @@
 				B56F909B15878C0700456F62 /* PDFView.m in Sources */,
 				B56F909C15878C0700456F62 /* UIImage+PDF.m in Sources */,
 				B56F909D15878C0700456F62 /* UIView+Image.m in Sources */,
-				B56F90A115878C5C00456F62 /* CompassViewController.m in Sources */,
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
 				8B67BD90176B2FE500C193E5 /* AsyncUdpSocket.m in Sources */,
