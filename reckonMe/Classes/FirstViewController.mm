@@ -1,29 +1,29 @@
 /**
-*	The BSD 2-Clause License (aka "FreeBSD License")
-*
-*	Copyright (c) 2012, Benjamin Thiel, Kamil Kloch
-*	All rights reserved.
-*
-*	Redistribution and use in source and binary forms, with or without
-*	modification, are permitted provided that the following conditions are met: 
-*
-*	1. Redistributions of source code must retain the above copyright notice, this
-*	   list of conditions and the following disclaimer. 
-*	2. Redistributions in binary form must reproduce the above copyright notice,
-*	   this list of conditions and the following disclaimer in the documentation
-*	   and/or other materials provided with the distribution. 
-*
-*	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-*	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-*	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-*	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-*	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-*	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-*	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-*	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-*	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-*	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-**/
+ *	The BSD 2-Clause License (aka "FreeBSD License")
+ *
+ *	Copyright (c) 2012, Benjamin Thiel, Kamil Kloch
+ *	All rights reserved.
+ *
+ *	Redistribution and use in source and binary forms, with or without
+ *	modification, are permitted provided that the following conditions are met:
+ *
+ *	1. Redistributions of source code must retain the above copyright notice, this
+ *	   list of conditions and the following disclaimer.
+ *	2. Redistributions in binary form must reproduce the above copyright notice,
+ *	   this list of conditions and the following disclaimer in the documentation
+ *	   and/or other materials provided with the distribution.
+ *
+ *	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *	ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *	DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ *	ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ **/
 
 #import "FirstViewController.h"
 #import "LocationEntry.h"
@@ -33,8 +33,6 @@
 #import "AlertSoundPlayer.h"
 #import "MapMarker.h"
 #import "OutdoorMapView.h"
-#import "SettingsViewController.h"
-#import "Settings.h"
 
 NSString* const PDRStatusChangedNotification = @"PDRStatusChangedNotification";
 #define kInitialPathCapacity 2000
@@ -86,7 +84,6 @@ typedef enum {
 @property(nonatomic, retain) UIBarButtonItem *followPositionButton;
 @property(nonatomic, retain) UIBarButtonItem *correctHeadingButton;
 @property(nonatomic, retain) UIBarButtonItem *pdrButton;
-@property(nonatomic, retain) UIBarButtonItem *settingsButton;
 
 @property(nonatomic, retain) NSArray *toolbarItemsWhenPDRon;
 @property(nonatomic, retain) NSArray *toolbarItemsWhenPDRoff;
@@ -104,7 +101,6 @@ typedef enum {
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender;
 -(void)pdrButtonPressed:(UIBarButtonItem *)sender;
 -(void)lockScreenButtonPressed:(UIBarButtonItem *)sender;
--(void)settingsButtonPressed:(UIBarButtonItem *)settings;
 -(void)preferencesChanged:(NSNotification *)notification;
 -(void)updateStartButton;
 
@@ -138,12 +134,11 @@ typedef enum {
 
 @synthesize status;
 
-@synthesize mapView;  
+@synthesize mapView;
 @synthesize toolbar;
 @synthesize followPositionButton;
 @synthesize correctHeadingButton;
 @synthesize pdrButton;
-@synthesize settingsButton;
 @synthesize toolbarSpacer;
 @synthesize toolbarItemsWhenPDRon, toolbarItemsWhenPDRoff;
 @synthesize correctHeadingActionSheet, stopPDRactionSheet, moveToGPSactionSheet, moveToGPSdestructiveActionSheet;
@@ -224,7 +219,7 @@ typedef enum {
 }
 
 -(void)dealloc {
-
+    
     [self didReceiveEvent:StopButtonPressed];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -245,7 +240,7 @@ typedef enum {
 
 //MARK: - view lifecycle
 -(void)loadView {
-       
+    
     CGRect fullscreen = [[UIScreen mainScreen] applicationFrame];
     CGFloat toolbarHeight = 44;
     
@@ -257,19 +252,19 @@ typedef enum {
                                      self.view.bounds.origin.y,
                                      self.view.bounds.size.width,
                                      self.view.bounds.size.height - toolbarHeight);
-
+    
     //"itz-floorplan.pdf" scale:8.09
     //itz-floorplan.png scale:36.63
-
+    
     //KL_Hauptgebaeude_EG-rotated scale:615 pixel / 28(?)m = 21.96
     /*NSString *mapPath = [[NSBundle mainBundle] pathForResource:@"itz-floorplan1bit.tiff"
-                                                       ofType:nil];
-    
-    self.mapView = [[[MapScrollView alloc] initWithFrame:mapViewFrame
-                                             mapFilePath:mapPath
-                                                mapScale:36.63//pixels per meter (measured with inkscape)
-                     ] autorelease];
-    */
+     ofType:nil];
+     
+     self.mapView = [[[MapScrollView alloc] initWithFrame:mapViewFrame
+     mapFilePath:mapPath
+     mapScale:36.63//pixels per meter (measured with inkscape)
+     ] autorelease];
+     */
     
     self.mapView = [[[OutdoorMapView alloc] initWithFrame:mapViewFrame] autorelease];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -283,33 +278,29 @@ typedef enum {
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     self.followPositionButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gps-arrow.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(followPositionButtonPressed:)] autorelease];
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(followPositionButtonPressed:)] autorelease];
     self.followPositionButton.style = mapFollowsPosition ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
     
     self.toolbarSpacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                            target:nil 
-                                                                            action:nil] autorelease];
+                                                                        target:nil
+                                                                        action:nil] autorelease];
     
     self.correctHeadingButton = [[[UIBarButtonItem alloc] initWithTitle:@"Correct Heading"
-                                                                        style:UIBarButtonItemStyleBordered
-                                                                       target:self 
-                                                                       action:@selector(correctHeadingButtonPressed:)] autorelease];
-    self.correctHeadingButton.style = UIBarButtonItemStyleBordered;
-    //we end position correction mode when the view unloads, hence we don't need to set the buttons status here
-
-    
-    self.pdrButton = [[[UIBarButtonItem alloc] initWithTitle:kStartPDRButtonTitle
                                                                   style:UIBarButtonItemStyleBordered
                                                                  target:self
-                                                                 action:@selector(pdrButtonPressed:)] autorelease];
+                                                                 action:@selector(correctHeadingButtonPressed:)] autorelease];
+    self.correctHeadingButton.style = UIBarButtonItemStyleBordered;
+    //we end position correction mode when the view unloads, hence we don't need to set the buttons status here
+    
+    
+    self.pdrButton = [[[UIBarButtonItem alloc] initWithTitle:kStartPDRButtonTitle
+                                                       style:UIBarButtonItemStyleBordered
+                                                      target:self
+                                                      action:@selector(pdrButtonPressed:)] autorelease];
     self.pdrButton.title = pdrOn ? kStopPDRButtonTitle : kStartPDRButtonTitle;
     self.pdrButton.style = pdrOn ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
-    
-    self.settingsButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl
-                                                                         target:self
-                                                                         action:@selector(settingsButtonPressed:)] autorelease];
     
     self.toolbarItemsWhenPDRon = [NSArray arrayWithObjects:
                                   self.followPositionButton,
@@ -324,17 +315,16 @@ typedef enum {
                                    self.toolbarSpacer,
                                    self.pdrButton,
                                    self.toolbarSpacer,
-                                   self.settingsButton,
                                    nil];
     
     self.toolbar.items = pdrOn ? self.toolbarItemsWhenPDRon : self.toolbarItemsWhenPDRoff;
     
     //create the UIActionSheets
     self.correctHeadingActionSheet =  [[[UIActionSheet alloc] initWithTitle:nil
-                                                                    delegate:self
-                                                           cancelButtonTitle:@"Cancel"
-                                                      destructiveButtonTitle:@"Correct Heading"
-                                                           otherButtonTitles:nil] autorelease];
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Cancel"
+                                                     destructiveButtonTitle:@"Correct Heading"
+                                                          otherButtonTitles:nil] autorelease];
     
     self.stopPDRactionSheet =  [[[UIActionSheet alloc] initWithTitle:nil
                                                             delegate:self
@@ -350,10 +340,10 @@ typedef enum {
                                                     otherButtonTitles:moveToGPStitle, nil] autorelease];
     
     self.moveToGPSdestructiveActionSheet = [[[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:moveToGPStitle
-                                                    otherButtonTitles:nil] autorelease];
+                                                                        delegate:self
+                                                               cancelButtonTitle:@"Cancel"
+                                                          destructiveButtonTitle:moveToGPStitle
+                                                               otherButtonTitles:nil] autorelease];
     
     //assemble the view
     [self.view addSubview:self.mapView];
@@ -388,21 +378,15 @@ typedef enum {
 }
 
 - (void)updateStartButton {
-   
+    
     if (pdrOn) {
         
         self.pdrButton.title = kStopPDRButtonTitle;
         
     } else {
         
-        if ([Settings sharedInstance].beaconMode) {
-            
-            self.pdrButton.title = kStartBeaconButtonTitle;
-            
-        } else {
-            
-            self.pdrButton.title = kStartPDRButtonTitle;
-        }
+        self.pdrButton.title = kStartPDRButtonTitle;
+        
     }
 }
 
@@ -416,7 +400,7 @@ typedef enum {
     [super viewWillAppear:animated];
     
     //make the status bar appear normal again when returning from a modalViewController
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault 
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault
                                                 animated:animated];
     
     [self updateStartButton];
@@ -458,7 +442,6 @@ typedef enum {
     self.followPositionButton = nil;
     self.correctHeadingButton = nil;
     self.pdrButton = nil;
-    self.settingsButton = nil;
     
     self.toolbarItemsWhenPDRoff = nil;
     self.toolbarItemsWhenPDRon = nil;
@@ -499,23 +482,17 @@ typedef enum {
                     [self stopStartingPositionFixingMode];
                     self.status = WaitingForHeading;
                     
-                    //if ([Settings sharedInstance].beaconMode) {
-                        
-                        //skip the waiting-for-heading screen
-                        [self didReceiveEvent:CorrectHeadingAcquired];
-                        [self didReceiveEvent:UserLockedScreen];
-                        
-                   // } else {
-                        
-                      //  [self startWaitingForHeading];
-                    //}
+                    
+                    //skip the waiting-for-heading screen
+                    [self didReceiveEvent:CorrectHeadingAcquired];
+                    [self didReceiveEvent:UserLockedScreen];
                 }
                 break;
                 
             case StopButtonPressed:
                 
                 switch (self.status) {
-
+                        
                     case WaitingForHeading:
                         //[self stopWaitingForHeading];
                         break;
@@ -570,7 +547,7 @@ typedef enum {
             case StartHeadingCorrectionMode:
                 
                 if (self.status == TrackingPaused) {
-                        
+                    
                     if ([self startHeadingCorrectionMode]){
                         
                         [self stopPocketDetector];
@@ -588,7 +565,7 @@ typedef enum {
                     self.status = TrackingPaused;
                 }
                 break;
-
+                
             default:
                 break;
         }
@@ -605,7 +582,7 @@ typedef enum {
         
         [[Gyroscope sharedInstance] addListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance playSound:startingSound 
+        [AlertSoundPlayer.sharedInstance playSound:startingSound
                                          vibrating:YES];
         [[SecondViewController sharedInstance] addToLog:@"Starting sensors."];
         
@@ -679,7 +656,7 @@ typedef enum {
 }
 
 -(void)startStartingPositionFixingMode {
-
+    
     [[CompassAndGPS sharedInstance] startGPS];
     
     [self.mapView startStartingPositionFixingMode];
@@ -710,7 +687,7 @@ typedef enum {
         self.correctHeadingButton.style = UIBarButtonItemStyleDone;//make button blue
         
         return YES;
-    
+        
     } else {
         
         return NO;
@@ -741,7 +718,7 @@ typedef enum {
     if (mapFollowsPosition) {
         
         [self stopFollowPositionMode];
-    
+        
     } else {
         
         [self startFollowPositionMode];
@@ -755,8 +732,8 @@ typedef enum {
         [self didReceiveEvent:StartHeadingCorrectionMode];
         
     } else {//stop
-
-        [self.correctHeadingActionSheet showFromToolbar:self.toolbar];        
+        
+        [self.correctHeadingActionSheet showFromToolbar:self.toolbar];
         //removing the marker and notifying PDR of the new position takes place in actionSheet:clickedButtonAtIndex:
     }
 }
@@ -766,24 +743,12 @@ typedef enum {
     if (!pdrOn) {
         
         [self didReceiveEvent:StartButtonPressed];
-    
+        
     } else {
         
-        //ask for confirmation, actually stopping takes place in actionSheet:clickedButtonAtIndex: 
-        [self.stopPDRactionSheet showFromToolbar:self.toolbar];  
+        //ask for confirmation, actually stopping takes place in actionSheet:clickedButtonAtIndex:
+        [self.stopPDRactionSheet showFromToolbar:self.toolbar];
     }
-}
-
--(void)settingsButtonPressed:(UIBarButtonItem *)settings {
-    
-    SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithNibName:nil
-                                                                                  bundle:nil];
-    
-    settingsVC.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-    
-    [self presentModalViewController:settingsVC
-                            animated:YES];
-    [settingsVC release];
 }
 
 //MARK: - MapViewDelegate
@@ -800,7 +765,7 @@ typedef enum {
     if (pdrOn) {
         
         [self.moveToGPSdestructiveActionSheet showFromToolbar:self.toolbar];
-    
+        
     } else {
         
         [self.moveToGPSactionSheet showFromToolbar:self.toolbar];
@@ -829,15 +794,8 @@ typedef enum {
         [self.mapView moveMapCenterTo:correctTo];
         
     } else {
-        
-        if ([Settings sharedInstance].beaconMode) {
-            
-            [P2PestimateExchange sharedInstance].beaconPosition = correctTo;
-        
-        } else {
             
             [pdr didReceiveManualPostionCorrection:correctTo];
-        }
     }
 }
 
@@ -903,9 +861,9 @@ typedef enum {
 
 //MARK: - lock screen delegate
 -(void)userUnlockedScreen {
-
+    
     [self dismissModalViewControllerAnimated:YES];
-
+    
     [self didReceiveEvent:UserUnlockedScreen];
 }
 
@@ -954,25 +912,11 @@ typedef enum {
             self.correctedPosition = self.lastPosition;
             
         } else {
-            
-            BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
-            BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
-            
-            if (beaconMode) {
-                
-                [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
-                
-            } else {
-                
                 //start the sensors
                 [[Gyroscope sharedInstance] start];
                 [[CompassAndGPS sharedInstance] start];
-                
-                if (walkerMode) {
-                    
-                    [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:[Settings sharedInstance].audioChannel];
-                }
-            }
+                [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:0];
+ 
         }
         
         //determine the starting point and start PDR
@@ -1018,7 +962,7 @@ typedef enum {
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
                                                                      object:self];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification 
+        [[NSNotificationQueue defaultQueue] enqueueNotification:notification
                                                    postingStyle:NSPostWhenIdle];
         
         //allow auto-lock again
@@ -1074,8 +1018,8 @@ typedef enum {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         /*NSString *logString = [NSString stringWithFormat:@"x=%.0fm y=%.0fm d=%.0f",
-                               position.eastingDelta, position.northingDelta, position.deviation];
-        [[SecondViewController sharedInstance] addToLog:logString];*/
+         position.eastingDelta, position.northingDelta, position.deviation];
+         [[SecondViewController sharedInstance] addToLog:logString];*/
         
         self.lastPosition = position;
         
@@ -1099,9 +1043,9 @@ typedef enum {
     [path setArray:newPath];
     [self.mapView replacePathBy:newPath];
     [self.mapView moveCurrentPositionMarkerTo:[newPath lastObject]];
-        
+    
     self.correctHeadingButton.enabled = [newPath count] >= 2;
-
+    
 }
 
 @end

@@ -28,7 +28,6 @@
 #import <MapKit/MapKit.h>
 #import "PDRController.h"
 #import "GeodeticProjection.h"
-#import "Settings.h"
 #include <math.h>
 #include <vector>
 #include <string>
@@ -220,8 +219,8 @@ static PDRController *sharedSingleton;
 
     [self resetPDR];
     
-    distanceBetweenConsecutiveMeetings = [Settings sharedInstance].distanceBetweenConsecutiveMeetings;
-    stepLength = [Settings sharedInstance].stepLength;
+    distanceBetweenConsecutiveMeetings = 70;
+    stepLength = 0.85;
     
     originEasting = location.easting;
     originNorthing = location.northing;

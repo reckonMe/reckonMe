@@ -26,7 +26,6 @@
 **/
 
 #import "SecondViewController.h"
-#import "Settings.h"
 
 @implementation SecondViewController
 
@@ -98,7 +97,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque
                                                 animated:animated];
     
-    self.logView.scrollEnabled = [Settings sharedInstance].beaconMode;
+    self.logView.scrollEnabled = FALSE;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

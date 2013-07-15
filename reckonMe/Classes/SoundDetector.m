@@ -29,7 +29,6 @@
 #import <Accelerate/Accelerate.h>
 #import "SecondViewController.h"
 #import "AlertSoundPlayer.h"
-#import "Settings.h"
 
 const float kSoundDetectorSamplingRate = 44100.0;
 // the size of each audio buffer, which must be a power of 2 due to FFT
