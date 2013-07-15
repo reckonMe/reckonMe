@@ -194,7 +194,7 @@ static CouchDBController *sharedSingleton;
 }
 
 - (void)sync{
-    if(notyet){
+    if(notyet && [[dataSource rows]count] > 0){
         CBLQueryRow *row = [dataSource rowAtIndex:0];
         CBLDocument *doc = [row document];
 
