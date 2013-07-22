@@ -41,9 +41,6 @@
 #import <ios-ntp/ios-ntp.h>
 #import "CouchDBController.h"
 
-#define RAD_TO_DEG	57.29577951308232
-#define DEG_TO_RAD	.0174532925199432958
-
 using namespace std;
 
 //  size [s] of the data in the front to discard in on-line filtering
@@ -178,11 +175,13 @@ static PDRController *sharedSingleton;
         initialized = YES;
         sharedSingleton = [[PDRController alloc] init];
         
-//        NSLog(@"%f %f", [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857) withX:0.000002 withY:0.000001].latitude, [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857) withX:0.000002 withY:0.000001].longitude);
+//        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.423007, 7.761918) from:CLLocationCoordinate2DMake(49.429007, 7.750918)];
+//
+//        NSLog(@"%lf %lf %lf", result.x*6371000, result.y*6371000, sqrt(result.x*result.x + result.y*result.y)*6371000);
 //        
-//        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.429107471116805, 7.750998865203857) from:CLLocationCoordinate2DMake(49.429007471116805, 7.750918865203857)];
+//        CLLocationCoordinate2D location = [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.423007, 7.761918) withX:-result.x*6371000 withY:-result.y*6371000];
 //        
-//        NSLog(@"%f %f %f", result.x, result.y, sqrt(result.x*result.x + result.y*result.y)*6371);
+//        NSLog(@"%lf %lf", location.latitude, location.longitude);
     }
 }
 
@@ -994,11 +993,17 @@ static PDRController *sharedSingleton;
 }
 
 - (CLLocationCoordinate2D)getGPSLocationFrom:(CLLocationCoordinate2D)origin withX:(double)x withY:(double)y{
-    return CLLocationCoordinate2DMake((y + origin.latitude * DEG_TO_RAD) * RAD_TO_DEG, (origin.longitude * DEG_TO_RAD + x/cos((origin.latitude + (y + origin.latitude * DEG_TO_RAD) * RAD_TO_DEG)/2)) * RAD_TO_DEG);
+    double brng = atan2(x, y) * RAD_TO_DEG;
+    double d = sqrt(x * x + y * y);
+    
+    double lat2 = asin(sin(origin.latitude * DEG_TO_RAD) * cos(d/6371000) + cos(origin.latitude * DEG_TO_RAD) * sin(d/6371000) * cos(brng * DEG_TO_RAD)) * RAD_TO_DEG;
+    
+    return CLLocationCoordinate2DMake(lat2, origin.longitude
+                                      + atan2(sin(brng * DEG_TO_RAD) * sin(d/6371000) * cos(origin.latitude * DEG_TO_RAD), cos(d/6371000) - sin(origin.latitude * DEG_TO_RAD) * sin(lat2 * DEG_TO_RAD)) * RAD_TO_DEG);
 }
 
 - (Position) get2DDistanceOf: (CLLocationCoordinate2D)gps2 from:(CLLocationCoordinate2D)gps1{
-    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude)/2), gps2.latitude * DEG_TO_RAD - gps1.latitude * DEG_TO_RAD);
+    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude) * DEG_TO_RAD/2), gps2.latitude * DEG_TO_RAD - gps1.latitude * DEG_TO_RAD);
 }
     
 #pragma mark -
