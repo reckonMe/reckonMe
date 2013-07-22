@@ -31,7 +31,7 @@
 @property (nonatomic, assign) PDRController *pdr;
 @property (nonatomic) BOOL notyet;
 
-- (void)pushStepWithSource:(NSString*)macAddress originX:(NSNumber*)x originY:(NSNumber*)y timestamp:(NSString*)timestamp x:(NSNumber*)positionX y:(NSNumber*)positionY;
+- (void)pushStepWithSource:(NSString*)macAddress location:(CLLocationCoordinate2D)location timestamp:(NSString*)timestamp;
 
 - (void)pushBluetoothDataDocument:(NSDictionary*)dictionary;
 

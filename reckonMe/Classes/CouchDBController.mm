@@ -155,30 +155,20 @@ static CouchDBController *sharedSingleton;
     return macAddressString;
 }
 
-- (void)pushStepWithSource:(NSString*)macAddress originX:(NSNumber*)x originY:(NSNumber*)y timestamp:(NSString*)timestamp x:(NSNumber*)positionX y:(NSNumber*)positionY{
+- (void)pushStepWithSource:(NSString*)macAddress location:(CLLocationCoordinate2D)location timestamp:(NSString*)timestamp{
     
     CBLDocument* doc = [database untitledDocument];
-    
-    NSDictionary *origin = [NSDictionary dictionaryWithObjectsAndKeys:
-                              x, @"x",
-                              y, @"y",
-                              nil];
-    
-    NSDictionary *position = [NSDictionary dictionaryWithObjectsAndKeys:
-                              timestamp, @"timestamp",
-                              positionX, @"x",
-                              positionY, @"y",
-                              nil];
         
-    NSDictionary *location = [NSDictionary dictionaryWithObjectsAndKeys:
-                              origin, @"origin",
-                              position, @"position",
+    NSDictionary *position = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithDouble:location.latitude], @"latitude",
+                              [NSNumber numberWithDouble:location.longitude], @"longitude",
                               nil];
     
     NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
                               macAddress, @"source",
                               @"elvis", @"dest",
-                              location, @"location",
+                              position, @"location",
+                              timestamp, @"timestamp",
                               nil];
     NSError *error;
 
@@ -201,13 +191,12 @@ static CouchDBController *sharedSingleton;
         NSMutableDictionary *docContent = [doc.properties mutableCopy];
         NSMutableDictionary *location = [docContent valueForKey:@"location"];
         NSMutableArray *positions = [location valueForKey:@"positions"];
-        pdr.xArray = [[NSMutableArray alloc]init];
-        pdr.yArray = [[NSMutableArray alloc]init];
+        pdr.LatArray = [[NSMutableArray alloc]init];
+        pdr.LonArray = [[NSMutableArray alloc]init];
         for(int i = 0; i < positions.count ; i++){
-            int x = [[positions[i] valueForKey:@"x"] intValue];
-            int y = [[positions[i] valueForKey:@"y"] intValue];
-            [pdr addX:x];
-            [pdr addY:y];
+            double lat = [[positions[i] valueForKey:@"latitude"] doubleValue];
+            double lon = [[positions[i] valueForKey:@"longitude"] doubleValue];
+            [pdr addLocationWithLat:lat Lon:lon];
         }
         notyet = FALSE;
     }

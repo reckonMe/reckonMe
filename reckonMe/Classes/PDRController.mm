@@ -159,8 +159,8 @@ static PDRController *sharedSingleton;
 @synthesize pdrRunning;
 @synthesize originEasting;
 @synthesize originNorthing;
-@synthesize xArray;
-@synthesize yArray;
+@synthesize LatArray;
+@synthesize LonArray;
 @synthesize couch;
 
 //Is called by the runtime in a thread-safe manner exactly once, before the first use of the class.
@@ -177,9 +177,9 @@ static PDRController *sharedSingleton;
         
 //        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.423007, 7.761918) from:CLLocationCoordinate2DMake(49.429007, 7.750918)];
 //
-//        NSLog(@"%lf %lf %lf", result.x*6371000, result.y*6371000, sqrt(result.x*result.x + result.y*result.y)*6371000);
+//        NSLog(@"%lf %lf %lf", result.x, result.y, sqrt(result.x*result.x + result.y*result.y));
 //        
-//        CLLocationCoordinate2D location = [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.423007, 7.761918) withX:-result.x*6371000 withY:-result.y*6371000];
+//        CLLocationCoordinate2D location = [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.423007, 7.761918) withX:-result.x withY:-result.y];
 //        
 //        NSLog(@"%lf %lf", location.latitude, location.longitude);
     }
@@ -885,12 +885,27 @@ static PDRController *sharedSingleton;
         
         NSString *time = [NSString stringWithFormat:@"%@:%@", [dateFormatter stringFromDate: date], milliseconds];
         
-        [couch pushStepWithSource:[self getMacAddress] originX:[NSNumber numberWithDouble:originEasting] originY:[NSNumber numberWithDouble:originNorthing] timestamp:time x:[NSNumber numberWithDouble:collaborativeTrace.back().x + rotatedX] y:[NSNumber numberWithDouble:collaborativeTrace.back().y + rotatedY]];
+        ProjectedPoint originProjected;
+        originProjected.easting = self.originEasting;
+        originProjected.northing = self.originNorthing;
+        CLLocationCoordinate2D origin = [GeodeticProjection cartesianToCoordinates:originProjected];
+        
+        
+        AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
+        ProjectedPoint newLocation;
+        newLocation.easting = collaborativeEntry.easting;
+        newLocation.northing = collaborativeEntry.northing;
+        CLLocationCoordinate2D newL = [GeodeticProjection cartesianToCoordinates:newLocation];
+        
+//        [couch pushStepWithSource:[self getMacAddress] originX:[NSNumber numberWithDouble:originEasting] originY:[NSNumber numberWithDouble:originNorthing] timestamp:time x:[NSNumber numberWithDouble:collaborativeTrace.back().x + rotatedX] y:[NSNumber numberWithDouble:collaborativeTrace.back().y + rotatedY]];
+        
+        [couch pushStepWithSource:[self getMacAddress] location:newL timestamp:time];
         
         // notify logger & view
         
-        for(int i = 0; i < xArray.count; i++){
-            TraceEntry test(timestamp, [(NSNumber*)xArray[i] intValue], [(NSNumber*)yArray[i] intValue], 1);
+        for(int i = 0; i < LatArray.count; i++){
+            Position pos = [self get2DDistanceOf: CLLocationCoordinate2DMake([(NSNumber*)LatArray[i] doubleValue], [(NSNumber*)LonArray[i] doubleValue]) from:origin];
+            TraceEntry test(timestamp, pos.x, pos.y, 1);
             //AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
             //AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
             AbsoluteLocationEntry *testEntry = [self absoluteLocationEntryFrom:test];
@@ -917,12 +932,10 @@ static PDRController *sharedSingleton;
     return rotatedPath;    
 }
 
-- (void) addX:(int)value {
-    [xArray addObject:[NSNumber numberWithInt:value]];
-}
+- (void) addLocationWithLat:(double)lat Lon:(double)lon{
+    [LatArray addObject:[NSNumber numberWithDouble:lat]];
+    [LonArray addObject:[NSNumber numberWithDouble:lon]];
 
-- (void) addY:(int)value {
-    [yArray addObject:[NSNumber numberWithInt:value]];
 }
 
 - (NSString *)getMacAddress
@@ -1003,7 +1016,7 @@ static PDRController *sharedSingleton;
 }
 
 - (Position) get2DDistanceOf: (CLLocationCoordinate2D)gps2 from:(CLLocationCoordinate2D)gps1{
-    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude) * DEG_TO_RAD/2), gps2.latitude * DEG_TO_RAD - gps1.latitude * DEG_TO_RAD);
+    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude) * DEG_TO_RAD/2) * 6371000, (gps2.latitude - gps1.latitude) * DEG_TO_RAD * 6371000);
 }
     
 #pragma mark -

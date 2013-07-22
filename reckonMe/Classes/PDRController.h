@@ -46,11 +46,10 @@
 @property(readonly) double originNorthing;
 
 @property(readonly) bool pdrRunning;
-@property(strong, retain) NSMutableArray *xArray;
-@property(strong, retain) NSMutableArray *yArray;
+@property(strong, retain) NSMutableArray *LatArray;
+@property(strong, retain) NSMutableArray *LonArray;
 
-- (void) addX:(int)value;
-- (void) addY:(int)value;
+- (void) addLocationWithLat:(double)lat Lon:(double)lon;
 
 @end
 
