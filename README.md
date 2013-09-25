@@ -53,6 +53,6 @@ Change Log
 - added support for pods
 - migrated to proj4 pod
 
-![alt tag](https://github.com/jdp-global/reckonMe/blob/ble/images/photo.PNG)
+![alt tag](https://raw.github.com/jdp-global/reckonMe/ble/images/photo.PNG)
 
 
