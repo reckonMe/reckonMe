@@ -81,7 +81,7 @@
             
             [self actuallyStart];
             shouldRestartIfListenersAvailable = NO;
-            NSLog(@"(Re)started %@ because %@ has been added.", NSStringFromClass([self class]), NSStringFromClass([(NSObject *)listener class]));
+            NBULogInfo(@"(Re)started %@ because %@ has been added.", NSStringFromClass([self class]), NSStringFromClass([(NSObject *)listener class]));
         }
     
     } else {
@@ -116,7 +116,7 @@
             
             shouldRestartIfListenersAvailable = YES;
             [self actuallyStop];
-            NSLog(@"Stopped %@ because nobody is listening.", NSStringFromClass([self class]));
+            NBULogError(@"Stopped %@ because nobody is listening.", NSStringFromClass([self class]));
         }   
     
     } else {

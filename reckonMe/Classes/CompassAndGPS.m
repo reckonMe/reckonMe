@@ -126,12 +126,12 @@ static CompassAndGPS *sharedSingleton;
             if (shouldRestartGPSIfListenersAvailable) {
                 
                 [self startGPS];
-                NSLog(@"(Re)started GPS because a listener has been added.");
+                NBULogInfo(@"(Re)started GPS because a listener has been added.");
             }
             if (shouldRestartCompassIfListenersAvailable) {
                 
                 [self startCompass];
-                NSLog(@"(Re)started Compass because a listener has been added.");
+                NBULogInfo(@"(Re)started Compass because a listener has been added.");
             }
             
             shouldRestartCompassIfListenersAvailable = NO;
@@ -332,18 +332,18 @@ static CompassAndGPS *sharedSingleton;
                 
 			case kCLErrorDenied:
 				// user denied location-access
-				NSLog(@"GPS-Error: The user doesn't want to be located!");
+				NBULogError(@"GPS-Error: The user doesn't want to be located!");
 				break;
 				
 			case kCLErrorLocationUnknown:
 				// location can't be retrieved
-				NSLog(@"GPS-Error: The location can't be retrieved!");
+				NBULogError(@"GPS-Error: The location can't be retrieved!");
 				break;
 				
                 
 			default:
 				// default error behaviour
-				NSLog(@"GPS-Error: default error");
+				NBULogError(@"GPS-Error: default error");
 				break;
 		}
 	} else {
@@ -356,7 +356,7 @@ static CompassAndGPS *sharedSingleton;
 
 - (BOOL)locationManagerShouldDisplayHeadingCalibration:(CLLocationManager *)manager {
     
-    NSLog(@"Compass calibration required!");
+    NBULogError(@"Compass calibration required!");
     
     // Since we want to display the calibration window whenever necessary, we return YES
 	return YES;

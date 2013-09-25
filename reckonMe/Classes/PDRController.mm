@@ -178,7 +178,7 @@ static PDRController *sharedSingleton;
         
 //        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.423007, 7.761918) from:CLLocationCoordinate2DMake(49.429007, 7.750918)];
 //
-//        NSLog(@"%lf %lf %lf", result.x, result.y, sqrt(result.x*result.x + result.y*result.y));
+        NSLog(@"%lf %lf %lf", result.x, result.y, sqrt(result.x*result.x + result.y*result.y));
 //        
 //        CLLocationCoordinate2D location = [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.423007, 7.761918) withX:-result.x withY:-result.y];
 //        

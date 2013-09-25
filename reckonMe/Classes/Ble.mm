@@ -148,7 +148,7 @@
     [self.centralManager scanForPeripheralsWithServices:nil
                                                 options:@{ CBCentralManagerScanOptionAllowDuplicatesKey : @YES }];
     
-    NSLog(@"Scanning started");
+    NBULogInfo(@"Scanning started");
 }
 
 
@@ -174,7 +174,7 @@
         }
     }
     
-    NSLog(@"%@:%@ %@ %@", [dateFormatter stringFromDate: date], milliseconds, name , RSSI);
+    NBULogInfo(@"%@:%@ %@ %@", [dateFormatter stringFromDate: date], milliseconds, name , RSSI);
     
     NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
                               name, @"dest-mac",
@@ -240,7 +240,7 @@
     
     // Start advertising
     [self.peripheralManager startAdvertising:@{CBAdvertisementDataLocalNameKey : [self getMacAddress]}];
-    NSLog(@"Advertising started");
+    NBULogInfo(@"Advertising started");
 }
 
 @end

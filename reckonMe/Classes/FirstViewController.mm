@@ -585,7 +585,7 @@ typedef enum {
         [AlertSoundPlayer.sharedInstance playSound:startingSound
                                          vibrating:YES];
         [[SecondViewController sharedInstance] addToLog:@"Starting sensors."];
-        
+        NBULogInfo(@"Starting sensors.");
     });
 }
 
@@ -604,6 +604,7 @@ typedef enum {
                                          vibrating:YES];
         
         [[SecondViewController sharedInstance] addToLog:@"Pausing sensors."];
+        NBULogInfo(@"Pausing sensors.");
     });
 }
 
@@ -924,9 +925,11 @@ typedef enum {
         [self.mapView setStartingPosition:self.lastPosition];
         
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm",
-                                                         lastPosition.easting,
-                                                         lastPosition.northing]];
+        NSString *str = [NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm",
+                         lastPosition.easting,
+                         lastPosition.northing];
+         NBULogInfo(@"%@",str);
+        [[SecondViewController sharedInstance] addToLog:str];
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
                                                                      object:self];
