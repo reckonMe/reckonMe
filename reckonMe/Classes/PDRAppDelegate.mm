@@ -38,7 +38,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [NBULog addDashboardLogger];
-    [NetworkClock sharedNetworkClock];
+    [NetworkClock sharedNetworkClockWithServer:@"iphone"];
     ble = [[Ble alloc] init];
     
     // Override point for customization after application launch.

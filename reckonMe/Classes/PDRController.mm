@@ -714,6 +714,7 @@ static PDRController *sharedSingleton;
     if (gravityPeakIndices.size() < 2) {
 
         // not enough steps have been detected, prune all data except for the overlap window
+        NBULogVerbose(@"not enough steps have been detected");
         [self pruneDataOlderThan:(timestamps[rightIndex] - 2 * kBackBufferSize)];
         return; 
     }    
@@ -866,6 +867,7 @@ static PDRController *sharedSingleton;
         double rotatedX = cos(pathRotationAmount) * dx - sin(pathRotationAmount) * dy;
         double rotatedY = sin(pathRotationAmount) * dx + cos(pathRotationAmount) * dy;
         
+        NBULogVerbose(@"collaborativeStep timestamp:%f",timestamp);
         TraceEntry collaborativeStep(timestamp, collaborativeTrace.back().x + rotatedX, 
                                      collaborativeTrace.back().y + rotatedY,
                                      collaborativeTrace.back().deviation + deltaDeviation);

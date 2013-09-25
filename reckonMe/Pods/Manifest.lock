@@ -1,5 +1,7 @@
 PODS:
+  - CocoaAsyncSocket (7.3.1)
   - CocoaLumberjack (1.6)
+  - ios-ntp (1.0.0)
   - Lockbox (1.4.3)
   - NBUCore (1.9.5):
     - CocoaLumberjack (<= 1.6)
@@ -23,11 +25,15 @@ PODS:
   - proj4 (4.8.0)
 
 DEPENDENCIES:
+  - CocoaAsyncSocket
+  - ios-ntp
   - NBUCore
   - proj4
 
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: 6e59036ecae1e93d6c78f5766149983ceac558ba
   CocoaLumberjack: 0f2fa7090a23f13261072d882e017c688300efbe
+  ios-ntp: 0027d4b8211089453945fe8c1f91e32c29fa5dd2
   Lockbox: 1bcfd564f034b83456fcad5bdd49470a80a38d2b
   NBUCore: 1d276541ae098e5b83c06a645a07bfbf0cb0414e
   proj4: ed2f1de3bd3a8ed5896f55553429e8122aee2d21

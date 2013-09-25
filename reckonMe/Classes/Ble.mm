@@ -13,6 +13,7 @@
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
+#import <ios-ntp/NSDate+NetworkClock.h>
 
 @interface Ble () <CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 
@@ -163,7 +164,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    NSDate *date = [NSDate networkDate];
+    NSDate *date = [NSDate networkDateWithServer:@"iphone"];
     
     NSString *milliseconds;
     NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];

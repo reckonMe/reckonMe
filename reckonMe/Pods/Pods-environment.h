@@ -6,6 +6,12 @@
 // project.
 
 
+// CocoaAsyncSocket
+#define COCOAPODS_POD_AVAILABLE_CocoaAsyncSocket
+#define COCOAPODS_VERSION_MAJOR_CocoaAsyncSocket 7
+#define COCOAPODS_VERSION_MINOR_CocoaAsyncSocket 3
+#define COCOAPODS_VERSION_PATCH_CocoaAsyncSocket 1
+
 // CocoaLumberjack
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
 #define COCOAPODS_VERSION_MAJOR_CocoaLumberjack 1
@@ -47,6 +53,12 @@
 #define COCOAPODS_VERSION_MAJOR_NBUCore_UI 1
 #define COCOAPODS_VERSION_MINOR_NBUCore_UI 9
 #define COCOAPODS_VERSION_PATCH_NBUCore_UI 5
+
+// ios-ntp
+#define COCOAPODS_POD_AVAILABLE_ios_ntp
+#define COCOAPODS_VERSION_MAJOR_ios_ntp 1
+#define COCOAPODS_VERSION_MINOR_ios_ntp 0
+#define COCOAPODS_VERSION_PATCH_ios_ntp 0
 
 // proj4
 #define COCOAPODS_POD_AVAILABLE_proj4
