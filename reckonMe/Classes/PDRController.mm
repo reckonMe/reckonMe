@@ -389,10 +389,13 @@ static PDRController *sharedSingleton;
                                                FromPeer:peerID];
     
     //instead of only appending afterEntry to the collaborative path, make logger start a new file with the complete path (including afterEntry)
+ 
     NSMutableArray *completePath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
     [logger didReceiveCompleteCollaborativePath:completePath];
 
     [view didReceivePosition:afterEntry];
+    NBULogVerbose(@"didReceivePosition completePath:%@",completePath);
+    NBULogVerbose(@"didReceivePosition afterEntry:%@",afterEntry);
 }
 
     

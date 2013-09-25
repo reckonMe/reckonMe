@@ -56,6 +56,7 @@
         timeFormatter.dateFormat = @"HH':'mm':'ss";
         
         self.delegate = nil;
+        //[NBULog addDashboardLogger];
     }
     return self;
 }
