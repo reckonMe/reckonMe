@@ -131,7 +131,7 @@ static CouchDBController *sharedSingleton;
     // Befor going any further...
     if (errorFlag != NULL)
     {
-        NSLog(@"Error: %@", errorFlag);
+        NBULogError(@"error: %@", errorFlag);
         return errorFlag;
     }
     

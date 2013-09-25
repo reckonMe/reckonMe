@@ -348,7 +348,7 @@ static CompassAndGPS *sharedSingleton;
 		}
 	} else {
 		// We handle all non-CoreLocation errors here
-		NSLog(@"Error: non GPS-related error occured during GPS Operation");
+		NBULogError(@"error: non GPS-related error occured during GPS Operation");
         
 	}
 	

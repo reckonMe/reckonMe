@@ -311,7 +311,7 @@ static SoundDetector *sharedSingleton;
         
         if (error) {
             
-            NSLog(@"error creating recording queue: %ld", error);
+            NBULogError(@"error creating recording queue: %ld", error);
         }
         
         //listen for starting/stopping of the queue
@@ -321,7 +321,7 @@ static SoundDetector *sharedSingleton;
                                               self);
         if (error) {
             
-            NSLog(@"error setting finish callback for recording queue: %ld", error);
+            NBULogError(@"error setting finish callback for recording queue: %ld", error);
         }
         
         //allocate and buffers
@@ -337,7 +337,7 @@ static SoundDetector *sharedSingleton;
             
             if (error) {
                 
-                NSLog(@"error allocating buffer: %ld", error);
+                NBULogError(@"error allocating buffer: %ld", error);
             }
             
             recordingBuffers[bufferIndex] = buffer;
@@ -494,7 +494,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         if (error) {
             
-            NSLog(@"error activating session: %ld", error);
+            NBULogError(@"error activating session: %ld", error);
         }
         
         error = AudioQueueStart (
@@ -504,7 +504,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         if (error) {
             
-            NSLog(@"error starting recordingQueue: %ld", error);
+            NBULogError(@"error starting recordingQueue: %ld", error);
         }
         
         [[SecondViewController sharedInstance] addToLog:@"Detecting sound..."];
@@ -571,14 +571,14 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                                true);//true = stop immediately
         if (error) {
             
-            NSLog(@"error stopping recording queue: %ld", error);
+            NBULogError(@"error stopping recording queue: %ld", error);
         }
         
         error = AudioSessionSetActive(false);
         
         if (error) {
             
-            NSLog(@"error deactivting audio session after stopping recording queue: %ld", error);
+            NBULogError(@"error deactivting audio session after stopping recording queue: %ld", error);
         }
         
         [[SecondViewController sharedInstance] addToLog:@"Stopped detection."];
@@ -669,7 +669,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                                      );
     if (error) {
         
-        NSLog(@"error setting audio session category: %ld", error);
+        NBULogError(@"error setting audio session category: %ld", error);
     }
     
     //disallow mixing with other sounds (system sounds, other apps)
@@ -682,7 +682,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     
     if (error) {
         
-        NSLog(@"error setting mixing: %ld", error);
+        NBULogError(@"error setting mixing: %ld", error);
     }
     
     //set highest input gain
@@ -695,7 +695,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     
     if (error) {
         
-        NSLog(@"error setting input gain: %ld", error);
+        NBULogError(@"error setting input gain: %ld", error);
     }
     
     //(dis)allow Bluetooth devices as input
@@ -708,7 +708,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     
     if (error) {
         
-        NSLog(@"error setting bluetooth: %ld", error);
+        NBULogError(@"error setting bluetooth: %ld", error);
     }
     
     for (int i = 0; i < kNumberOfBuffers; i++) {
@@ -719,7 +719,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                                         NULL);
         if (error) {
             
-            NSLog(@"error enqueueing buffer: %ld", error);
+            NBULogError(@"error enqueueing buffer: %ld", error);
         }
     }
 }
@@ -775,7 +775,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     
     if (error) {
         
-        NSLog(@"error pausing queue: %ld", error);
+        NBULogError(@"error pausing queue: %ld", error);
     }
 }
 
@@ -807,7 +807,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
     
     if (error) {
         
-        NSLog(@"error resuming audio queue = ");
+        NBULogError(@"error resuming audio queue = ");
     }
 }
 
@@ -1004,7 +1004,7 @@ dispatch_async(dispatch_get_main_queue(), ^(void) {
                                         NULL);
         if (error) {
             
-            NSLog(@"error enqueueing buffer: %ld", error);
+            NBULogError(@"error enqueueing buffer: %ld", error);
         }
     }
     

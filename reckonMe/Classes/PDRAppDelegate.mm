@@ -29,6 +29,7 @@
 #import "AlertSoundPlayer.h"
 #import <objc/message.h>
 #import <ios-ntp/ios-ntp.h>
+#import "NBULog.h"
 
 @implementation PDRAppDelegate
 
@@ -36,7 +37,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    [NBULog addDashboardLogger];
     [NetworkClock sharedNetworkClock];
     ble = [[Ble alloc] init];
     

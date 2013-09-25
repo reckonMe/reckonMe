@@ -154,6 +154,7 @@ static PDRController *sharedSingleton;
     int distanceBetweenConsecutiveMeetings;
 }
 
+#define DEBUG_MODE 1
 @synthesize view;
 @synthesize logger;
 @synthesize pdrRunning;
@@ -754,7 +755,7 @@ static PDRController *sharedSingleton;
     [self writeVector:vector<double>(&normAcc[startIndex], &normAcc[endIndex]) ToFile:"normAcc" resetFileContents:resetFiles];
     [self writeVector:vector<double>(&filtAcc[startIndex], &filtAcc[endIndex]) ToFile:"filtAcc" resetFileContents:resetFiles];
     
-    NSLog(@"peak diff: %lf", (-pdrTrace.back().timestamp + timestamps[gravityPeakIndicesDouble[0]]));
+    NBULogVerbose(@"peak diff: %lf", (-pdrTrace.back().timestamp + timestamps[gravityPeakIndicesDouble[0]]));
         
     assert(!pdrTrace.empty());
     
@@ -794,7 +795,7 @@ static PDRController *sharedSingleton;
             // change forward direction according to the user acceleration peak
             lastPeakType = userAccPeakIndices[nearestAccPeakIdx].peakType;
 #ifdef DEBUG_MODE
-            NSLog(@"\n\n   Forward direction change");
+            NBULogVerbose(@"\n\n   Forward direction change");
 #endif // DEBUG_MODE
         } else {
             
@@ -829,7 +830,7 @@ static PDRController *sharedSingleton;
         double stepAngle = GLKMathRadiansToDegrees(acos(mulQ.w));
 
 #ifdef DEBUG_MODE        
-        NSLog(@"stepAngle: %lf", stepAngle);
+        NBULogVerbose(@"stepAngle: %lf", stepAngle);
 #endif 
         
         // skip the step if the stepAngle is too large/small
@@ -981,7 +982,7 @@ static PDRController *sharedSingleton;
     // Befor going any further...
     if (errorFlag != NULL)
     {
-        NSLog(@"Error: %@", errorFlag);
+        NBULogError(@"error: %@", errorFlag);
         return errorFlag;
     }
     

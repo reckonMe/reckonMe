@@ -148,7 +148,7 @@
             
             shouldRestartIfListenersAvailable = YES;
             [self actuallyStop];
-            NSLog(@"Stopped %@ because nobody is listening.", NSStringFromClass([self class]));
+            NBULogCInfo(@"Stopped %@ because nobody is listening.", NSStringFromClass([self class]));
         }
     
     } else {
