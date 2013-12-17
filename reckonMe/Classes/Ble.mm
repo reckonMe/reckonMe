@@ -9,6 +9,7 @@
 #import "Ble.h"
 #import <ios-ntp/ios-ntp.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <AdSupport/ASIdentifierManager.h>
 #include <sys/socket.h>
 #include <sys/sysctl.h>
 #include <net/if.h>
@@ -217,8 +218,9 @@
 - (void) sync
 {
     if([_dictionaries count] > 0){
+        NSString *adID = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
         NSDictionary *contents = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  [self getMacAddress], @"source-mac",
+                                  adID, @"source_id",
                                   _dictionaries, @"ble",
                                   nil];
         

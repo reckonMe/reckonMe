@@ -47,6 +47,7 @@
 		8E9F366C14297D9C006CE285 /* LocationEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5525471429470C006D5D1D /* LocationEntry.m */; };
 		8EDDDF98152B4C06007D31B4 /* PDRTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EDDDF97152B4C06007D31B4 /* PDRTests.mm */; };
 		8EDDDF9B152B4C64007D31B4 /* FakeCMDeviceMotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EDDDF9A152B4C64007D31B4 /* FakeCMDeviceMotion.m */; };
+		8EF07538186100AA00CEA44E /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF07537186100AA00CEA44E /* AdSupport.framework */; };
 		B50128C4146C223300D8CDFF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C1146C223300D8CDFF /* CoreImage.framework */; };
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
@@ -192,6 +193,7 @@
 		8EDDDF97152B4C06007D31B4 /* PDRTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = PDRTests.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8EDDDF99152B4C64007D31B4 /* FakeCMDeviceMotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCMDeviceMotion.h; sourceTree = "<group>"; };
 		8EDDDF9A152B4C64007D31B4 /* FakeCMDeviceMotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeCMDeviceMotion.m; sourceTree = "<group>"; };
+		8EF07537186100AA00CEA44E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		B50128C1146C223300D8CDFF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		B50128C2146C223300D8CDFF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -305,6 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8EF07538186100AA00CEA44E /* AdSupport.framework in Frameworks */,
 				8B21ED5A176B5CEA003895B7 /* libz.dylib in Frameworks */,
 				8B67BD8B176B2F7B00C193E5 /* CouchbaseLite.framework in Frameworks */,
 				8B67BD8C176B2F7B00C193E5 /* CouchCocoa.framework in Frameworks */,
@@ -513,6 +516,7 @@
 		B595D2DE1407C01C00EB1A91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8EF07537186100AA00CEA44E /* AdSupport.framework */,
 				8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */,
 				8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */,
 				8B67BD87176B2F6A00C193E5 /* ios-ntp.framework */,
@@ -686,6 +690,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0440;
+				TargetAttributes = {
+					B595D2DA1407C01C00EB1A91 = {
+						DevelopmentTeam = 7477B8GP25;
+					};
+				};
 			};
 			buildConfigurationList = B595D2D51407C01C00EB1A91 /* Build configuration list for PBXProject "reckonMe" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1008,6 +1017,7 @@
 					"${BUILT_PRODUCTS_DIR}/**",
 				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
@@ -1042,6 +1052,7 @@
 					"${BUILT_PRODUCTS_DIR}/**",
 				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "-ObjC";
