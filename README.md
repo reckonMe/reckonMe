@@ -35,9 +35,24 @@ and the walking direction.
 	-	The app can also run in a *Stationary Beacon Mode*, with fixed location. It serves then as a `beacon' and corrects the location estimates of other devices. 
 
 
+
 The goal
 --------
 
 Build an indoor navigation application, which combines the existing fingerprinting-based localisation solutions with inertial navigation from the pocket, proximity detection and collaborative localisation approach. 
 
 [@benFnord](https://twitter.com/benFnord), [@kamil_k](https://twitter.com/kamil_k)
+
+
+
+
+
+Change Log
+--------
+- Added extra logging via NBLog
+- added support for pods
+- migrated to proj4 pod
+
+![alt tag](https://raw.github.com/jdp-global/reckonMe/ble/images/photo.PNG)
+
+

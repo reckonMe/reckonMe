@@ -31,12 +31,11 @@
 #import "FileWriter.h"
 #import "PantsPocketDetector.h"
 #import "MapScrollView.h"
-#import "CompassViewController.h"
 #import "SecondViewController.h"
 
 extern NSString* const PDRStatusChangedNotification;
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, LockScreenDelegate, MapViewDelegate, CompassViewDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, LockScreenDelegate, MapViewDelegate>
 {
     
     PDRController *pdr;

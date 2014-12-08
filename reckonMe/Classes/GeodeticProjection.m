@@ -55,7 +55,7 @@ NSString const *googleProjection = @"+proj=merc +a=6378137 +b=6378137 +lat_ts=0.
         
         if (projection == NULL) {
             
-            NSLog(@"Error creating Proj4 projection.");
+            NBULogError(@"error creating Proj4 projection.");
             [self release];
             
             return nil;

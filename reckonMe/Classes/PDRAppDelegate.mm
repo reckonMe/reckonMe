@@ -28,6 +28,8 @@
 #import "PDRAppDelegate.h"
 #import "AlertSoundPlayer.h"
 #import <objc/message.h>
+#import <ios-ntp/ios-ntp.h>
+#import "NBULog.h"
 
 @implementation PDRAppDelegate
 
@@ -35,10 +37,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [NBULog addDashboardLogger];
+    [NetworkClock sharedNetworkClockWithServer:@"iphone"];
+    ble = [[Ble alloc] init];
+    
     // Override point for customization after application launch.
     // Add the tab bar controller's current view as a subview of the window
     mainVC = [[FirstViewController alloc] initWithNibName:nil
                                                    bundle:nil];
+    
     
     self.window.rootViewController = mainVC;
     [self.window makeKeyAndVisible];

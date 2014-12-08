@@ -29,7 +29,6 @@
 #import "SecondViewController.h"
 #import "AlertSoundPlayer.h"
 #import "PositionPacket.h"
-#import "Settings.h"
 
 //the key used for saving the ID in NSUserDefaults
 NSString* const kUniqueDeviceIdentifierKey = @"uniqueDeviceIdentifierKey";

@@ -26,7 +26,6 @@
 **/
 
 #import "SecondViewController.h"
-#import "Settings.h"
 
 @implementation SecondViewController
 
@@ -57,6 +56,7 @@
         timeFormatter.dateFormat = @"HH':'mm':'ss";
         
         self.delegate = nil;
+        //[NBULog addDashboardLogger];
     }
     return self;
 }
@@ -98,7 +98,7 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque
                                                 animated:animated];
     
-    self.logView.scrollEnabled = [Settings sharedInstance].beaconMode;
+    self.logView.scrollEnabled = FALSE;
 }
 
 - (void)viewDidAppear:(BOOL)animated {

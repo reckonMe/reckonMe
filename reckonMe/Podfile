@@ -1,0 +1,6 @@
+platform :ios, '6.0'
+
+pod 'proj4'
+pod 'NBUCore'
+pod 'CocoaAsyncSocket'
+pod 'ios-ntp'

@@ -28,12 +28,18 @@
 #import <MapKit/MapKit.h>
 #import "PDRController.h"
 #import "GeodeticProjection.h"
-#import "Settings.h"
+#include <math.h>
 #include <vector>
 #include <string>
 #include <cmath>
 #include <map>
 #include "matlab-utils.h"
+#include <sys/socket.h>
+#include <sys/sysctl.h>
+#include <net/if.h>
+#include <net/if_dl.h>
+#import <ios-ntp/ios-ntp.h>
+#import "CouchDBController.h"
 
 using namespace std;
 
@@ -107,6 +113,11 @@ struct TraceEntry {
     TraceEntry() : x(0), y(0), deviation(1.0) {}  
 };
 
+struct Position{
+    double x, y;
+    Position(double _x, double _y) : x(_x), y(_y) {}
+};
+
 @interface PDRController () 
 
 - (void)runPdrWithTimestamp:(NSTimeInterval) timestamp;
@@ -143,11 +154,15 @@ static PDRController *sharedSingleton;
     int distanceBetweenConsecutiveMeetings;
 }
 
+#define DEBUG_MODE 1
 @synthesize view;
 @synthesize logger;
 @synthesize pdrRunning;
 @synthesize originEasting;
 @synthesize originNorthing;
+@synthesize LatArray;
+@synthesize LonArray;
+@synthesize couch;
 
 //Is called by the runtime in a thread-safe manner exactly once, before the first use of the class.
 //This makes it the ideal place to set up the singleton.
@@ -160,6 +175,14 @@ static PDRController *sharedSingleton;
     {
         initialized = YES;
         sharedSingleton = [[PDRController alloc] init];
+        
+//        Position result = [sharedSingleton get2DDistanceOf:CLLocationCoordinate2DMake(49.423007, 7.761918) from:CLLocationCoordinate2DMake(49.429007, 7.750918)];
+//
+        NSLog(@"%lf %lf %lf", result.x, result.y, sqrt(result.x*result.x + result.y*result.y));
+//        
+//        CLLocationCoordinate2D location = [sharedSingleton getGPSLocationFrom:CLLocationCoordinate2DMake(49.423007, 7.761918) withX:-result.x withY:-result.y];
+//        
+//        NSLog(@"%lf %lf", location.latitude, location.longitude);
     }
 }
 
@@ -196,8 +219,8 @@ static PDRController *sharedSingleton;
 
     [self resetPDR];
     
-    distanceBetweenConsecutiveMeetings = [Settings sharedInstance].distanceBetweenConsecutiveMeetings;
-    stepLength = [Settings sharedInstance].stepLength;
+    distanceBetweenConsecutiveMeetings = 70;
+    stepLength = 0.85;
     
     originEasting = location.easting;
     originNorthing = location.northing;
@@ -366,10 +389,13 @@ static PDRController *sharedSingleton;
                                                FromPeer:peerID];
     
     //instead of only appending afterEntry to the collaborative path, make logger start a new file with the complete path (including afterEntry)
+ 
     NSMutableArray *completePath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
     [logger didReceiveCompleteCollaborativePath:completePath];
 
     [view didReceivePosition:afterEntry];
+    NBULogVerbose(@"didReceivePosition completePath:%@",completePath);
+    NBULogVerbose(@"didReceivePosition afterEntry:%@",afterEntry);
 }
 
     
@@ -688,6 +714,7 @@ static PDRController *sharedSingleton;
     if (gravityPeakIndices.size() < 2) {
 
         // not enough steps have been detected, prune all data except for the overlap window
+        NBULogVerbose(@"not enough steps have been detected");
         [self pruneDataOlderThan:(timestamps[rightIndex] - 2 * kBackBufferSize)];
         return; 
     }    
@@ -732,7 +759,7 @@ static PDRController *sharedSingleton;
     [self writeVector:vector<double>(&normAcc[startIndex], &normAcc[endIndex]) ToFile:"normAcc" resetFileContents:resetFiles];
     [self writeVector:vector<double>(&filtAcc[startIndex], &filtAcc[endIndex]) ToFile:"filtAcc" resetFileContents:resetFiles];
     
-    NSLog(@"peak diff: %lf", (-pdrTrace.back().timestamp + timestamps[gravityPeakIndicesDouble[0]]));
+    NBULogVerbose(@"peak diff: %lf", (-pdrTrace.back().timestamp + timestamps[gravityPeakIndicesDouble[0]]));
         
     assert(!pdrTrace.empty());
     
@@ -772,7 +799,7 @@ static PDRController *sharedSingleton;
             // change forward direction according to the user acceleration peak
             lastPeakType = userAccPeakIndices[nearestAccPeakIdx].peakType;
 #ifdef DEBUG_MODE
-            NSLog(@"\n\n   Forward direction change");
+            NBULogVerbose(@"\n\n   Forward direction change");
 #endif // DEBUG_MODE
         } else {
             
@@ -807,7 +834,7 @@ static PDRController *sharedSingleton;
         double stepAngle = GLKMathRadiansToDegrees(acos(mulQ.w));
 
 #ifdef DEBUG_MODE        
-        NSLog(@"stepAngle: %lf", stepAngle);
+        NBULogVerbose(@"stepAngle: %lf", stepAngle);
 #endif 
         
         // skip the step if the stepAngle is too large/small
@@ -840,6 +867,7 @@ static PDRController *sharedSingleton;
         double rotatedX = cos(pathRotationAmount) * dx - sin(pathRotationAmount) * dy;
         double rotatedY = sin(pathRotationAmount) * dx + cos(pathRotationAmount) * dy;
         
+        NBULogVerbose(@"collaborativeStep timestamp:%f",timestamp);
         TraceEntry collaborativeStep(timestamp, collaborativeTrace.back().x + rotatedX, 
                                      collaborativeTrace.back().y + rotatedY,
                                      collaborativeTrace.back().deviation + deltaDeviation);
@@ -847,12 +875,50 @@ static PDRController *sharedSingleton;
         // add the step to collaborativeTrace
         collaborativeTrace.push_back(collaborativeStep);
         
-        // notify logger & view 
-        AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+        
+        NSString *milliseconds;
+        NSString *test = [NSString stringWithFormat:@"%f", [date timeIntervalSinceReferenceDate]];
+        for (int c = 0; c < test.length; c++){
+            if([test characterAtIndex:c] == '.'){
+                milliseconds = [test substringWithRange:NSMakeRange(c+1, 3)];
+                break;
+            }
+        }
+        
+        NSString *time = [NSString stringWithFormat:@"%@:%@", [dateFormatter stringFromDate: date], milliseconds];
+        
+        ProjectedPoint originProjected;
+        originProjected.easting = self.originEasting;
+        originProjected.northing = self.originNorthing;
+        CLLocationCoordinate2D origin = [GeodeticProjection cartesianToCoordinates:originProjected];
+        
+        
         AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
-        [view didReceivePosition:collaborativeEntry];
-        [logger didReceivePDRPosition:pdrEntry];
-        [logger didReceiveCollaborativeLocalisationPosition:collaborativeEntry];            
+        ProjectedPoint newLocation;
+        newLocation.easting = collaborativeEntry.easting;
+        newLocation.northing = collaborativeEntry.northing;
+        CLLocationCoordinate2D newL = [GeodeticProjection cartesianToCoordinates:newLocation];
+        
+//        [couch pushStepWithSource:[self getMacAddress] originX:[NSNumber numberWithDouble:originEasting] originY:[NSNumber numberWithDouble:originNorthing] timestamp:time x:[NSNumber numberWithDouble:collaborativeTrace.back().x + rotatedX] y:[NSNumber numberWithDouble:collaborativeTrace.back().y + rotatedY]];
+        
+        [couch pushStepWithSource:[self getMacAddress] location:newL timestamp:time];
+        
+        // notify logger & view
+        
+        for(int i = 0; i < LatArray.count; i++){
+            Position pos = [self get2DDistanceOf: CLLocationCoordinate2DMake([(NSNumber*)LatArray[i] doubleValue], [(NSNumber*)LonArray[i] doubleValue]) from:origin];
+            TraceEntry test(timestamp, pos.x, pos.y, 1);
+            //AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
+            //AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
+            AbsoluteLocationEntry *testEntry = [self absoluteLocationEntryFrom:test];
+            [view didReceivePosition:testEntry];
+            [logger didReceivePDRPosition:testEntry];
+            [logger didReceiveCollaborativeLocalisationPosition:testEntry];
+        }
         
         lastStepWasManualCorrection = NO;
     }
@@ -872,6 +938,92 @@ static PDRController *sharedSingleton;
     return rotatedPath;    
 }
 
+- (void) addLocationWithLat:(double)lat Lon:(double)lon{
+    [LatArray addObject:[NSNumber numberWithDouble:lat]];
+    [LonArray addObject:[NSNumber numberWithDouble:lon]];
+
+}
+
+- (NSString *)getMacAddress
+{
+    int                 mgmtInfoBase[6];
+    char                *msgBuffer = NULL;
+    size_t              length;
+    unsigned char       macAddress[6];
+    struct if_msghdr    *interfaceMsgStruct;
+    struct sockaddr_dl  *socketStruct;
+    NSString            *errorFlag = NULL;
+    
+    // Setup the management Information Base (mib)
+    mgmtInfoBase[0] = CTL_NET;        // Request network subsystem
+    mgmtInfoBase[1] = AF_ROUTE;       // Routing table info
+    mgmtInfoBase[2] = 0;
+    mgmtInfoBase[3] = AF_LINK;        // Request link layer information
+    mgmtInfoBase[4] = NET_RT_IFLIST;  // Request all configured interfaces
+    
+    // With all configured interfaces requested, get handle index
+    if ((mgmtInfoBase[5] = if_nametoindex("en0")) == 0)
+        errorFlag = @"if_nametoindex failure";
+    else
+    {
+        // Get the size of the data available (store in len)
+        if (sysctl(mgmtInfoBase, 6, NULL, &length, NULL, 0) < 0)
+            errorFlag = @"sysctl mgmtInfoBase failure";
+        else
+        {
+            // Alloc memory based on above call
+            msgBuffer =(char *) malloc(length);
+            if (msgBuffer == NULL)
+                errorFlag = @"buffer allocation failure";
+            else
+            {
+                // Get system information, store in buffer
+                if (sysctl(mgmtInfoBase, 6, msgBuffer, &length, NULL, 0) < 0)
+                    errorFlag = @"sysctl msgBuffer failure";
+            }
+        }
+    }
+    
+    // Befor going any further...
+    if (errorFlag != NULL)
+    {
+        NBULogError(@"error: %@", errorFlag);
+        return errorFlag;
+    }
+    
+    // Map msgbuffer to interface message structure
+    interfaceMsgStruct = (struct if_msghdr *) msgBuffer;
+    
+    // Map to link-level socket structure
+    socketStruct = (struct sockaddr_dl *) (interfaceMsgStruct + 1);
+    
+    // Copy link layer address data in socket structure to an array
+    memcpy(&macAddress, socketStruct->sdl_data + socketStruct->sdl_nlen, 6);
+    
+    // Read from char array into a string object, into traditional Mac address format
+    NSString *macAddressString = [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
+                                  macAddress[0], macAddress[1], macAddress[2],
+                                  macAddress[3], macAddress[4], macAddress[5] + 1];
+    
+    // Release the buffer memory
+    free(msgBuffer);
+    
+    return macAddressString;
+}
+
+- (CLLocationCoordinate2D)getGPSLocationFrom:(CLLocationCoordinate2D)origin withX:(double)x withY:(double)y{
+    double brng = atan2(x, y) * RAD_TO_DEG;
+    double d = sqrt(x * x + y * y);
+    
+    double lat2 = asin(sin(origin.latitude * DEG_TO_RAD) * cos(d/6371000) + cos(origin.latitude * DEG_TO_RAD) * sin(d/6371000) * cos(brng * DEG_TO_RAD)) * RAD_TO_DEG;
+    
+    return CLLocationCoordinate2DMake(lat2, origin.longitude
+                                      + atan2(sin(brng * DEG_TO_RAD) * sin(d/6371000) * cos(origin.latitude * DEG_TO_RAD), cos(d/6371000) - sin(origin.latitude * DEG_TO_RAD) * sin(lat2 * DEG_TO_RAD)) * RAD_TO_DEG);
+}
+
+- (Position) get2DDistanceOf: (CLLocationCoordinate2D)gps2 from:(CLLocationCoordinate2D)gps1{
+    return Position((gps2.longitude * DEG_TO_RAD - gps1.longitude * DEG_TO_RAD) * cos((gps1.latitude + gps2.latitude) * DEG_TO_RAD/2) * 6371000, (gps2.latitude - gps1.latitude) * DEG_TO_RAD * 6371000);
+}
     
 #pragma mark -
 
@@ -882,6 +1034,7 @@ static PDRController *sharedSingleton;
     if (self) {
         view = nil;
         logger = nil;
+        couch = [CouchDBController sharedInstance];
         
         lastStepWasManualCorrection = NO;
         

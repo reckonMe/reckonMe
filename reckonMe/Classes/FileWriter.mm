@@ -28,7 +28,6 @@
 #import "FileWriter.h"
 #import "Gyroscope.h"
 #import "P2PestimateExchange.h"
-#import "Settings.h"
 #import <QuartzCore/QuartzCore.h>
 
 NSString* const kAccelerometerFileAppendix = @"_Accel";
@@ -284,9 +283,6 @@ pdrConnectionQueryFileName;
     }
     
     fprintf(*file, "%% \n%% \n");
-    fprintf(*file, "%% Step length: %f \n", [Settings sharedInstance].stepLength);
-    fprintf(*file, "%% Position exchange: %s \n", [Settings sharedInstance].exchangeEnabled ? "ON" : "OFF");
-    fprintf(*file, "%% Minimum metres between consecutive exchanges: %d \n", [Settings sharedInstance].distanceBetweenConsecutiveMeetings);
 	
 	fprintf(*file, "%% \n%% Column description:\n");
     
