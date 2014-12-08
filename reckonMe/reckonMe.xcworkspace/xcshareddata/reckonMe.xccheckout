@@ -10,29 +10,29 @@
 	<string>reckonMe</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>15D8470B-D358-4BB5-8170-F5FAD8C932F5</key>
+		<key>3DC01AAF921A002C40764067FE0248EF6855237B</key>
 		<string>ssh://github.com/reckonMe/reckonMe.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>reckonMe/reckonMe.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>15D8470B-D358-4BB5-8170-F5FAD8C932F5</key>
+		<key>3DC01AAF921A002C40764067FE0248EF6855237B</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/reckonMe/reckonMe.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>15D8470B-D358-4BB5-8170-F5FAD8C932F5</string>
+	<string>3DC01AAF921A002C40764067FE0248EF6855237B</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>15D8470B-D358-4BB5-8170-F5FAD8C932F5</string>
+			<string>3DC01AAF921A002C40764067FE0248EF6855237B</string>
 			<key>IDESourceControlWCCName</key>
 			<string>reckonMe</string>
 		</dict>
