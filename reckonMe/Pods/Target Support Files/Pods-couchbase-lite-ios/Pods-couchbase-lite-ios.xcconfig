@@ -1,0 +1,2 @@
+PODS_COUCHBASE_LITE_IOS_FRAMEWORK_SEARCH_PATHS = $"(PODS_ROOT)/couchbase-lite-ios/**" "$(PODS_ROOT)/couchbase-lite-ios" "$(PODS_ROOT)/couchbase-lite-ios"
+PODS_COUCHBASE_LITE_IOS_OTHER_LDFLAGS = -l"sqlite3" -l"z" -framework "CFNetwork" -framework "CouchbaseLite" -framework "CouchbaseLiteListener" -framework "Security" -framework "SystemConfiguration"

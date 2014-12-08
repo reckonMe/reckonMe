@@ -4,3 +4,4 @@ reckonMe/reckonMe.xcodeproj/project.xcworkspace/xcuserdata/
 reckonMe/reckonMe.xcodeproj/xcuserdata/
 reckonMe/build/
 .DS_Store
+**/xcuserdata/*

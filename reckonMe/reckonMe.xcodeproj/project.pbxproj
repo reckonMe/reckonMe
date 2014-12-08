@@ -132,7 +132,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8251F6C7501B49579D1B87BB /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		0EE89C8D1FD9654C0455A321 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		2CB36FC247F5DF0222576069 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		8B21ED59176B5CEA003895B7 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8B67BD74176B2E3C00C193E5 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		8B67BD75176B2E3C00C193E5 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -470,7 +471,7 @@
 				B595D30D1407C01C00EB1A91 /* reckonMeTests */,
 				B595D2DE1407C01C00EB1A91 /* Frameworks */,
 				B595D2DC1407C01C00EB1A91 /* Products */,
-				8251F6C7501B49579D1B87BB /* Pods.xcconfig */,
+				B95C8504B8EB6931302D8624 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -607,6 +608,15 @@
 				B552DC3F142FC5BC00F14BC4 /* P2PestimateExchange.m */,
 			);
 			name = P2P;
+			sourceTree = "<group>";
+		};
+		B95C8504B8EB6931302D8624 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0EE89C8D1FD9654C0455A321 /* Pods.debug.xcconfig */,
+				2CB36FC247F5DF0222576069 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -769,7 +779,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B58E579416A56A2300DBE100 /* Bump build number and generate version number from git tags */ = {
@@ -966,7 +976,7 @@
 		};
 		B595D31A1407C01D00EB1A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8251F6C7501B49579D1B87BB /* Pods.xcconfig */;
+			baseConfigurationReference = 0EE89C8D1FD9654C0455A321 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					armv7,
@@ -987,11 +997,14 @@
 					/usr/local/include,
 					"../**",
 					"${BUILT_PRODUCTS_DIR}/**",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
+				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
 				PRODUCT_NAME = reckonMe;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1002,7 +1015,7 @@
 		};
 		B595D31B1407C01D00EB1A91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8251F6C7501B49579D1B87BB /* Pods.xcconfig */;
+			baseConfigurationReference = 2CB36FC247F5DF0222576069 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ARCHS = (
 					armv7,
@@ -1022,11 +1035,13 @@
 					/usr/local/include,
 					"../**",
 					"${BUILT_PRODUCTS_DIR}/**",
+					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = reckonMe;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
