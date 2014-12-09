@@ -11,7 +11,9 @@
 #endif
 
 #import <UIKit/UIKit.h>
-#import "CouchbaseLite.h"
+#import <Couchbaselite/CouchbaseLite.h>
+#import <CouchbaseLite/CBLJSON.h>
+#import <Couchbaselite/CBLUITableSource.h>
 #import "PDRController.h"
 
 //@class PDRController;

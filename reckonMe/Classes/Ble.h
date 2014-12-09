@@ -8,6 +8,8 @@
 
 
 #import <UIKit/UIKit.h>
+#import <Couchbaselite/CouchbaseLite.h>
+#import <CouchbaseLite/CBLJSON.h>
 #import "CouchDBController.h"
 
 @interface Ble : NSObject
