@@ -89,8 +89,10 @@
 		B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B595D2E81407C01C00EB1A91 /* InfoPlist.strings */; };
 		B595D2EC1407C01C00EB1A91 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B595D2EB1407C01C00EB1A91 /* main.m */; };
 		B595D2F01407C01C00EB1A91 /* PDRAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2EF1407C01C00EB1A91 /* PDRAppDelegate.mm */; };
+		B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B595D2F11407C01C00EB1A91 /* MainWindow.xib */; };
 		B595D2F61407C01C00EB1A91 /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2F51407C01C00EB1A91 /* FirstViewController.mm */; };
 		B595D2F91407C01C00EB1A91 /* SecondViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2F81407C01C00EB1A91 /* SecondViewController.mm */; };
+		B595D2FF1407C01C00EB1A91 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B595D2FD1407C01C00EB1A91 /* SecondView.xib */; };
 		B595D3071407C01C00EB1A91 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D3061407C01C00EB1A91 /* SenTestingKit.framework */; };
 		B595D3081407C01C00EB1A91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2DF1407C01C00EB1A91 /* UIKit.framework */; };
 		B595D3091407C01C00EB1A91 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2E11407C01C00EB1A91 /* Foundation.framework */; };
@@ -693,6 +695,8 @@
 				8E9CDE5015B8680400ADDC7E /* test03-ACC.txt in Resources */,
 				8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */,
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
+				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
+				B595D2FF1407C01C00EB1A91 /* SecondView.xib in Resources */,
 				B5A051EF141526160038A723 /* crosshairs.png in Resources */,
 				B5A051F0141526160038A723 /* crosshairs@2x.png in Resources */,
 				B5811774141FB5B700925B4E /* crosshairsLarge.png in Resources */,
