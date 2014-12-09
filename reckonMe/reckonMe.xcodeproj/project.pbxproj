@@ -1053,10 +1053,15 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/reckonMe-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"../**",
+				);
 				INFOPLIST_FILE = "Tests/reckonMeTests-Info.plist";
 				PRODUCT_NAME = reckonMeTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
@@ -1071,10 +1076,15 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/reckonMe-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)/**",
+					"../**",
+				);
 				INFOPLIST_FILE = "Tests/reckonMeTests-Info.plist";
 				PRODUCT_NAME = reckonMeTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";

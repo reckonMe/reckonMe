@@ -4,3 +4,5 @@ pod 'proj4'
 pod 'NBUCore'
 pod 'ios-ntp'
 pod 'couchbase-lite-ios'
+
+link_with 'reckonMe', 'reckonMe Tests'
