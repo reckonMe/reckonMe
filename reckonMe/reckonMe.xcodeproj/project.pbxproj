@@ -627,7 +627,6 @@
 			buildConfigurationList = B595D3191407C01D00EB1A91 /* Build configuration list for PBXNativeTarget "reckonMe" */;
 			buildPhases = (
 				0DF52AA235AD4353A24C7FF6 /* Check Pods Manifest.lock */,
-				B58E579416A56A2300DBE100 /* Bump build number and generate version number from git tags */,
 				B595D2D71407C01C00EB1A91 /* Sources */,
 				B595D2D81407C01C00EB1A91 /* Frameworks */,
 				B595D2D91407C01C00EB1A91 /* Resources */,
@@ -781,20 +780,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		B58E579416A56A2300DBE100 /* Bump build number and generate version number from git tags */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bump build number and generate version number from git tags";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Assumes that you tag versions with the version number (e.g., \"1.1\") and then the build number is\n# that plus the number of commits since the tag (e.g., \"1.1.17\")\n\necho \"Updating version/build number from git...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n# append number of commits since last tag as last number to the tag\nversionnum=`git describe | awk '{split($0,a,\"-\"); print( a[2] ? a[1]\".\"a[2] : a[1]\".0\")}'`\n\nif [[ \"${versionnum}\" == \"\" ]]; then\necho \"No version number from git\"\nexit 2\nfi\n\n/usr/libexec/Plistbuddy -c \"Set CFBundleShortVersionString $versionnum\" \"${plist}\"\necho \"Updated version number to $versionnum\"\n\n# increment build number\nCFBuildNumber=$(/usr/libexec/Plistbuddy -c \"Print CFBundleVersion\" ${plist})\nCFBuildNumber=$(($CFBuildNumber + 1))\n/usr/libexec/Plistbuddy -c \"Set :CFBundleVersion $CFBuildNumber\" ${plist}\necho \"Updated build number to $CFBuildNumber\"";
 		};
 		B595D3031407C01C00EB1A91 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
