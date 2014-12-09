@@ -14,6 +14,7 @@
 		8B67BD81176B2EDF00C193E5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD7A176B2E9100C193E5 /* Security.framework */; };
 		8B67BD82176B2EE500C193E5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD78176B2E8800C193E5 /* SystemConfiguration.framework */; };
 		8B67BD83176B2EEC00C193E5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */; };
+		8B67BD8B176B2F7B00C193E5 /* CouchbaseLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */; };
 		8B67BD8C176B2F7B00C193E5 /* CouchCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */; };
 		8BA9EE43176C60000026E82F /* ntp.hosts in Resources */ = {isa = PBXBuildFile; fileRef = 8BA9EE42176C60000026E82F /* ntp.hosts */; };
 		8BA9EE48176C64100026E82F /* Ble.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8BA9EE47176C64100026E82F /* Ble.mm */; };
@@ -141,6 +142,7 @@
 		8B67BD7A176B2E9100C193E5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8B67BD7E176B2EA100C193E5 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLite.framework; path = Frameworks/CouchbaseLite.framework; sourceTree = "<group>"; };
 		8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchCocoa.framework; path = Frameworks/CouchCocoa.framework; sourceTree = "<group>"; };
 		8BA9EE42176C60000026E82F /* ntp.hosts */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ntp.hosts; sourceTree = "<group>"; };
 		8BA9EE46176C64100026E82F /* Ble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ble.h; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			files = (
 				B56624711A363707006E9A91 /* AdSupport.framework in Frameworks */,
 				8B21ED5A176B5CEA003895B7 /* libz.dylib in Frameworks */,
+				8B67BD8B176B2F7B00C193E5 /* CouchbaseLite.framework in Frameworks */,
 				8B67BD8C176B2F7B00C193E5 /* CouchCocoa.framework in Frameworks */,
 				8B67BD83176B2EEC00C193E5 /* CFNetwork.framework in Frameworks */,
 				8B67BD82176B2EE500C193E5 /* SystemConfiguration.framework in Frameworks */,
@@ -488,6 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				B56624701A363707006E9A91 /* AdSupport.framework */,
+				8B67BD85176B2F6A00C193E5 /* CouchbaseLite.framework */,
 				8B67BD86176B2F6A00C193E5 /* CouchCocoa.framework */,
 				8B67BD7C176B2E9A00C193E5 /* CFNetwork.framework */,
 				8B67BD7A176B2E9100C193E5 /* Security.framework */,
