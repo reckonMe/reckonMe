@@ -1,6 +1,5 @@
 PODS:
   - CocoaLumberjack (1.6)
-  - couchbase-lite-ios (1.0.3.1)
   - ios-ntp (1.0.0)
   - Lockbox (1.4.3)
   - NBUCore (1.9.5):
@@ -25,14 +24,12 @@ PODS:
   - proj4 (4.8.0)
 
 DEPENDENCIES:
-  - couchbase-lite-ios
   - ios-ntp
   - NBUCore
   - proj4
 
 SPEC CHECKSUMS:
   CocoaLumberjack: ad73b4809fe10ea3f47263c8ab3b55e606bb9453
-  couchbase-lite-ios: ad77e90f129f0a2af730a8bb2487a3ec995c0578
   ios-ntp: 03a0bbe1ae51ad85ede763a99ef68dd99b322e83
   Lockbox: 6c53a3dfe0ee74174cd22290ade247be8fb9190f
   NBUCore: a065dafc02c1e3041d5a95663e327fe74834f10a

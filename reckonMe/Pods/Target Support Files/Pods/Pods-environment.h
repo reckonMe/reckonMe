@@ -48,13 +48,6 @@
 #define COCOAPODS_VERSION_MINOR_NBUCore_UI 9
 #define COCOAPODS_VERSION_PATCH_NBUCore_UI 5
 
-// couchbase-lite-ios
-#define COCOAPODS_POD_AVAILABLE_couchbase_lite_ios
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 1.0.3.1.
-
 // ios-ntp
 #define COCOAPODS_POD_AVAILABLE_ios_ntp
 #define COCOAPODS_VERSION_MAJOR_ios_ntp 1
