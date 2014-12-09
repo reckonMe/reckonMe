@@ -993,15 +993,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					"../**",
-					"${BUILT_PRODUCTS_DIR}/**",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "$(inherited)";
 				"OTHER_LDFLAGS[arch=*]" = "$(inherited)";
@@ -1029,17 +1024,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Classes/reckonMe-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_VERSION = "";
-				HEADER_SEARCH_PATHS = (
-					/usr/local/include,
-					"../**",
-					"${BUILT_PRODUCTS_DIR}/**",
-					"$(inherited)",
-				);
 				INFOPLIST_FILE = "Classes/reckonMe-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = reckonMe;
