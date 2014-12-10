@@ -1,6 +1,6 @@
 Proj4/build/
 Proj4/Proj4.xcodeproj/xcuserdata/
-reckonMe/reckonMe.xcodeproj/project.xcworkspace/xcuserdata/
-reckonMe/reckonMe.xcodeproj/xcuserdata/
 reckonMe/build/
 .DS_Store
+**/xcuserdata/*
+*.xccheckout
