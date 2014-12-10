@@ -59,6 +59,7 @@
 		B55403E2145070CC00B8B9EC /* starting.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B55403E0145070CC00B8B9EC /* starting.aiff */; };
 		B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = B5617660146ABD4000945446 /* PantsPocketDetector.m */; };
 		B5617663146AC44000945446 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5617662146AC44000945446 /* AVFoundation.framework */; };
+		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
 		B56F909015877CD900456F62 /* compass.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B56F908F15877CD900456F62 /* compass.pdf */; };
 		B56F909A15878C0700456F62 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909315878C0700456F62 /* NSString+MD5.m */; };
 		B56F909B15878C0700456F62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909515878C0700456F62 /* PDFView.m */; };
@@ -203,6 +204,8 @@
 		B561765F146ABD4000945446 /* PantsPocketDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PantsPocketDetector.h; sourceTree = "<group>"; };
 		B5617660146ABD4000945446 /* PantsPocketDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PantsPocketDetector.m; sourceTree = "<group>"; };
 		B5617662146AC44000945446 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B56F44BD1A38FED6009CEEF4 /* BLE_P2PExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE_P2PExchange.h; sourceTree = "<group>"; };
+		B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_P2PExchange.m; sourceTree = "<group>"; };
 		B56F908F15877CD900456F62 /* compass.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = compass.pdf; sourceTree = "<group>"; };
 		B56F909215878C0700456F62 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B56F909315878C0700456F62 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
@@ -599,6 +602,8 @@
 				B552DC3D142FC5BC00F14BC4 /* PacketEncoderDecoder.m */,
 				B552DC3E142FC5BC00F14BC4 /* P2PestimateExchange.h */,
 				B552DC3F142FC5BC00F14BC4 /* P2PestimateExchange.m */,
+				B56F44BD1A38FED6009CEEF4 /* BLE_P2PExchange.h */,
+				B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */,
 			);
 			name = P2P;
 			sourceTree = "<group>";
@@ -774,6 +779,7 @@
 				B51F36CD159DF71400517FD7 /* UnlockSlider.m in Sources */,
 				B595D2EC1407C01C00EB1A91 /* main.m in Sources */,
 				B595D2F01407C01C00EB1A91 /* PDRAppDelegate.mm in Sources */,
+				B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */,
 				B595D2F61407C01C00EB1A91 /* FirstViewController.mm in Sources */,
 				B595D2F91407C01C00EB1A91 /* SecondViewController.mm in Sources */,
 				8E08B585141E04AD0023729B /* matlab-utils.cpp in Sources */,
