@@ -85,6 +85,12 @@ static CompassAndGPS *sharedSingleton;
             
             locationManager = [[CLLocationManager alloc] init];
             
+            //ask for authorization on iOS>=8
+            if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+                
+                [locationManager requestWhenInUseAuthorization];
+            }
+            
             locationManager.delegate = self; // Tells the location manager to send updates to this object
             
             // set accuracy to the maximum level
