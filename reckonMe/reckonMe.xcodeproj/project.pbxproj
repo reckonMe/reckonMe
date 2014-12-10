@@ -109,6 +109,7 @@
 		B5A3B00D14CC3763004A0E54 /* SoundDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A3B00C14CC3763004A0E54 /* SoundDetector.m */; };
 		B5A3B01014CC6140004A0E54 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00E14CC6140004A0E54 /* Accelerate.framework */; };
 		B5A3B01114CC6140004A0E54 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */; };
+		B5A407591A383EC0006111E6 /* functions.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A407561A383B22006111E6 /* functions.m */; };
 		B5A6332814DC245D00A37780 /* TiledMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A6332514DC245D00A37780 /* TiledMapView.m */; };
 		B5AD3730147D269B0030332F /* exchanged.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B5AD372F147D269B0030332F /* exchanged.aiff */; };
 		B5BDDC19142FDC700044F56B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BDDC18142FDC700044F56B /* GameKit.framework */; };
@@ -261,6 +262,8 @@
 		B5A3B00C14CC3763004A0E54 /* SoundDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SoundDetector.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B5A3B00E14CC6140004A0E54 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B5A407561A383B22006111E6 /* functions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = functions.m; sourceTree = "<group>"; };
+		B5A407571A383B22006111E6 /* functions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = functions.h; sourceTree = "<group>"; };
 		B5A6332414DC245D00A37780 /* TiledMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledMapView.h; sourceTree = "<group>"; };
 		B5A6332514DC245D00A37780 /* TiledMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiledMapView.m; sourceTree = "<group>"; };
 		B5A6332614DC245D00A37780 /* MapScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapScrollView.h; sourceTree = "<group>"; };
@@ -551,6 +554,8 @@
 		B595D2E61407C01C00EB1A91 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B5A407561A383B22006111E6 /* functions.m */,
+				B5A407571A383B22006111E6 /* functions.h */,
 				8BA9EE42176C60000026E82F /* ntp.hosts */,
 				B595D2E71407C01C00EB1A91 /* reckonMe-Info.plist */,
 				B595D2E81407C01C00EB1A91 /* InfoPlist.strings */,
@@ -826,6 +831,7 @@
 				B5A6332814DC245D00A37780 /* TiledMapView.m in Sources */,
 				B589E66914E84D9300FB89C4 /* MapMarker.m in Sources */,
 				B5C0306014EA9D3300625FFF /* PositionPacket.m in Sources */,
+				B5A407591A383EC0006111E6 /* functions.m in Sources */,
 				B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */,
 				B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */,
 				B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */,
