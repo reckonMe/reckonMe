@@ -36,7 +36,7 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "PDRExchange.h"
 
-@interface BLE_P2PExchange : NSObject <CBCentralManagerDelegate, CBPeripheralManagerDelegate, CBPeripheralDelegate>
+@interface BLE_P2PExchange : NSObject <CBCentralManagerDelegate, CBPeripheralManagerDelegate>
 
 //values above this threshold lead to an exchange
 @property(nonatomic, assign) NSInteger rssiThreshold;
@@ -47,7 +47,7 @@
 //singleton
 + (instancetype)sharedInstance;
 
--(void)startStationaryBeaconModeAtPosition:(AbsoluteLocationEntry *)position;
+-(void)startStationaryBeaconMode;
 -(void)startWalkerMode;
 
 -(void)stop;

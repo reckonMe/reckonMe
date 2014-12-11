@@ -46,9 +46,159 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 
 @property(nonatomic, retain) CBCentralManager *centralManager;
 @property(nonatomic, retain) CBPeripheralManager *peripheralManager;
+@property(nonatomic, assign) BOOL shouldAdvertise;
+@property(nonatomic, assign) BOOL shouldScan;
+
+-(void)startAdvertising;
+-(void)stopAdvertising;
+-(void)startScanning;
+-(void)stopScanning;
 
 @end
 
 @implementation BLE_P2PExchange
+
++(instancetype)sharedInstance {
+    
+    static BLE_P2PExchange *mySharedInstance = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        mySharedInstance = [[self alloc] init];
+    });
+    
+    return mySharedInstance;
+}
+
+-(instancetype)init {
+    
+    if (self = [super init]) {
+        
+        self.shouldAdvertise = NO;
+        self.shouldScan = NO;
+        
+        self.services = @[[CBUUID UUIDWithString:reckonMeUUID]];
+        self.advertisement = @"foobar";
+        
+        self.centralManager = [[[CBCentralManager alloc] initWithDelegate:self
+                                                                    queue:nil] autorelease];
+        
+        self.peripheralManager = [[[CBPeripheralManager alloc] initWithDelegate:self
+                                                                          queue:nil] autorelease];
+        self.rssiThreshold = -70;
+    }
+    
+    return self;
+}
+
+-(void)dealloc {
+    
+    self.delegate = nil;
+    self.services = nil;
+    self.advertisement = nil;
+    self.advertisedPosition = nil;
+    
+    self.centralManager = nil;
+    self.peripheralManager = nil;
+    
+    [super dealloc];
+}
+
+//MARK: - start/stop
+-(void)startAdvertising {
+    
+    [self.peripheralManager startAdvertising:@{   CBAdvertisementDataLocalNameKey : self.advertisement,
+                                               CBAdvertisementDataServiceUUIDsKey : self.services}];
+}
+
+-(void)stopAdvertising {
+    
+    [self.peripheralManager stopAdvertising];
+}
+
+-(void)startScanning {
+    
+    [self.centralManager scanForPeripheralsWithServices:self.services
+                                                options:@{CBCentralManagerScanOptionAllowDuplicatesKey : @YES}]; //allow "duplicates" for constant updates
+}
+
+-(void)stopScanning {
+    
+    [self.centralManager stopScan];
+}
+
+-(void)startStationaryBeaconMode {
+    
+    self.shouldAdvertise = YES;
+    self.shouldScan = NO;
+    
+    [self startAdvertising];
+}
+
+-(void)startWalkerMode {
+    
+    self.shouldAdvertise = YES;
+    self.shouldScan = YES;
+    
+    [self startAdvertising];
+    [self startScanning];
+}
+
+-(void)stop {
+    
+    self.shouldAdvertise = NO;
+    self.shouldScan = NO;
+    
+    [self stopAdvertising];
+    [self stopScanning];
+}
+
+//MARK: - CBCentralManagerDelegate
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    
+    NSLog(@"%@ %@ %@", RSSI, peripheral.name, [advertisementData objectForKey:CBAdvertisementDataLocalNameKey]);
+    
+    NSInteger signalStrength = [RSSI integerValue];
+    if (signalStrength < self.rssiThreshold) return;
+    if (signalStrength == 127) return; //occurs quite often and seems to indicate an invalid value
+    
+    NSString *advertisedData = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+    if(!advertisedData) return;
+    
+    NSString *deviceName = peripheral.name;
+    if (!deviceName || [deviceName isEqualToString:@""]) return;
+    
+    if ([self.delegate shouldConnectToPeerID:deviceName]) {
+        
+        //dispatch async
+        //[self.delegate didReceivePosition:nil
+        //                         ofPeer:nil];
+    }
+}
+
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central {
+    
+    NSLog(@"central state: %d", central.state);
+    
+    if (central.state == CBCentralManagerStatePoweredOn
+        && self.shouldScan) {
+        
+        [self startScanning];
+        
+    }
+}
+
+//MARK: - CBPeripheralManagerDelegate
+-(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
+    
+    NSLog(@"peripheral state: %d", peripheral.state);
+    
+    if (peripheral.state == CBPeripheralManagerStatePoweredOn
+        && self.shouldAdvertise) {
+        
+        [self startAdvertising];
+    }
+}
 
 @end

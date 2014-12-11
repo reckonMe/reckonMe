@@ -60,6 +60,7 @@
 		B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = B5617660146ABD4000945446 /* PantsPocketDetector.m */; };
 		B5617663146AC44000945446 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5617662146AC44000945446 /* AVFoundation.framework */; };
 		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
+		B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */; };
 		B56F909015877CD900456F62 /* compass.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B56F908F15877CD900456F62 /* compass.pdf */; };
 		B56F909A15878C0700456F62 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909315878C0700456F62 /* NSString+MD5.m */; };
 		B56F909B15878C0700456F62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909515878C0700456F62 /* PDFView.m */; };
@@ -206,6 +207,7 @@
 		B5617662146AC44000945446 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B56F44BD1A38FED6009CEEF4 /* BLE_P2PExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE_P2PExchange.h; sourceTree = "<group>"; };
 		B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_P2PExchange.m; sourceTree = "<group>"; };
+		B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		B56F908F15877CD900456F62 /* compass.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = compass.pdf; sourceTree = "<group>"; };
 		B56F909215878C0700456F62 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		B56F909315878C0700456F62 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */,
 				B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */,
 				B5789A2D1564170B0087502C /* libProj4.a in Frameworks */,
 				8E31D16814E96CB700A28A86 /* GLKit.framework in Frameworks */,
@@ -494,6 +497,7 @@
 		B595D2DE1407C01C00EB1A91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */,
 				B5C6809B156667A80099AB49 /* MapKit.framework */,
 				8E31D16714E96CB700A28A86 /* GLKit.framework */,
 				B5A3B00E14CC6140004A0E54 /* Accelerate.framework */,
@@ -656,6 +660,11 @@
 			attributes = {
 				LastTestingUpgradeCheck = 0610;
 				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					B595D2DA1407C01C00EB1A91 = {
+						DevelopmentTeam = 89999A5LYT;
+					};
+				};
 			};
 			buildConfigurationList = B595D2D51407C01C00EB1A91 /* Build configuration list for PBXProject "reckonMe" */;
 			compatibilityVersion = "Xcode 3.2";
