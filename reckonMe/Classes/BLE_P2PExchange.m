@@ -104,6 +104,24 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
     [super dealloc];
 }
 
+-(void)setAdvertisedPosition:(AbsoluteLocationEntry *)advertisedPosition {
+    
+    if (_advertisedPosition != advertisedPosition)
+    {
+        [_advertisedPosition release];
+        _advertisedPosition = advertisedPosition;
+        [_advertisedPosition retain];
+        
+        self.advertisement = [_advertisedPosition toBase64Encoding];
+        
+        if (self.shouldAdvertise) {
+            
+            [self stopAdvertising];
+            [self startAdvertising];
+        }
+    }
+}
+
 //MARK: - start/stop
 -(void)startAdvertising {
     
@@ -179,7 +197,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
     
-    NSLog(@"central state: %d", central.state);
+    NSLog(@"central state: %d", (int) central.state);
     
     if (central.state == CBCentralManagerStatePoweredOn
         && self.shouldScan) {
@@ -192,7 +210,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 //MARK: - CBPeripheralManagerDelegate
 -(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
     
-    NSLog(@"peripheral state: %d", peripheral.state);
+    NSLog(@"peripheral state: %d", (int) peripheral.state);
     
     if (peripheral.state == CBPeripheralManagerStatePoweredOn
         && self.shouldAdvertise) {

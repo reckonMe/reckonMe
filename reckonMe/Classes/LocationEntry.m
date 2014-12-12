@@ -126,6 +126,8 @@ NSString* const originEastingKey = @"originEasting";
 
 - (instancetype)initWithBase64String:(NSString *)encodedPosition {
     
+    NSAssert([encodedPosition length] == 28, @"base64-encoded position string has a wrong length (!=28)");
+    
     if (self = [super init]) {
         
         NSData *data = [[NSData alloc] initWithBase64EncodedString:encodedPosition
