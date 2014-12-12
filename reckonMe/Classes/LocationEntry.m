@@ -124,12 +124,104 @@ NSString* const originEastingKey = @"originEasting";
     return self;
 }
 
+- (instancetype)initWithBase64String:(NSString *)encodedPosition {
+    
+    if (self = [super init]) {
+        
+        NSData *data = [[NSData alloc] initWithBase64EncodedString:encodedPosition
+                                                           options:0];
+        NSInteger offset = 0;
+        
+        double lat = [[self class] decodeDoubleFrom:data atOffset:&offset];
+        double lon = [[self class] decodeDoubleFrom:data atOffset:&offset];
+        double dev = [[self class] decodeFloatFrom:data atOffset:&offset];
+        [data release];
+        
+        //set LocationEntry values
+        timestamp = [[NSDate date] timeIntervalSince1970]; //now
+        eastingDelta = 0;
+        northingDelta = 0;
+        deviation = dev;
+        
+        //set remaining AbsoluteLocation values
+        [self setOrigin:CLLocationCoordinate2DMake(lat, lon)];
+    }
+    return self;
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
     [super encodeWithCoder:aCoder];
     [aCoder encodeDouble:originEasting forKey:originEastingKey];
     [aCoder encodeDouble:originNorthing forKey:originNorthingKey];
     //we omit encoding mercatorScaleFactor as it is implicitly specified by the origin
+}
+
++(void)encodeDouble:(Float64)value into:(NSMutableData *)data {
+    
+    CFSwappedFloat64 swappedValue = CFConvertDoubleHostToSwapped(value);
+    [data appendBytes:&swappedValue length:sizeof(CFSwappedFloat64)];
+}
+
++(void)encodeFloat:(Float32)value into:(NSMutableData *)data {
+    
+    CFSwappedFloat32 swappedValue = CFConvertFloat32HostToSwapped(value);
+    [data appendBytes:&swappedValue length:sizeof(CFSwappedFloat32)];
+}
+
+/*
+ * Returns the decoded value AND increases *offset for the next potential
+ * call of a decode... method.
+ */
++(Float64)decodeDoubleFrom:(NSData *)data atOffset:(NSInteger *)offset {
+    
+    NSRange range = {*offset, sizeof(CFSwappedFloat64)};
+    *offset += range.length;
+    
+    CFSwappedFloat64 swappedValue;
+    [data getBytes:&swappedValue range:range];
+    
+    return CFConvertDoubleSwappedToHost(swappedValue);
+}
+
+/*
+ * Returns the decoded value AND increases *offset for the next potential
+ * call of a decode... method.
+ */
++(Float32)decodeFloatFrom:(NSData *)data atOffset:(NSInteger *)offset {
+    
+    NSRange range = {*offset, sizeof(CFSwappedFloat32)};
+    *offset += range.length;
+    
+    CFSwappedFloat32 swappedValue;
+    [data getBytes:&swappedValue range:range];
+    
+    return CFConvertFloat32SwappedToHost(swappedValue);
+}
+
+-(NSString *)toBase64Encoding {
+    
+    CLLocationCoordinate2D absolute = self.absolutePosition;
+    
+    //to be encoded
+    Float64 lat = absolute.latitude;
+    Float64 lon = absolute.longitude;
+    Float32 dev = (Float32) self.deviation; //we are losing precision here
+    
+    // Create NSData object
+    NSMutableData *data = [NSMutableData new];
+    [[self class] encodeDouble:lat
+                          into:data];
+    [[self class] encodeDouble:lon
+                          into:data];
+    [[self class] encodeFloat:dev
+                         into:data];
+    
+    // Get NSString from NSData object in Base64
+    NSString *base64Encoded = [data base64EncodedStringWithOptions:0];
+    [data release];
+    
+    return base64Encoded;
 }
 
 

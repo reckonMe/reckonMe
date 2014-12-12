@@ -68,6 +68,9 @@
                  origin:(CLLocationCoordinate2D) _origin
               Deviation:(double) _deviation;
 
+- (instancetype)initWithBase64String:(NSString *)encodedPosition;
+
 - (NSString *)stringRepresentationForRecording;
+- (NSString *)toBase64Encoding;
     
 @end
