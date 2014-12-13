@@ -33,6 +33,7 @@
  **/
 
 #import "BLE_P2PExchange.h"
+#import "SecondViewController.h"
 
 //random UUID generated with uuidgen
 NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
@@ -186,7 +187,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     
-    NSLog(@"%@ %@ %@", RSSI, peripheral.name, [advertisementData objectForKey:CBAdvertisementDataLocalNameKey]);
+    //NSLog(@"%@ %@ %@", RSSI, peripheral.name, [advertisementData objectForKey:CBAdvertisementDataLocalNameKey]);
     
     NSInteger signalStrength = [RSSI integerValue];
     if (signalStrength < self.rssiThreshold) return;
@@ -200,9 +201,17 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
     
     if ([self.delegate shouldConnectToPeerID:deviceName]) {
         
-        //dispatch async
-        //[self.delegate didReceivePosition:nil
-        //                         ofPeer:nil];
+        AbsoluteLocationEntry *peerPosition = [[AbsoluteLocationEntry alloc] initWithBase64String:advertisedData];
+        
+        //dispatch async??
+        [self.delegate didReceivePosition:peerPosition
+                                   ofPeer:deviceName];
+        
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Exchanged position estimates with \"%@\" at (%.1fm, %.1fm).",
+                                                         deviceName,
+                                                         peerPosition.northing,
+                                                         peerPosition.easting]];
+        [peerPosition release];
     }
 }
 

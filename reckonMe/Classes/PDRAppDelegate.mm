@@ -28,7 +28,6 @@
 #import "PDRAppDelegate.h"
 #import "AlertSoundPlayer.h"
 #import <objc/message.h>
-#import "BLE_P2PExchange.h"
 
 @implementation PDRAppDelegate
 
@@ -43,9 +42,6 @@
     
     self.window.rootViewController = mainVC;
     [self.window makeKeyAndVisible];
-    
-    [[BLE_P2PExchange sharedInstance] startWalkerMode];
-    
     return YES;
 }
 

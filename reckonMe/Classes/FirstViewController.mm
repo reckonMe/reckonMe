@@ -28,7 +28,7 @@
 #import "FirstViewController.h"
 #import "LocationEntry.h"
 #import "CompassAndGPS.h"
-#import "P2PestimateExchange.h"
+#import "BLE_P2PExchange.h"
 #import "Gyroscope.h"
 #import "AlertSoundPlayer.h"
 #import "MapMarker.h"
@@ -226,7 +226,7 @@ typedef enum {
     [[CompassAndGPS sharedInstance] addListener:fileWriter];
     [[CompassAndGPS sharedInstance] addListener:(id<SensorListener>) self];
     
-    [P2PestimateExchange sharedInstance].delegate = pdr;
+    [BLE_P2PExchange sharedInstance].delegate = pdr;
     
     self.compassView = nil;
     
@@ -888,7 +888,7 @@ typedef enum {
         
         if ([Settings sharedInstance].beaconMode) {
             
-            [P2PestimateExchange sharedInstance].beaconPosition = correctTo;
+            [BLE_P2PExchange sharedInstance].advertisedPosition = correctTo;
         
         } else {
             
@@ -1014,9 +1014,11 @@ typedef enum {
             BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
             BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
             
+            [BLE_P2PExchange sharedInstance].advertisedPosition = self.correctedPosition;
+            
             if (beaconMode) {
                 
-                [[P2PestimateExchange sharedInstance] startBeaconModeAtPosition:self.correctedPosition];
+                [[BLE_P2PExchange sharedInstance] startStationaryBeaconMode];
                 
             } else {
                 
@@ -1026,7 +1028,7 @@ typedef enum {
                 
                 if (walkerMode) {
                     
-                    [[P2PestimateExchange sharedInstance] startWalkerModeOnChannel:[Settings sharedInstance].audioChannel];
+                    [[BLE_P2PExchange sharedInstance] startWalkerMode];
                 }
             }
         }
@@ -1061,7 +1063,7 @@ typedef enum {
         [[Gyroscope sharedInstance] stop];
         [[CompassAndGPS sharedInstance] stop];
         
-        [[P2PestimateExchange sharedInstance] stop];
+        [[BLE_P2PExchange sharedInstance] stop];
         
         [pdr stopPDRsession];
         
@@ -1137,6 +1139,7 @@ typedef enum {
         [[SecondViewController sharedInstance] addToLog:logString];*/
         
         self.lastPosition = position;
+        [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
         
         //update path
         [path addObject:position];
