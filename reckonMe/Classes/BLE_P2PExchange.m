@@ -34,6 +34,7 @@
 
 #import "BLE_P2PExchange.h"
 #import "SecondViewController.h"
+#import "AlertSoundPlayer.h"
 
 //random UUID generated with uuidgen
 NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
@@ -212,6 +213,9 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
                                                          peerPosition.northing,
                                                          peerPosition.easting]];
         [peerPosition release];
+        
+        [AlertSoundPlayer.sharedInstance playSound:exchangedPositionsSound
+                                         vibrating:YES];
     }
 }
 
