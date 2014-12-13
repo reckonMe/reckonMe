@@ -70,6 +70,17 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
     return mySharedInstance;
 }
 
+//as of iOS8, CBCentralManager- and CBPeripheralManagerState enums have equal values
++ (NSDictionary *)coreBluetoothStateDisplayNames
+{
+    return @{@(CBCentralManagerStateUnknown) : @"unknown",
+             @(CBCentralManagerStateResetting) : @"resetting",
+             @(CBCentralManagerStateUnsupported) : @"unsupported",
+             @(CBCentralManagerStateUnauthorized) : @"unauthorized",
+             @(CBCentralManagerStatePoweredOff) : @"powered off",
+             @(CBCentralManagerStatePoweredOn) : @"powered on"};
+}
+
 -(instancetype)init {
     
     if (self = [super init]) {
@@ -197,7 +208,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central {
     
-    NSLog(@"central state: %d", (int) central.state);
+    NSLog(@"CBCentral state: %@", [[[self class] coreBluetoothStateDisplayNames] objectForKey:@(central.state)]);
     
     if (central.state == CBCentralManagerStatePoweredOn
         && self.shouldScan) {
@@ -210,7 +221,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 //MARK: - CBPeripheralManagerDelegate
 -(void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral {
     
-    NSLog(@"peripheral state: %d", (int) peripheral.state);
+    NSLog(@"CBPeripheral state: %@", [[[self class] coreBluetoothStateDisplayNames] objectForKey:@(peripheral.state)]);
     
     if (peripheral.state == CBPeripheralManagerStatePoweredOn
         && self.shouldAdvertise) {
