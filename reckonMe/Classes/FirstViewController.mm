@@ -317,7 +317,7 @@ typedef enum {
     self.pdrButton.title = pdrOn ? kStopPDRButtonTitle : kStartPDRButtonTitle;
     self.pdrButton.style = pdrOn ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
     
-    self.settingsButton = [[[UIBarButtonItem alloc] initWithTitle:@"Settings"
+    self.settingsButton = [[[UIBarButtonItem alloc] initWithTitle:@"⚙"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(settingsButtonPressed:)] autorelease];
