@@ -46,7 +46,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 
 @synthesize stepLengthStepper, stepLengthLabel;
 @synthesize p2pExchangeSwitch, beaconSwitch, beaconLabel;
-@synthesize audioChannelStepper, audioChannelLabel;
+@synthesize rssiStepper, rssiLabel;
 @synthesize minRequiredDistanceStepper, minRequiredDistanceLabel;
 
 - (void)dealloc {
@@ -63,8 +63,8 @@ const NSTimeInterval kAnimationDuration = 0.2;
     self.p2pExchangeSwitch = nil;
     self.beaconSwitch = nil;
     self.beaconLabel = nil;
-    self.audioChannelStepper = nil;
-    self.audioChannelLabel = nil;
+    self.rssiStepper = nil;
+    self.rssiLabel = nil;
     self.minRequiredDistanceLabel = nil;
     self.minRequiredDistanceStepper = nil;
 }
@@ -105,12 +105,12 @@ const NSTimeInterval kAnimationDuration = 0.2;
     //update the label
     [self minRequiredDistanceChanged:self.minRequiredDistanceStepper];
     
-    self.audioChannelStepper.minimumValue = 0;
-    self.audioChannelStepper.maximumValue = kNumChannels - 1;
-    self.audioChannelStepper.stepValue = 1;
-    self.audioChannelStepper.value = [Settings sharedInstance].audioChannel;
+    self.rssiStepper.minimumValue = -100;
+    self.rssiStepper.maximumValue = -20;
+    self.rssiStepper.stepValue = 1;
+    self.rssiStepper.value = [Settings sharedInstance].rssi;
     //update the label
-    [self audioChannelChanged:self.audioChannelStepper];
+    [self rssiChanged:self.rssiStepper];
     
     animationDuration = kAnimationDuration;
 }
@@ -161,10 +161,12 @@ const NSTimeInterval kAnimationDuration = 0.2;
                          
                          if (!self.beaconSwitch.isOn) {
                              
-                             self.audioChannelLabel.transform = moveDetailControls;
-                             self.audioChannelStepper.transform = moveDetailControls;
+                             self.rssiLabel.transform = moveDetailControls;
+                             self.rssiStepper.transform = moveDetailControls;
                              self.minRequiredDistanceStepper.transform = moveDetailControls;
                              self.minRequiredDistanceLabel.transform = moveDetailControls;
+                             self.stepLengthLabel.transform = moveDetailControls;
+                             self.stepLengthStepper.transform = moveDetailControls;
                          }
                      }];
     
@@ -178,9 +180,9 @@ const NSTimeInterval kAnimationDuration = 0.2;
     
     if ([Settings sharedInstance].beaconMode) {
         
-        //move controls downwards from audioChannelLabel out of view
+        //move controls downwards from rssiLabel out of view
         moveDetailControls = CGAffineTransformMakeTranslation(0, self.view.bounds.size.height 
-                                                              - self.audioChannelLabel.frame.origin.y);
+                                                              - self.stepLengthLabel.frame.origin.y);
         
     } else {
         
@@ -190,18 +192,20 @@ const NSTimeInterval kAnimationDuration = 0.2;
     [UIView animateWithDuration:animationDuration
                      animations:^(void) {
                          
-                         self.audioChannelLabel.transform = moveDetailControls;
-                         self.audioChannelStepper.transform = moveDetailControls;
+                         self.rssiLabel.transform = moveDetailControls;
+                         self.rssiStepper.transform = moveDetailControls;
                          self.minRequiredDistanceStepper.transform = moveDetailControls;
                          self.minRequiredDistanceLabel.transform = moveDetailControls;
+                         self.stepLengthLabel.transform = moveDetailControls;
+                         self.stepLengthStepper.transform = moveDetailControls;
                      }];
     
 }
 
--(IBAction)audioChannelChanged:(UIStepper *)sender {
+-(IBAction)rssiChanged:(UIStepper *)sender {
     
-    [Settings sharedInstance].audioChannel = sender.value;
-    self.audioChannelLabel.text = [NSString stringWithFormat:@"Audio channel: %d", [Settings sharedInstance].audioChannel];
+    [Settings sharedInstance].rssi = sender.value;
+    self.rssiLabel.text = [NSString stringWithFormat:@"RSSI Threshold: %ld db", [Settings sharedInstance].rssi];
 }
 
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender {

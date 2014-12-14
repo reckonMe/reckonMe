@@ -40,7 +40,7 @@ extern const double kDefaultStepLength;
 extern const BOOL kDefaultExchangeEnabled;
 extern const BOOL kDefaultBeaconMode;
 
-extern const int kDefaultAudioChannel;
+extern const NSInteger kDefaultRSSI;
 
 @interface Settings : NSObject
 
@@ -51,6 +51,6 @@ extern const int kDefaultAudioChannel;
 @property (nonatomic) int distanceBetweenConsecutiveMeetings;
 @property (nonatomic) BOOL beaconMode;
 @property (nonatomic) BOOL exchangeEnabled;
-@property (nonatomic) int audioChannel;
+@property (nonatomic) NSInteger rssi;
 
 @end

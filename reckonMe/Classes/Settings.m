@@ -40,14 +40,13 @@ const double kDefaultStepLength = 0.85;
 
 const BOOL kDefaultExchangeEnabled = YES;
 const BOOL kDefaultBeaconMode = NO;
-
-const int kDefaultAudioChannel = 0;
+const NSInteger kDefaultRSSI = -70;
 
 NSString* const kDistanceKey = @"distBetweenEx"; 
 NSString* const kStepLengthKey = @"stepLength";
 NSString* const kBeaconModeKey = @"beaconMode";
 NSString* const kExchangeEnabledKey = @"exchangeEnabled";
-NSString* const kAudioChannelKey = @"audioChannel";
+NSString* const kRSSIKey = @"RSSI";
 
 @implementation Settings
 
@@ -55,7 +54,7 @@ NSString* const kAudioChannelKey = @"audioChannel";
 @dynamic distanceBetweenConsecutiveMeetings;
 @dynamic beaconMode;
 @dynamic exchangeEnabled;
-@dynamic audioChannel;
+@dynamic rssi;
 
 +(Settings *)sharedInstance {
     
@@ -79,7 +78,7 @@ NSString* const kAudioChannelKey = @"audioChannel";
                                   [NSNumber numberWithDouble:kDefaultStepLength], kStepLengthKey,
                                   [NSNumber numberWithBool:kDefaultBeaconMode], kBeaconModeKey,
                                   [NSNumber numberWithBool:kDefaultExchangeEnabled], kExchangeEnabledKey,
-                                  [NSNumber numberWithInt:kDefaultAudioChannel], kAudioChannelKey,
+                                  [NSNumber numberWithInt:kDefaultRSSI], kRSSIKey,
                                   nil];
         
     	[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
@@ -142,19 +141,15 @@ NSString* const kAudioChannelKey = @"audioChannel";
     return [[NSUserDefaults standardUserDefaults] boolForKey:kExchangeEnabledKey];
 }
 
--(void)setAudioChannel:(int)audioChannel {
+-(void)setRssi:(NSInteger)rssi {
     
-    if (   audioChannel >= 0
-        && audioChannel < kNumChannels) {
-        
-        [[NSUserDefaults standardUserDefaults] setInteger:audioChannel
-                                                   forKey:kAudioChannelKey];
-    }
+    [[NSUserDefaults standardUserDefaults] setInteger:rssi
+                                               forKey:kRSSIKey];
 }
 
--(int)audioChannel {
+-(NSInteger)rssi {
     
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kAudioChannelKey];
+    return [[NSUserDefaults standardUserDefaults] integerForKey:kRSSIKey];
 }
 
 @end
