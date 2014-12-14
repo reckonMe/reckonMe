@@ -317,9 +317,10 @@ typedef enum {
     self.pdrButton.title = pdrOn ? kStopPDRButtonTitle : kStartPDRButtonTitle;
     self.pdrButton.style = pdrOn ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
     
-    self.settingsButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPageCurl
-                                                                         target:self
-                                                                         action:@selector(settingsButtonPressed:)] autorelease];
+    self.settingsButton = [[[UIBarButtonItem alloc] initWithTitle:@"Settings"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(settingsButtonPressed:)] autorelease];
     
     self.toolbarItemsWhenPDRon = [NSArray arrayWithObjects:
                                   self.followPositionButton,
