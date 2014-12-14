@@ -28,6 +28,7 @@
 #import "PDRAppDelegate.h"
 #import "AlertSoundPlayer.h"
 #import <objc/message.h>
+#import "DCIntrospect.h"
 
 @implementation PDRAppDelegate
 
@@ -42,6 +43,13 @@
     
     self.window.rootViewController = mainVC;
     [self.window makeKeyAndVisible];
+    
+    // always call after makeKeyAndDisplay.
+#if TARGET_IPHONE_SIMULATOR
+    [[DCIntrospect sharedIntrospector] start];
+#endif
+
+    
     return YES;
 }
 

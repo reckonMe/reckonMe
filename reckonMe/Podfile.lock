@@ -1,0 +1,10 @@
+PODS:
+  - DCIntrospect-ARC (0.0.8)
+
+DEPENDENCIES:
+  - DCIntrospect-ARC (~> 0.0.8)
+
+SPEC CHECKSUMS:
+  DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
+
+COCOAPODS: 0.34.4

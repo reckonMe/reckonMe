@@ -114,6 +114,7 @@
 		B5F5D11815A597CB007C52F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */; };
 		B5FA8D11159B551600D1358C /* itz-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = B5FA8D10159B551600D1358C /* itz-gray.png */; };
 		B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5FF80351590D55200B3601C /* PathCopyAnnotation.m */; };
+		FE6AD902EDD586EFF6075B06 /* libPods-reckonMe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C4FABEC6C2B735B37D49A15 /* libPods-reckonMe.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +142,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		74600FE66BE57AD0402645C4 /* Pods-reckonMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reckonMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-reckonMe/Pods-reckonMe.debug.xcconfig"; sourceTree = "<group>"; };
 		8E0318DD143513200014FB18 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8E0318DE143513200014FB18 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
 		8E07EF471432407300451568 /* pdr-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon-retina.png"; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		8EDDDF97152B4C06007D31B4 /* PDRTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = PDRTests.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8EDDDF99152B4C64007D31B4 /* FakeCMDeviceMotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeCMDeviceMotion.h; sourceTree = "<group>"; };
 		8EDDDF9A152B4C64007D31B4 /* FakeCMDeviceMotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeCMDeviceMotion.m; sourceTree = "<group>"; };
+		9C4FABEC6C2B735B37D49A15 /* libPods-reckonMe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reckonMe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50128C1146C223300D8CDFF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		B50128C2146C223300D8CDFF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -286,6 +289,7 @@
 		B5FA8D10159B551600D1358C /* itz-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itz-gray.png"; sourceTree = "<group>"; };
 		B5FF80341590D55200B3601C /* PathCopyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathCopyAnnotation.h; sourceTree = "<group>"; };
 		B5FF80351590D55200B3601C /* PathCopyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PathCopyAnnotation.m; sourceTree = "<group>"; };
+		D97F5BFD9BE63397CD1E84F5 /* Pods-reckonMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reckonMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-reckonMe/Pods-reckonMe.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +315,7 @@
 				B595D33C1407C0E000EB1A91 /* QuartzCore.framework in Frameworks */,
 				B595D2E01407C01C00EB1A91 /* UIKit.framework in Frameworks */,
 				B595D2E21407C01C00EB1A91 /* Foundation.framework in Frameworks */,
+				FE6AD902EDD586EFF6075B06 /* libPods-reckonMe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +333,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A4CCA30A67D68405EBD79E2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				74600FE66BE57AD0402645C4 /* Pods-reckonMe.debug.xcconfig */,
+				D97F5BFD9BE63397CD1E84F5 /* Pods-reckonMe.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B5499E851425E85C00BA7177 /* Sensors */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,6 +496,7 @@
 				B595D30D1407C01C00EB1A91 /* reckonMeTests */,
 				B595D2DE1407C01C00EB1A91 /* Frameworks */,
 				B595D2DC1407C01C00EB1A91 /* Products */,
+				5A4CCA30A67D68405EBD79E2 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -515,6 +530,7 @@
 				B595D2E11407C01C00EB1A91 /* Foundation.framework */,
 				B595D2E31407C01C00EB1A91 /* CoreGraphics.framework */,
 				B595D3061407C01C00EB1A91 /* SenTestingKit.framework */,
+				9C4FABEC6C2B735B37D49A15 /* libPods-reckonMe.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -619,9 +635,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B595D3191407C01D00EB1A91 /* Build configuration list for PBXNativeTarget "reckonMe" */;
 			buildPhases = (
+				0BC8B69988EDC3169F318E79 /* Check Pods Manifest.lock */,
 				B595D2D71407C01C00EB1A91 /* Sources */,
 				B595D2D81407C01C00EB1A91 /* Frameworks */,
 				B595D2D91407C01C00EB1A91 /* Resources */,
+				3735DF60E80AEFF25359C4D0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -765,6 +783,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0BC8B69988EDC3169F318E79 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		3735DF60E80AEFF25359C4D0 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-reckonMe/Pods-reckonMe-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B595D3031407C01C00EB1A91 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -907,8 +955,10 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../**";
-				IBC_OTHER_FLAGS = "$(OTHER_CFLAGS)";
+				HEADER_SEARCH_PATHS = (
+					"../**",
+					"$(inherited)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -934,8 +984,10 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "../**";
-				IBC_OTHER_FLAGS = "$(OTHER_CFLAGS)";
+				HEADER_SEARCH_PATHS = (
+					"../**",
+					"$(inherited)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -949,6 +1001,7 @@
 		};
 		B595D31A1407C01D00EB1A91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74600FE66BE57AD0402645C4 /* Pods-reckonMe.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -976,6 +1029,7 @@
 		};
 		B595D31B1407C01D00EB1A91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D97F5BFD9BE63397CD1E84F5 /* Pods-reckonMe.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
