@@ -43,7 +43,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 @property(nonatomic, retain) AbsoluteLocationEntry *rotationCenter;
 @property(nonatomic, retain) MKPolyline *rotatableSubPath;
-@property(nonatomic, retain) MKPolylineView *rotatableSubPathView;
+@property(nonatomic, retain) MKPolylineRenderer *rotatableSubPathView;
 @property(nonatomic, retain) NSMutableArray *pinsMinusCorrectionPin;
 
 @property(nonatomic, retain) PathCopyAnnotation *pathCopyAnnotation;
@@ -356,13 +356,13 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(void)createScreenShotOfRotatableSubPath {
     
-    MKPolylineView *subPathView = self.rotatableSubPathView;
+    MKPolylineRenderer *subPathView = self.rotatableSubPathView;
        
     MKZoomScale currentZoomScale = (CGFloat)(mapView.bounds.size.width / mapView.visibleMapRect.size.width);
-    CGRect pathrect = CGRectMake(subPathView.bounds.origin.x,
+    CGRect pathrect = mapView.bounds;/*CGRectMake(subPathView.bounds.origin.x,
                                  subPathView.bounds.origin.y,
                                  subPathView.bounds.size.width * currentZoomScale,
-                                 subPathView.bounds.size.height * currentZoomScale);
+                                 subPathView.bounds.size.height * currentZoomScale);*/
     
     //create a graphics context
     /*
@@ -389,7 +389,9 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     CGContextScaleCTM(context, currentZoomScale, currentZoomScale);
     
     //draw the path    
-    [subPathView.layer drawInContext:context];
+    NSLog(@"strokeColor: %@", subPathView.strokeColor);
+    [subPathView strokePath:subPathView.path
+                  inContext:context];
     
     //fetch the image
 	CGImageRef cgImage = CGBitmapContextCreateImage(context);
@@ -461,7 +463,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     if (overlay == self.pathOverlay) {
         
-        MKPolylineView *pathView = [[MKPolylineView alloc] initWithPolyline:self.pathOverlay];
+        MKPolylineRenderer *pathView = [[MKPolylineRenderer alloc] initWithPolyline:self.pathOverlay];
         
         //set the drawing properties
         const CGFloat colorArray[4] = {kPathStrokeRGBColor};
@@ -481,7 +483,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     if (overlay == self.rotatableSubPath) {
         
-        self.rotatableSubPathView = [[[MKPolylineView alloc] initWithPolyline:overlay] autorelease];
+        self.rotatableSubPathView = [[[MKPolylineRenderer alloc] initWithPolyline:overlay] autorelease];
         
         //set the drawing properties
         const CGFloat colorArray[4] = {0.0, 1.0, 0.0, 0.8};
