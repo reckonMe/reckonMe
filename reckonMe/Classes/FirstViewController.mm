@@ -1048,22 +1048,6 @@ typedef enum {
                                                                      object:self];
         [[NSNotificationQueue defaultQueue] enqueueNotification:notification
                                                    postingStyle:NSPostWhenIdle];
-        
-        AbsoluteLocationEntry *test1 = [[AbsoluteLocationEntry alloc] initWithTimestamp:nil
-                                                                           eastingDelta:self.lastPosition.eastingDelta + 10
-                                                                          northingDelta:self.lastPosition.northingDelta + 20
-                                                                                 origin:self.lastPosition.origin
-                                                                              Deviation:1];
-        [self didReceivePosition:test1];
-        [test1 release];
-        
-        AbsoluteLocationEntry *test2 = [[AbsoluteLocationEntry alloc] initWithTimestamp:nil
-                                                                           eastingDelta:self.lastPosition.eastingDelta + 30
-                                                                          northingDelta:self.lastPosition.northingDelta + 10
-                                                                                 origin:self.lastPosition.origin
-                                                                              Deviation:1];
-        [self didReceivePosition:test2];
-        [test2 release];
     }
     pdrOn = YES;
 }

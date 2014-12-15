@@ -348,6 +348,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         //-> mapView:didAddOverlayViews:
         //-> createScreenShotOfRotatableSubPath
         [mapView addOverlay:self.rotatableSubPath];
+        [self createScreenShotOfRotatableSubPath];
         
         rotationAnchor.coordinate = _rotationCenter.absolutePosition;
         [mapView addAnnotation:rotationAnchor];
@@ -358,64 +359,108 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     MKPolylineRenderer *subPathView = self.rotatableSubPathView;
        
-    MKZoomScale currentZoomScale = (CGFloat)(mapView.bounds.size.width / mapView.visibleMapRect.size.width);
-    CGRect pathrect = mapView.bounds;/*CGRectMake(subPathView.bounds.origin.x,
-                                 subPathView.bounds.origin.y,
-                                 subPathView.bounds.size.width * currentZoomScale,
-                                 subPathView.bounds.size.height * currentZoomScale);*/
+//    MKZoomScale currentZoomScale = (CGFloat)(mapView.bounds.size.width / mapView.visibleMapRect.size.width);
+//    CGRect pathrect = CGPathGetBoundingBox(subPathView.path);/*CGRectMake(subPathView.bounds.origin.x,
+//                                 subPathView.bounds.origin.y,
+//                                 subPathView.bounds.size.width * currentZoomScale,
+//                                 subPathView.bounds.size.height * currentZoomScale);*/
+//    
+//    //create a graphics context
+//    /*
+//     * for reasons unknown:
+//     * UIGraphicsBeginImageContextWithOptions(subPathView.bounds.size, NO, 0);
+//     * CGContextRef context = UIGraphicsGetCurrentContext();
+//     * wouldn't work
+//     */
+//    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB(); 
+//    CGContextRef context = CGBitmapContextCreate(NULL,                          //void *data
+//                                                 pathrect.size.width,
+//                                                 pathrect.size.height,
+//                                                 8,                             //bits per component
+//                                                 4 * (size_t) pathrect.size.width, //bytes per row
+//                                                 colorSpaceRef,
+//                                                 kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
+//    CGColorSpaceRelease(colorSpaceRef);
+//    
+//    // Turn the provided context upside down, to match the native origin of Quartz which is lower left.
+//    //CGContextTranslateCTM(context, 0.0, pathrect.size.height);
+//    //CGContextScaleCTM(context, 1.0, -1.0);
+//    
+//    //scale the coordinate system to the current zoom level
+//    //CGContextScaleCTM(context, currentZoomScale, currentZoomScale);
+//    
+//    //draw the path    
+//    NSLog(@"strokeColor: %@", subPathView.strokeColor);
+//    [subPathView strokePath:subPathView.path
+//                  inContext:context];
+//    [subPathView fillPath:subPathView.path
+//                inContext:context];
+//    
+//    //fetch the image
+//	CGImageRef cgImage = CGBitmapContextCreateImage(context);
+//    UIImage *pathImage = [[UIImage alloc] initWithCGImage:cgImage];
+//    CGImageRelease(cgImage);
+//    CGContextRelease(context);
+//    
+//    self.pathImageCopy = [pathImage autorelease];
     
-    //create a graphics context
-    /*
-     * for reasons unknown:
-     * UIGraphicsBeginImageContextWithOptions(subPathView.bounds.size, NO, 0);
-     * CGContextRef context = UIGraphicsGetCurrentContext();
-     * wouldn't work
-     */
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB(); 
-    CGContextRef context = CGBitmapContextCreate(NULL,                          //void *data
-                                                 pathrect.size.width,
-                                                 pathrect.size.height,
-                                                 8,                             //bits per component
-                                                 4 * (size_t) pathrect.size.width, //bytes per row
-                                                 colorSpaceRef,
-                                                 kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-    CGColorSpaceRelease(colorSpaceRef);
+    MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
+    options.region = mapView.region;
+    options.scale = [UIScreen mainScreen].scale;
+    options.size = mapView.frame.size;
     
-    // Turn the provided context upside down, to match the native origin of Quartz which is lower left.
-    CGContextTranslateCTM(context, 0.0, pathrect.size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
+    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
+    [snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+              completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+                  if (error) {
+                      NSLog(@"[Error] %@", error);
+                      return;
+                  }
+                  
+                  //MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
+                  
+                  UIImage *image = snapshot.image;
+                  UIGraphicsBeginImageContextWithOptions(image.size, YES, image.scale);
+                  {
+                      [image drawAtPoint:CGPointMake(0.0f, 0.0f)];
+                      
+                      CGRect rect = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
+//                      for (id <MKAnnotation> annotation in self.mapView.annotations) {
+//                          CGPoint point = [snapshot pointForCoordinate:annotation.coordinate];
+//                          if (CGRectContainsPoint(rect, point)) {
+//                              point.x = point.x + pin.centerOffset.x -
+//                              (pin.bounds.size.width / 2.0f);
+//                              point.y = point.y + pin.centerOffset.y -
+//                              (pin.bounds.size.height / 2.0f);
+//                              [pin.image drawAtPoint:point];
+//                          }
+//                      }
+                      
+                      UIImage *compositeImage = UIGraphicsGetImageFromCurrentImageContext();
+                      self.pathImageCopy = compositeImage;
+                      
+                      
+                  }
+                  UIGraphicsEndImageContext();
+                  
+                  //Create an annotation on the map on the same location as the path view.
+                  //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
+                  self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
+                  MKMapPoint pathCenter = MKMapPointMake(self.rotatableSubPath.boundingMapRect.origin.x + self.rotatableSubPath.boundingMapRect.size.width / 2,
+                                                         self.rotatableSubPath.boundingMapRect.origin.y + self.rotatableSubPath.boundingMapRect.size.height / 2);
+                  self.pathCopyAnnotation.coordinate = MKCoordinateForMapPoint(pathCenter);
+                  
+                  //set the anchor point (=starting point) around which the view will be rotated
+                  MKMapPoint startingPoint = MKMapPointForCoordinate(self.rotationCenter.absolutePosition);
+                  CGPoint anchor = CGPointMake((startingPoint.x - self.rotatableSubPath.boundingMapRect.origin.x) / self.rotatableSubPath.boundingMapRect.size.width,
+                                               (startingPoint.y - self.rotatableSubPath.boundingMapRect.origin.y) / self.rotatableSubPath.boundingMapRect.size.height);
+                  self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
+                  
+                  [mapView addAnnotation:self.pathCopyAnnotation];
+                  [mapView removeOverlay:self.rotatableSubPath];
+
+              }];
     
-    //scale the coordinate system to the current zoom level
-    CGContextScaleCTM(context, currentZoomScale, currentZoomScale);
-    
-    //draw the path    
-    NSLog(@"strokeColor: %@", subPathView.strokeColor);
-    [subPathView strokePath:subPathView.path
-                  inContext:context];
-    
-    //fetch the image
-	CGImageRef cgImage = CGBitmapContextCreateImage(context);
-    UIImage *pathImage = [[UIImage alloc] initWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    CGContextRelease(context);
-    
-    self.pathImageCopy = [pathImage autorelease];
-    
-    //Create an annotation on the map on the same location as the path view.
-    //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
-    self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
-    MKMapPoint pathCenter = MKMapPointMake(self.rotatableSubPath.boundingMapRect.origin.x + self.rotatableSubPath.boundingMapRect.size.width / 2,
-                                           self.rotatableSubPath.boundingMapRect.origin.y + self.rotatableSubPath.boundingMapRect.size.height / 2);
-    self.pathCopyAnnotation.coordinate = MKCoordinateForMapPoint(pathCenter);
-    
-    //set the anchor point (=starting point) around which the view will be rotated
-    MKMapPoint startingPoint = MKMapPointForCoordinate(self.rotationCenter.absolutePosition);
-    CGPoint anchor = CGPointMake((startingPoint.x - self.rotatableSubPath.boundingMapRect.origin.x) / self.rotatableSubPath.boundingMapRect.size.width,
-                                 (startingPoint.y - self.rotatableSubPath.boundingMapRect.origin.y) / self.rotatableSubPath.boundingMapRect.size.height);
-    self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
-    
-    [mapView addAnnotation:self.pathCopyAnnotation];
-    [mapView removeOverlay:self.rotatableSubPath];
 }
 
 -(void)rotatePathViewBy:(CGFloat)radians {
