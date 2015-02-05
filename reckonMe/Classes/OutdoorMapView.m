@@ -415,7 +415,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
                   self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
                   MKMapPoint pathCenter = MKMapPointMake(self.rotatableSubPath.boundingMapRect.origin.x + self.rotatableSubPath.boundingMapRect.size.width / 2,
                                                          self.rotatableSubPath.boundingMapRect.origin.y + self.rotatableSubPath.boundingMapRect.size.height / 2);
-                  self.pathCopyAnnotation.coordinate = MKCoordinateForMapPoint(pathCenter);
+                  self.pathCopyAnnotation.coordinate = options.region.center; //MKCoordinateForMapPoint(pathCenter);
                   
                   //set the anchor point (=starting point) around which the view will be rotated
                   MKMapPoint startingPoint = MKMapPointForCoordinate(self.rotationCenter.absolutePosition);
