@@ -347,7 +347,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         //   mapView:viewForOverlay:
         //-> mapView:didAddOverlayViews:
         //-> createScreenShotOfRotatableSubPath
-        [mapView addOverlay:self.rotatableSubPath];
         [self createScreenShotOfRotatableSubPath];
         
         rotationAnchor.coordinate = _rotationCenter.absolutePosition;
@@ -357,53 +356,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(void)createScreenShotOfRotatableSubPath {
     
-    MKPolylineRenderer *subPathView = self.rotatableSubPathView;
-       
-//    MKZoomScale currentZoomScale = (CGFloat)(mapView.bounds.size.width / mapView.visibleMapRect.size.width);
-//    CGRect pathrect = CGPathGetBoundingBox(subPathView.path);/*CGRectMake(subPathView.bounds.origin.x,
-//                                 subPathView.bounds.origin.y,
-//                                 subPathView.bounds.size.width * currentZoomScale,
-//                                 subPathView.bounds.size.height * currentZoomScale);*/
-//    
-//    //create a graphics context
-//    /*
-//     * for reasons unknown:
-//     * UIGraphicsBeginImageContextWithOptions(subPathView.bounds.size, NO, 0);
-//     * CGContextRef context = UIGraphicsGetCurrentContext();
-//     * wouldn't work
-//     */
-//    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB(); 
-//    CGContextRef context = CGBitmapContextCreate(NULL,                          //void *data
-//                                                 pathrect.size.width,
-//                                                 pathrect.size.height,
-//                                                 8,                             //bits per component
-//                                                 4 * (size_t) pathrect.size.width, //bytes per row
-//                                                 colorSpaceRef,
-//                                                 kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrder32Host);
-//    CGColorSpaceRelease(colorSpaceRef);
-//    
-//    // Turn the provided context upside down, to match the native origin of Quartz which is lower left.
-//    //CGContextTranslateCTM(context, 0.0, pathrect.size.height);
-//    //CGContextScaleCTM(context, 1.0, -1.0);
-//    
-//    //scale the coordinate system to the current zoom level
-//    //CGContextScaleCTM(context, currentZoomScale, currentZoomScale);
-//    
-//    //draw the path    
-//    NSLog(@"strokeColor: %@", subPathView.strokeColor);
-//    [subPathView strokePath:subPathView.path
-//                  inContext:context];
-//    [subPathView fillPath:subPathView.path
-//                inContext:context];
-//    
-//    //fetch the image
-//	CGImageRef cgImage = CGBitmapContextCreateImage(context);
-//    UIImage *pathImage = [[UIImage alloc] initWithCGImage:cgImage];
-//    CGImageRelease(cgImage);
-//    CGContextRelease(context);
-//    
-//    self.pathImageCopy = [pathImage autorelease];
-    
     MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
     options.region = mapView.region;
     options.scale = [UIScreen mainScreen].scale;
@@ -412,36 +364,51 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     [snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
               completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
+                  
                   if (error) {
                       NSLog(@"[Error] %@", error);
                       return;
                   }
+
+                  //adapted from http://stackoverflow.com/a/22716610/2215973
+                  UIImage *res        = nil;
                   
-                  //MKAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:nil];
+                  UIImage*image       = snapshot.image;
                   
-                  UIImage *image = snapshot.image;
                   UIGraphicsBeginImageContextWithOptions(image.size, YES, image.scale);
+                  [image drawAtPoint:CGPointMake(0, 0)];
+                  
+                  CGContextRef context                = UIGraphicsGetCurrentContext();
+                  
+                  CGContextSetStrokeColorWithColor(context,  [[UIColor blueColor] CGColor]);
+                  CGContextSetLineWidth(context,2.0f);
+                  CGContextBeginPath(context);
+                  
+                  MKPolyline *polyline = self.rotatableSubPath;
+                  
+                  CLLocationCoordinate2D coordinates[[polyline pointCount]];
+                  [polyline getCoordinates:coordinates range:NSMakeRange(0, [polyline pointCount])];
+                  
+                  for(int i=0;i<[polyline pointCount];i++)
                   {
-                      [image drawAtPoint:CGPointMake(0.0f, 0.0f)];
+                      CGPoint point = [snapshot pointForCoordinate:coordinates[i]];
                       
-                      CGRect rect = CGRectMake(0.0f, 0.0f, image.size.width, image.size.height);
-//                      for (id <MKAnnotation> annotation in self.mapView.annotations) {
-//                          CGPoint point = [snapshot pointForCoordinate:annotation.coordinate];
-//                          if (CGRectContainsPoint(rect, point)) {
-//                              point.x = point.x + pin.centerOffset.x -
-//                              (pin.bounds.size.width / 2.0f);
-//                              point.y = point.y + pin.centerOffset.y -
-//                              (pin.bounds.size.height / 2.0f);
-//                              [pin.image drawAtPoint:point];
-//                          }
-//                      }
-                      
-                      UIImage *compositeImage = UIGraphicsGetImageFromCurrentImageContext();
-                      self.pathImageCopy = compositeImage;
-                      
-                      
+                      if(i==0)
+                      {
+                          CGContextMoveToPoint(context,point.x, point.y);
+                      }
+                      else{
+                          CGContextAddLineToPoint(context,point.x, point.y);
+                          
+                      }
                   }
+                  
+                  CGContextStrokePath(context);
+                  
+                  res = UIGraphicsGetImageFromCurrentImageContext();
                   UIGraphicsEndImageContext();
+              
+                  self.pathImageCopy = res;
                   
                   //Create an annotation on the map on the same location as the path view.
                   //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
@@ -456,8 +423,10 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
                                                (startingPoint.y - self.rotatableSubPath.boundingMapRect.origin.y) / self.rotatableSubPath.boundingMapRect.size.height);
                   self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
                   
-                  [mapView addAnnotation:self.pathCopyAnnotation];
-                  [mapView removeOverlay:self.rotatableSubPath];
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      
+                      [mapView addAnnotation:self.pathCopyAnnotation];
+                  });
 
               }];
     
@@ -504,7 +473,10 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 }
  
 //MARK: - MKMapViewDelegate protocol
+
+//deprecated in iOS7: Implement the mapView:rendererForOverlay: method instead.
 -(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    NSLog(@"viewForOverlay: %@ called!", overlay);
     
     if (overlay == self.pathOverlay) {
         
@@ -558,6 +530,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
+    NSLog(@"viewForAnnotation: %@", annotation);
     static NSString *currentIdentifier = @"curr";
     static NSString *startingIdentifier = @"start";
     static NSString *pathCopyIdentifier = @"pathCopy";
@@ -629,7 +602,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
     
     if (annotation == pathCopyAnnotation) {
-        
+        NSLog(@"annotation == pathCopy");
         if (!self.pathCopy || self.pathCopy.annotation != annotation) {
             
             self.pathCopy = [[[MKAnnotationView alloc] initWithAnnotation:annotation 
@@ -639,6 +612,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
             self.pathCopy.canShowCallout = NO;
             self.pathCopy.draggable = NO;
             self.pathCopy.image = self.pathImageCopy;
+            NSLog(@"annotation == pathCopy, done");
         }
         return pathCopy;
     }
@@ -689,8 +663,10 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
 }
 
+//deprecated in iOS7: Implement the mapView:didAddOverlayRenderers: method instead.
 -(void)mapView:(MKMapView *)mapView didAddOverlayViews:(NSArray *)overlayViews {
     
+    NSLog(@"didAddOverlayViews called!");
     if ([overlayViews containsObject:self.rotatableSubPathView]) {
         
         [self createScreenShotOfRotatableSubPath];
