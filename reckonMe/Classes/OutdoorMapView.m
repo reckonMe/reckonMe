@@ -413,14 +413,13 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
                   //Create an annotation on the map on the same location as the path view.
                   //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
                   self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
-                  MKMapPoint pathCenter = MKMapPointMake(self.rotatableSubPath.boundingMapRect.origin.x + self.rotatableSubPath.boundingMapRect.size.width / 2,
-                                                         self.rotatableSubPath.boundingMapRect.origin.y + self.rotatableSubPath.boundingMapRect.size.height / 2);
                   self.pathCopyAnnotation.coordinate = options.region.center; //MKCoordinateForMapPoint(pathCenter);
                   
                   //set the anchor point (=starting point) around which the view will be rotated
-                  MKMapPoint startingPoint = MKMapPointForCoordinate(self.rotationCenter.absolutePosition);
-                  CGPoint anchor = CGPointMake((startingPoint.x - self.rotatableSubPath.boundingMapRect.origin.x) / self.rotatableSubPath.boundingMapRect.size.width,
-                                               (startingPoint.y - self.rotatableSubPath.boundingMapRect.origin.y) / self.rotatableSubPath.boundingMapRect.size.height);
+                  CGPoint absoluteRotationCenter = [snapshot pointForCoordinate:self.rotationCenter.absolutePosition];
+                  //anchor is in [0...1] x [0...1]
+                  CGPoint anchor = CGPointMake(absoluteRotationCenter.x / self.pathImageCopy.size.width,
+                                               absoluteRotationCenter.y / self.pathImageCopy.size.height);
                   self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
                   
                   dispatch_async(dispatch_get_main_queue(), ^{
