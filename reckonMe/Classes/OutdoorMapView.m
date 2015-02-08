@@ -356,75 +356,62 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(void)createScreenShotOfRotatableSubPath {
     
-    MKMapSnapshotOptions *options = [[MKMapSnapshotOptions alloc] init];
-    options.region = mapView.region;
-    options.scale = [UIScreen mainScreen].scale;
-    options.size = mapView.frame.size;
+    MKMapRect pathBoundingBox = [self.rotatableSubPath boundingMapRect];
+    CGRect pathRect = [mapView convertRegion:MKCoordinateRegionForMapRect(pathBoundingBox)
+                                toRectToView:mapView];
     
-    MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:options];
-    [snapshotter startWithQueue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-              completionHandler:^(MKMapSnapshot *snapshot, NSError *error) {
-                  
-                  if (error) {
-                      NSLog(@"[Error] %@", error);
-                      return;
-                  }
-
-                  //draw the path
-                  //adapted from http://stackoverflow.com/a/22716610/2215973
-                  UIGraphicsBeginImageContextWithOptions(snapshot.image.size, NO, snapshot.image.scale);
-                  
-                  CGContextRef context = UIGraphicsGetCurrentContext();
-                  
-                  //drawing properties
-                  const CGFloat colorArray[4] = {0.0, 1.0, 0.0, 0.8};
-                  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-                  CGColorRef color = CGColorCreate(colorSpace, colorArray);
-                  CGContextSetStrokeColorWithColor(context, color);
-                  CGContextSetLineWidth(context, kPathLineWidth);
-                  CGContextSetLineCap(context, kPathLineCap);
-                  CGContextSetLineJoin(context, kPathLineJoin);
-                  
-                  CGContextBeginPath(context);
-
-                  MKPolyline *polyline = self.rotatableSubPath;
-                  CLLocationCoordinate2D coordinates[[polyline pointCount]];
-                  [polyline getCoordinates:coordinates
-                                     range:NSMakeRange(0, [polyline pointCount])];
-                  
-                  for (int i=0; i < [polyline pointCount]; i++) {
-                      
-                      CGPoint point = [snapshot pointForCoordinate:coordinates[i]];
-                      if (i==0) {
-                          CGContextMoveToPoint(context,point.x, point.y);
-                      } else {
-                          CGContextAddLineToPoint(context,point.x, point.y);
-                      }
-                  }
-                  CGContextStrokePath(context);
-                  
-                  self.pathImageCopy = UIGraphicsGetImageFromCurrentImageContext();
-                  UIGraphicsEndImageContext();
-                  
-                  //Create an annotation on the map on the same location as the path view.
-                  //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
-                  self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
-                  self.pathCopyAnnotation.coordinate = options.region.center; //MKCoordinateForMapPoint(pathCenter);
-                  
-                  //set the anchor point (=starting point) around which the view will be rotated
-                  CGPoint absoluteRotationCenter = [snapshot pointForCoordinate:self.rotationCenter.absolutePosition];
-                  //anchor is in [0...1] x [0...1]
-                  CGPoint anchor = CGPointMake(absoluteRotationCenter.x / self.pathImageCopy.size.width,
-                                               absoluteRotationCenter.y / self.pathImageCopy.size.height);
-                  self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
-                  
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                      
-                      [mapView addAnnotation:self.pathCopyAnnotation];
-                  });
-
-              }];
+    UIGraphicsBeginImageContextWithOptions(pathRect.size,
+                                           NO, //opaque=NO
+                                           [UIScreen mainScreen].scale);
     
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    //drawing properties
+    const CGFloat colorArray[4] = {0.0, 1.0, 0.0, 0.8};
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorRef color = CGColorCreate(colorSpace, colorArray);
+    CGContextSetStrokeColorWithColor(context, color);
+    CGContextSetLineWidth(context, kPathLineWidth);
+    CGContextSetLineCap(context, kPathLineCap);
+    CGContextSetLineJoin(context, kPathLineJoin);
+    
+    CGContextBeginPath(context);
+    
+    MKPolyline *polyline = self.rotatableSubPath;
+    CLLocationCoordinate2D coordinates[[polyline pointCount]];
+    [polyline getCoordinates:coordinates
+                       range:NSMakeRange(0, [polyline pointCount])];
+    
+    for (int i = 0; i < [polyline pointCount]; i++) {
+        
+        CGPoint pointOnMapView = [mapView convertCoordinate:coordinates[i]
+                                              toPointToView:mapView];
+        CGPoint pointOnCanvas = CGPointMake(pointOnMapView.x - pathRect.origin.x,
+                                            pointOnMapView.y - pathRect.origin.y);
+        if (i == 0) {
+            CGContextMoveToPoint(context, pointOnCanvas.x, pointOnCanvas.y);
+        } else {
+            CGContextAddLineToPoint(context, pointOnCanvas.x, pointOnCanvas.y);
+        }
+    }
+    CGContextStrokePath(context);
+    
+    self.pathImageCopy = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //Create an annotation on the map on the same location as the path view.
+    //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
+    self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
+    self.pathCopyAnnotation.coordinate = self.rotatableSubPath.coordinate;
+    
+    CGPoint anchorOnMapView = [mapView convertCoordinate:self.rotationCenter.absolutePosition
+                                           toPointToView:mapView];
+    //anchor is in [0...1] x [0...1]
+    CGPoint anchor = CGPointMake((anchorOnMapView.x - pathRect.origin.x) / pathRect.size.width,
+                                 (anchorOnMapView.y - pathRect.origin.y) / pathRect.size.height);
+    self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
+
+    [mapView addAnnotation:self.pathCopyAnnotation];
 }
 
 -(void)rotatePathViewBy:(CGFloat)radians {
