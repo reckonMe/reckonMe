@@ -370,45 +370,41 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
                       return;
                   }
 
+                  //draw the path
                   //adapted from http://stackoverflow.com/a/22716610/2215973
-                  UIImage *res        = nil;
+                  UIGraphicsBeginImageContextWithOptions(snapshot.image.size, NO, snapshot.image.scale);
                   
-                  UIImage*image       = snapshot.image;
+                  CGContextRef context = UIGraphicsGetCurrentContext();
                   
-                  UIGraphicsBeginImageContextWithOptions(image.size, YES, image.scale);
-                  [image drawAtPoint:CGPointMake(0, 0)];
+                  //drawing properties
+                  const CGFloat colorArray[4] = {0.0, 1.0, 0.0, 0.8};
+                  CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+                  CGColorRef color = CGColorCreate(colorSpace, colorArray);
+                  CGContextSetStrokeColorWithColor(context, color);
+                  CGContextSetLineWidth(context, kPathLineWidth);
+                  CGContextSetLineCap(context, kPathLineCap);
+                  CGContextSetLineJoin(context, kPathLineJoin);
                   
-                  CGContextRef context                = UIGraphicsGetCurrentContext();
-                  
-                  CGContextSetStrokeColorWithColor(context,  [[UIColor blueColor] CGColor]);
-                  CGContextSetLineWidth(context,2.0f);
                   CGContextBeginPath(context);
-                  
+
                   MKPolyline *polyline = self.rotatableSubPath;
-                  
                   CLLocationCoordinate2D coordinates[[polyline pointCount]];
-                  [polyline getCoordinates:coordinates range:NSMakeRange(0, [polyline pointCount])];
+                  [polyline getCoordinates:coordinates
+                                     range:NSMakeRange(0, [polyline pointCount])];
                   
-                  for(int i=0;i<[polyline pointCount];i++)
-                  {
-                      CGPoint point = [snapshot pointForCoordinate:coordinates[i]];
+                  for (int i=0; i < [polyline pointCount]; i++) {
                       
-                      if(i==0)
-                      {
+                      CGPoint point = [snapshot pointForCoordinate:coordinates[i]];
+                      if (i==0) {
                           CGContextMoveToPoint(context,point.x, point.y);
-                      }
-                      else{
+                      } else {
                           CGContextAddLineToPoint(context,point.x, point.y);
-                          
                       }
                   }
-                  
                   CGContextStrokePath(context);
                   
-                  res = UIGraphicsGetImageFromCurrentImageContext();
+                  self.pathImageCopy = UIGraphicsGetImageFromCurrentImageContext();
                   UIGraphicsEndImageContext();
-              
-                  self.pathImageCopy = res;
                   
                   //Create an annotation on the map on the same location as the path view.
                   //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
