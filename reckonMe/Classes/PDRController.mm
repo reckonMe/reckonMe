@@ -217,6 +217,27 @@ static PDRController *sharedSingleton;
     [logger didReceivePDRPosition:entry];
     [logger didReceiveCollaborativeLocalisationPosition:entry];
     
+    // add fake steps for view debugging
+//    TraceEntry fakeStep1(timestamp + 3, pdrTrace.back().x + 20, pdrTrace.back().y + 20,
+//                       pdrTrace.back().deviation + 0);
+//    TraceEntry fakeStep2(timestamp + 6, pdrTrace.back().x + 40, pdrTrace.back().y - 0,
+//                        pdrTrace.back().deviation + 0);
+//    
+//    // add the step to pdrTrace
+//    pdrTrace.push_back(fakeStep1);
+//    pdrTrace.push_back(fakeStep2);
+//    collaborativeTrace.push_back(fakeStep1);
+//    collaborativeTrace.push_back(fakeStep2); 
+//    AbsoluteLocationEntry *entry1 = [self absoluteLocationEntryFrom:fakeStep1];
+//    AbsoluteLocationEntry *entry2 = [self absoluteLocationEntryFrom:fakeStep2];
+//    
+//    [view didReceivePosition:entry1];
+//    [logger didReceivePDRPosition:entry1];
+//    [logger didReceiveCollaborativeLocalisationPosition:entry1];
+//    [view didReceivePosition:entry2];
+//    [logger didReceivePDRPosition:entry2];
+//    [logger didReceiveCollaborativeLocalisationPosition:entry2];
+    
     pdrRunning = true;
 }
 

@@ -93,6 +93,8 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         mapView = [[MKMapView alloc] initWithFrame:frame];
         //mapView.mapType = MKMapTypeHybrid;
         mapView.zoomEnabled = YES;
+        mapView.pitchEnabled = NO;
+        mapView.rotateEnabled = YES;
         mapView.delegate = self;
         self.pathOverlay = nil;
         
@@ -335,6 +337,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     //disable zooming
     mapView.zoomEnabled = NO;
+    mapView.rotateEnabled = NO;
     
     self.rotationCenter = _rotationCenter;
     
@@ -343,10 +346,10 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     if (self.rotatableSubPath) {
         
-        //control flow: 
-        //   mapView:viewForOverlay:
-        //-> mapView:didAddOverlayViews:
-        //-> createScreenShotOfRotatableSubPath
+        //control flow:
+        //   createScreenShotOfRotatableSubPath
+        //-> [mapView addAnnotation:self.pathCopyAnnotation]
+        //-> [mapView viewForAnnotation:self.pathCopyAnnotation]
         [self createScreenShotOfRotatableSubPath];
         
         rotationAnchor.coordinate = _rotationCenter.absolutePosition;
@@ -359,8 +362,23 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     MKMapRect pathBoundingBox = [self.rotatableSubPath boundingMapRect];
     CGRect pathRect = [mapView convertRegion:MKCoordinateRegionForMapRect(pathBoundingBox)
                                 toRectToView:mapView];
+    //compute the anchor point around which the path is rotated
+    CGPoint anchorOnMapView = [mapView convertCoordinate:self.rotationCenter.absolutePosition
+                                           toPointToView:mapView];
+    CGPoint anchorInPathRect = CGPointMake(anchorOnMapView.x - pathRect.origin.x,
+                                           anchorOnMapView.y - pathRect.origin.y);
     
-    UIGraphicsBeginImageContextWithOptions(pathRect.size,
+    //Compute the deltas to enlarge a minimal bounding rect-sized canvas by, such that the rotation anchor lies exactly in the middle.
+    //It would be easier to use the minimal bounding rect as canvas size and set MKAnnotationView.layer.anchor appropriately, but this broke in iOS>=7.
+    CGFloat deltaX = 2 * anchorInPathRect.x - pathRect.size.width;
+    CGFloat deltaY = 2 * anchorInPathRect.y - pathRect.size.height;
+    
+    CGRect canvasRect = CGRectMake(0,
+                                   0,
+                                   pathRect.size.width + fabsf(deltaX),
+                                   pathRect.size.height + fabsf(deltaY));
+    
+    UIGraphicsBeginImageContextWithOptions(canvasRect.size,
                                            NO, //opaque=NO
                                            [UIScreen mainScreen].scale);
     
@@ -386,8 +404,8 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         
         CGPoint pointOnMapView = [mapView convertCoordinate:coordinates[i]
                                               toPointToView:mapView];
-        CGPoint pointOnCanvas = CGPointMake(pointOnMapView.x - pathRect.origin.x,
-                                            pointOnMapView.y - pathRect.origin.y);
+        CGPoint pointOnCanvas = CGPointMake(pointOnMapView.x - pathRect.origin.x - MIN(deltaX, 0),
+                                            pointOnMapView.y - pathRect.origin.y - MIN(deltaY, 0));
         if (i == 0) {
             CGContextMoveToPoint(context, pointOnCanvas.x, pointOnCanvas.y);
         } else {
@@ -402,15 +420,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     //Create an annotation on the map on the same location as the path view.
     //MKAnnotationView has the advantage of being rotatable by CGAffineTransforms.
     self.pathCopyAnnotation = [[[PathCopyAnnotation alloc] init] autorelease];
-    self.pathCopyAnnotation.coordinate = self.rotatableSubPath.coordinate;
-    
-    CGPoint anchorOnMapView = [mapView convertCoordinate:self.rotationCenter.absolutePosition
-                                           toPointToView:mapView];
-    //anchor is in [0...1] x [0...1]
-    CGPoint anchor = CGPointMake((anchorOnMapView.x - pathRect.origin.x) / pathRect.size.width,
-                                 (anchorOnMapView.y - pathRect.origin.y) / pathRect.size.height);
-    self.pathCopyAnnotation.pathCopyAnchorPoint = anchor;
-
+    self.pathCopyAnnotation.coordinate = self.rotationCenter.absolutePosition;
     [mapView addAnnotation:self.pathCopyAnnotation];
 }
 
@@ -432,33 +442,13 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     [mapView addAnnotation:startingPosition];
     [mapView addAnnotation:currentPosition];
     mapView.zoomEnabled = YES;
+    mapView.rotateEnabled = YES;
 }
 
--(void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view
-{
-    CGPoint newPoint = CGPointMake(view.bounds.size.width * anchorPoint.x, view.bounds.size.height * anchorPoint.y);
-    CGPoint oldPoint = CGPointMake(view.bounds.size.width * view.layer.anchorPoint.x, view.bounds.size.height * view.layer.anchorPoint.y);
-    
-    newPoint = CGPointApplyAffineTransform(newPoint, view.transform);
-    oldPoint = CGPointApplyAffineTransform(oldPoint, view.transform);
-    
-    CGPoint position = view.layer.position;
-    
-    position.x -= oldPoint.x;
-    position.x += newPoint.x;
-    
-    position.y -= oldPoint.y;
-    position.y += newPoint.y;
-    
-    view.layer.position = position;
-    view.layer.anchorPoint = anchorPoint;
-}
- 
 //MARK: - MKMapViewDelegate protocol
 
 //deprecated in iOS7: Implement the mapView:rendererForOverlay: method instead.
 -(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-    NSLog(@"viewForOverlay: %@ called!", overlay);
     
     if (overlay == self.pathOverlay) {
         
@@ -512,7 +502,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(MKAnnotationView *)mapView:(MKMapView *)_mapView viewForAnnotation:(id<MKAnnotation>)annotation {
 
-    NSLog(@"viewForAnnotation: %@", annotation);
     static NSString *currentIdentifier = @"curr";
     static NSString *startingIdentifier = @"start";
     static NSString *pathCopyIdentifier = @"pathCopy";
@@ -584,17 +573,16 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
     
     if (annotation == pathCopyAnnotation) {
-        NSLog(@"annotation == pathCopy");
+        
         if (!self.pathCopy || self.pathCopy.annotation != annotation) {
             
-            self.pathCopy = [[[MKAnnotationView alloc] initWithAnnotation:annotation 
+            self.pathCopy = [[[MKAnnotationView alloc] initWithAnnotation:annotation
                                                           reuseIdentifier:pathCopyIdentifier] autorelease];
             
             self.pathCopy.annotation = annotation;
             self.pathCopy.canShowCallout = NO;
             self.pathCopy.draggable = NO;
             self.pathCopy.image = self.pathImageCopy;
-            NSLog(@"annotation == pathCopy, done");
         }
         return pathCopy;
     }
@@ -645,24 +633,5 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
 }
 
-//deprecated in iOS7: Implement the mapView:didAddOverlayRenderers: method instead.
--(void)mapView:(MKMapView *)mapView didAddOverlayViews:(NSArray *)overlayViews {
-    
-    NSLog(@"didAddOverlayViews called!");
-    if ([overlayViews containsObject:self.rotatableSubPathView]) {
-        
-        [self createScreenShotOfRotatableSubPath];
-    }
-}
-
--(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    
-    if ([views containsObject:self.pathCopy]) {
-        
-        //set the anchor point to the right position
-        [self setAnchorPoint:self.pathCopyAnnotation.pathCopyAnchorPoint
-                     forView:self.pathCopy];
-    }
-}
 
 @end
