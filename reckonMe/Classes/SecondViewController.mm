@@ -95,9 +95,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque
-                                                animated:animated];
     
+    [self setNeedsStatusBarAppearanceUpdate];
     self.logView.scrollEnabled = [Settings sharedInstance].beaconMode;
 }
 
@@ -111,6 +110,11 @@
     
     [super viewWillDisappear:animated];
     [[UIScreen mainScreen] setBrightness:1.0];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    
+    return UIStatusBarStyleLightContent;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
