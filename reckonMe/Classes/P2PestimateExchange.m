@@ -952,8 +952,8 @@ static P2PestimateExchange *sharedSingleton;
                         
                         [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Exchanged position estimates with \"%@\" at (%.1fm, %.1fm).",
                                                                   [self displayNameForUniquePeerID:uniquePeerID], 
-                                                                  peerLocation.northing, 
-                                                                  peerLocation.easting]];
+                                                                  peerLocation.easting,
+                                                                  peerLocation.northing]];
                         
                         [AlertSoundPlayer.sharedInstance playSound:exchangedPositionsSound
                                                          vibrating:YES];
