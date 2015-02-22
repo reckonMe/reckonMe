@@ -782,10 +782,11 @@ typedef enum {
     SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithNibName:nil
                                                                                   bundle:nil];
     
-    settingsVC.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+    settingsVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
     
-    [self presentModalViewController:settingsVC
-                            animated:YES];
+    [self presentViewController:settingsVC
+                       animated:YES
+                     completion:nil];
     [settingsVC release];
 }
 

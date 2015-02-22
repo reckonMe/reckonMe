@@ -29,6 +29,8 @@
 
 @interface SettingsViewController : UIViewController <UIGestureRecognizerDelegate>
 
+@property (nonatomic, retain) UIVisualEffectView *blurryBackground;
+
 @property (nonatomic, retain) IBOutlet UIStepper *stepLengthStepper;
 @property (nonatomic, retain) IBOutlet UILabel *stepLengthLabel;
 

@@ -44,6 +44,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
     NSTimeInterval animationDuration;
 }
 
+@synthesize blurryBackground;
 @synthesize stepLengthStepper, stepLengthLabel;
 @synthesize p2pExchangeSwitch, beaconSwitch, beaconLabel;
 @synthesize rssiStepper, rssiLabel;
@@ -58,6 +59,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 
 - (void)releaseSubviews {
     
+    self.blurryBackground = nil;
     self.stepLengthStepper = nil;
     self.stepLengthLabel = nil;
     self.p2pExchangeSwitch = nil;
@@ -75,6 +77,22 @@ const NSTimeInterval kAnimationDuration = 0.2;
 {
     [super viewDidLoad];
     
+    UIVisualEffect *blurEffect;
+    blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.blurryBackground = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    [self.blurryBackground release];
+    
+    CGRect viewBounds = self.view.bounds;
+    CGFloat originY = self.p2pExchangeSwitch.frame.origin.y - 20;
+    self.blurryBackground.frame = CGRectMake(viewBounds.origin.x,
+                                             originY,
+                                             viewBounds.size.width,
+                                             viewBounds.size.height - originY);
+    self.blurryBackground.autoresizingMask = (UIViewAutoresizingFlexibleWidth
+                                            | UIViewAutoresizingFlexibleTopMargin);
+    [self.view insertSubview:self.blurryBackground
+                     atIndex:0];
+    
     animationDuration = 0;
     
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -82,6 +100,13 @@ const NSTimeInterval kAnimationDuration = 0.2;
     tapRecognizer.delegate = self;
     [self.view addGestureRecognizer:tapRecognizer];
     [tapRecognizer release];
+    
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                          action:@selector(userSwipedDown:)];
+    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionDown;
+    swipeRecognizer.delegate = self;
+    [self.view addGestureRecognizer:swipeRecognizer];
+    [swipeRecognizer release];
     
     self.stepLengthStepper.minimumValue = kMinStepLength;
     self.stepLengthStepper.maximumValue = kMaxStepLength;
@@ -205,7 +230,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 -(IBAction)rssiChanged:(UIStepper *)sender {
     
     [Settings sharedInstance].rssi = sender.value;
-    self.rssiLabel.text = [NSString stringWithFormat:@"RSSI Threshold: %ld db", [Settings sharedInstance].rssi];
+    self.rssiLabel.text = [NSString stringWithFormat:@"RSSI Threshold: %ld db", (long)[Settings sharedInstance].rssi];
 }
 
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender {
@@ -217,21 +242,25 @@ const NSTimeInterval kAnimationDuration = 0.2;
 -(void)userTappedBackground:(UITapGestureRecognizer *)sender {
     
     CGPoint touch = [sender locationInView:self.view];
-    //margin around controls in which not to recognize the touch
-    CGFloat margin = 50;
     
     //above or left of controls?
-    if (   touch.y <= self.stepLengthStepper.frame.origin.y - margin
-        || touch.x <= self.stepLengthStepper.frame.origin.x - margin) {
+    if (touch.y <= self.blurryBackground.frame.origin.y) {
         
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES
+                                 completion:nil];
     }
+}
+
+-(void)userSwipedDown:(UISwipeGestureRecognizer *)sender {
+    
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     
     //prevent touches in the controls from being recognized
-    return (touch.view == self.view);
+    return (touch.view == self.view) || (touch.view == self.blurryBackground);
 }
 
 @end
