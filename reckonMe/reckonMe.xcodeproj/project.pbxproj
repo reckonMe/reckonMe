@@ -37,6 +37,7 @@
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
 		B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */; };
+		B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */ = {isa = PBXBuildFile; fileRef = B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */; };
 		B51F36CD159DF71400517FD7 /* UnlockSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E73DF7159DBD39000B5228 /* UnlockSlider.m */; };
 		B52414E8147DA1BA00ACBCD8 /* goodbye.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */; };
 		B5293E3314C03C8200257CE6 /* BTFancyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B5293E3214C03C8100257CE6 /* BTFancyButton.m */; };
@@ -170,6 +171,7 @@
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UntouchableTextView.h; sourceTree = "<group>"; };
 		B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UntouchableTextView.m; sourceTree = "<group>"; };
+		B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dfki-2.OG-trimmed.png"; sourceTree = "<group>"; };
 		B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = goodbye.aiff; sourceTree = "<group>"; };
 		B5293E3114C03C8100257CE6 /* BTFancyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTFancyButton.h; sourceTree = "<group>"; };
 		B5293E3214C03C8100257CE6 /* BTFancyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTFancyButton.m; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 		B57550381413D9A100193A4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */,
 				B53BC85E1602753E00044D8D /* Default-568h@2x.png */,
 				B52BEDBA15AB116D00536CA6 /* aluminum.png */,
 				B52BEDBB15AB116D00536CA6 /* aluminum@2x.png */,
@@ -696,6 +699,7 @@
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
 				B595D2FF1407C01C00EB1A91 /* SecondView.xib in Resources */,
 				B5A051EF141526160038A723 /* crosshairs.png in Resources */,
+				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				B5A051F0141526160038A723 /* crosshairs@2x.png in Resources */,
 				B5811774141FB5B700925B4E /* crosshairsLarge.png in Resources */,
 				B5811775141FB5B700925B4E /* crosshairsLarge@2x.png in Resources */,
