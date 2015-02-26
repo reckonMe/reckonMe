@@ -26,7 +26,6 @@
 **/
 
 #import "Settings.h"
-#import "SoundDetector.h"
 
 const int kMinDistBetweenMeetings = 10;
 const int kMaxDistBetweenMeetings = 200;

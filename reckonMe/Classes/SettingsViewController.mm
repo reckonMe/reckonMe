@@ -27,7 +27,6 @@
 
 #import "SettingsViewController.h"
 #import "Settings.h"
-#import "SoundDetector.h"
 
 const NSTimeInterval kAnimationDuration = 0.2;
 

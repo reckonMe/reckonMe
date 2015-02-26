@@ -27,7 +27,6 @@
 
 #import "FileWriter.h"
 #import "Gyroscope.h"
-#import "P2PestimateExchange.h"
 #import "Settings.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -658,13 +657,6 @@ pdrConnectionQueryFileName;
     
     if (isRecording) {
         
-        NSString *result = [NSString stringWithFormat:@"%@\t %@\t %@\t %@\n", 
-                            [before stringRepresentationForRecording], 
-                            [after stringRepresentationForRecording],
-                            peerID,
-                            [[P2PestimateExchange sharedInstance] displayNameForUniquePeerID:peerID]];
-        
-        fprintf(pdrCollaborativePositionCorrectionUpdateFile, "%s", [result UTF8String]);
     }
 }
 
@@ -673,13 +665,6 @@ pdrConnectionQueryFileName;
     
     if (isRecording) {
         
-        NSString *result = [NSString stringWithFormat:@"%10.3f\t %@\t %@\t %d\n",
-                            timestamp,
-                            peerID,
-                            [[P2PestimateExchange sharedInstance] displayNameForUniquePeerID:peerID],
-                            shouldConnect ? 1 : 0];
-        
-        fprintf(pdrConnectionQueryFile, "%s", [result UTF8String]);
     }
 }
 
