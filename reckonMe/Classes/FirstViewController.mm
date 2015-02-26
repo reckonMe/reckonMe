@@ -202,18 +202,14 @@ typedef enum {
     self.lastPosition = [passauLocation autorelease];
     self.correctedPosition = self.lastPosition;
     
-    fileWriter = [[FileWriter alloc] init];
     pdr = [PDRController sharedInstance];
     pdr.view = self;
-    pdr.logger = fileWriter;
     
     pocketDetector = [[PantsPocketDetector alloc] init];
     pocketDetector.delegate = self;
     
     [Gyroscope sharedInstance].frequency = 50;
     
-    [[Gyroscope sharedInstance] addListener:fileWriter];
-    [[CompassAndGPS sharedInstance] addListener:fileWriter];
     [[CompassAndGPS sharedInstance] addListener:(id<SensorListener>) self];
     
     [BLE_P2PExchange sharedInstance].delegate = pdr;
@@ -228,7 +224,6 @@ typedef enum {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [pdr release];
-    [fileWriter release];
     [pocketDetector release];
     
     [self releaseSubviews];
@@ -854,7 +849,6 @@ typedef enum {
         
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
             
-            [fileWriter saveScreenshot];
             [self didReceiveEvent:StopButtonPressed];
         }
     }
@@ -940,7 +934,6 @@ typedef enum {
         [[SecondViewController sharedInstance] clearLog];
         
         [self.mapView stopStartingPositionFixingMode];
-        [fileWriter startRecording];
         
         if (testing) {
             
@@ -1004,7 +997,6 @@ typedef enum {
         
         [pdr stopPDRsession];
         
-        [fileWriter stopRecording];
         
         //update the toolbar items
         [self.toolbar setItems:self.toolbarItemsWhenPDRoff animated:YES];

@@ -36,7 +36,6 @@
 		B50128C4146C223300D8CDFF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C1146C223300D8CDFF /* CoreImage.framework */; };
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
-		B50B09BC1432F1EF00063D86 /* FileWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = B50B09BB1432F1EF00063D86 /* FileWriter.mm */; };
 		B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */; };
 		B51F36CD159DF71400517FD7 /* UnlockSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E73DF7159DBD39000B5228 /* UnlockSlider.m */; };
 		B52414E8147DA1BA00ACBCD8 /* goodbye.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */; };
@@ -169,8 +168,6 @@
 		B50128C1146C223300D8CDFF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		B50128C2146C223300D8CDFF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		B50B09BA1432F1EF00063D86 /* FileWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileWriter.h; sourceTree = "<group>"; };
-		B50B09BB1432F1EF00063D86 /* FileWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = FileWriter.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UntouchableTextView.h; sourceTree = "<group>"; };
 		B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UntouchableTextView.m; sourceTree = "<group>"; };
 		B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = goodbye.aiff; sourceTree = "<group>"; };
@@ -530,8 +527,6 @@
 				B5DF906A147D0DB900A39293 /* AlertSoundPlayer.m */,
 				B59BD117156443DB00433C17 /* GeodeticProjection.h */,
 				B59BD118156443DB00433C17 /* GeodeticProjection.m */,
-				B50B09BA1432F1EF00063D86 /* FileWriter.h */,
-				B50B09BB1432F1EF00063D86 /* FileWriter.mm */,
 				B537006A15B7092A00757BE0 /* Settings.h */,
 				B537006B15B7092A00757BE0 /* Settings.m */,
 				B57550381413D9A100193A4C /* Resources */,
@@ -816,7 +811,6 @@
 				B5499E841425E85700BA7177 /* CompassAndGPS.m in Sources */,
 				8E9F366B14297D64006CE285 /* PDRController.mm in Sources */,
 				8E9F366C14297D9C006CE285 /* LocationEntry.m in Sources */,
-				B50B09BC1432F1EF00063D86 /* FileWriter.mm in Sources */,
 				8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */,
 				B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */,
 				B5DF906B147D0DB900A39293 /* AlertSoundPlayer.m in Sources */,
