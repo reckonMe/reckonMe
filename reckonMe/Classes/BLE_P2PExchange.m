@@ -210,11 +210,11 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
         [self.delegate didReceivePosition:peerPosition
                                    ofPeer:deviceName];
         
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Received position estimate from \"%@\" at (%.1fm, %.1fm) with %d db.",
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Received position estimate from \"%@\" at (%.1fm, %.1fm) with %ld db.",
                                                          deviceName,
                                                          peerPosition.easting,
                                                          peerPosition.northing,
-                                                         signalStrength]];
+                                                         (long)signalStrength]];
         [peerPosition release];
         
         [AlertSoundPlayer.sharedInstance playSound:exchangedPositionsSound

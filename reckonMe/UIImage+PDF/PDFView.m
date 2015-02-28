@@ -74,7 +74,7 @@
     
     if( resourceURL )
 	{
-		CGPDFDocumentRef pdf = CGPDFDocumentCreateWithURL( (CFURLRef) resourceURL );
+		CGPDFDocumentRef pdf = CGPDFDocumentCreateWithURL((CFURLRef) [NSURL URLWithString:resourceURL]);
 		CGPDFPageRef page1 = CGPDFDocumentGetPage( pdf, 1 );
 		
 		rect = CGPDFPageGetBoxRect( page1, kCGPDFCropBox );
