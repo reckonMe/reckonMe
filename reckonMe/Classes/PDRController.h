@@ -39,10 +39,11 @@
 @property(nonatomic, assign) id<PDRView> view;
 @property(nonatomic, assign) id<PDRLogger> logger;
 
-@property(readonly) double originEasting;
-@property(readonly) double originNorthing;
+@property(nonatomic, readonly) double originEasting;
+@property(nonatomic, readonly) double originNorthing;
+@property(nonatomic, readwrite) double pathRotationAmount; //in radians
 
-@property(readonly) bool pdrRunning;
+@property(nonatomic, readonly) bool pdrRunning;
 
 @end
 

@@ -134,7 +134,6 @@ static PDRController *sharedSingleton;
     map<string, double> timestampsOfLastMeetings;
     
     double timestampOfLastInformationExchange;
-    double pathRotationAmount; // in radians
     bool lastStepWasManualCorrection;
     
     dispatch_queue_t computePDRqueue;
@@ -410,13 +409,13 @@ static PDRController *sharedSingleton;
     pdrRunning = NO;
     
     // cumulative rotation amount [rad] modulo 2*Pi
-    pathRotationAmount = fmod(pathRotationAmount + radians, 2 * M_PI);
+    self.pathRotationAmount = fmod(self.pathRotationAmount + radians, 2 * M_PI);
     AbsoluteLocationEntry *rotationCenter = [self absoluteLocationEntryFrom:*collaborativeTraceRotationIndex];
     
     //notify the logger
     [logger didReceiveManualHeadingCorrectionAround:rotationCenter
                                                  By:radians
-                                         Cumulative:pathRotationAmount];
+                                         Cumulative:self.pathRotationAmount];
     
     for (auto it = collaborativeTraceRotationIndex; it != collaborativeTrace.end(); ++it) {
 
@@ -532,7 +531,7 @@ static PDRController *sharedSingleton;
     
     pdrRunning = NO;
     lastStepWasManualCorrection = NO;
-    pathRotationAmount = 0;
+    self.pathRotationAmount = 0;
     pdrTrace.clear();
     collaborativeTrace.clear();
     collaborativeTraceRotationIndex = collaborativeTrace.begin();
@@ -858,8 +857,8 @@ static PDRController *sharedSingleton;
         // add the step to pdrTrace
         pdrTrace.push_back(pdrStep);
                 
-        double rotatedX = cos(pathRotationAmount) * dx - sin(pathRotationAmount) * dy;
-        double rotatedY = sin(pathRotationAmount) * dx + cos(pathRotationAmount) * dy;
+        double rotatedX = cos(self.pathRotationAmount) * dx - sin(self.pathRotationAmount) * dy;
+        double rotatedY = sin(self.pathRotationAmount) * dx + cos(self.pathRotationAmount) * dy;
         
         TraceEntry collaborativeStep(timestamp, collaborativeTrace.back().x + rotatedX, 
                                      collaborativeTrace.back().y + rotatedY,

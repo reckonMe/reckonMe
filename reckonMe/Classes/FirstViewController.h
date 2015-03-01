@@ -47,6 +47,7 @@ extern NSString* const PDRStatusChangedNotification;
     
     double yawOffset;
     double lastYaw;
+    double lastHeading;
 }
 
 @property (nonatomic) BOOL pdrOn;

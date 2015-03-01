@@ -67,4 +67,6 @@
 -(void)rotatePathViewBy:(CGFloat)radians;
 -(void)stopPathRotationMode;
 
+-(void)rotateMapByDegrees:(double)degrees timestamp:(NSTimeInterval)timestamp;
+
 @end

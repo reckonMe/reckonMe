@@ -71,7 +71,9 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     PinAnnotation *startingPosition;
     PinAnnotation *rotationAnchor;
     
+    BOOL touchDown;
     BOOL startingPositionFixingMode;
+    
 }
 
 @synthesize mapViewDelegate;
@@ -89,14 +91,15 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     if (self) {
         // Initialization code
         mapView = [[MKMapView alloc] initWithFrame:frame];
-        //mapView.mapType = MKMapTypeHybrid;
+        mapView.mapType = MKMapTypeHybrid;
         mapView.zoomEnabled = YES;
         mapView.pitchEnabled = NO;
-        mapView.rotateEnabled = YES;
+        mapView.rotateEnabled = NO;
         mapView.delegate = self;
         self.pathOverlay = nil;
-        
         [self addSubview:mapView];
+        
+        touchDown = NO;
         
         currentPosition = [[PinAnnotation alloc] init];
         currentPosition.title = startingPinTitle;
@@ -153,6 +156,47 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     super.autoresizingMask = autoresizingMask;
     mapView.autoresizingMask = autoresizingMask;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    //turn off touchesCancelled
+    /* other initializations */
+    for (UIGestureRecognizer *gesture in mapView.gestureRecognizers){
+        NSLog(@"recognizer: %@", gesture);
+        if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]){
+            gesture.cancelsTouchesInView = NO;
+        }
+    }
+    
+    NSLog(@"touch down");
+    touchDown = YES;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    NSLog(@"touch moved");
+    touchDown = YES;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+        NSLog(@"touch ended");
+    // Triggered when touch is released
+    if (touchDown) {
+
+        touchDown = NO;
+    }
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+        NSLog(@"touch cancelled");
+    // Triggered if touch leaves view
+    if (touchDown) {
+        
+        touchDown = NO;
+    }
 }
 
 
@@ -327,6 +371,28 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     [self.mapViewDelegate userCorrectedPositionTo:[correctedLocation autorelease] 
                                         onMapView:self];
+}
+
+-(void)rotateMapByDegrees:(double)degrees timestamp:(NSTimeInterval)timestamp {
+    
+    static double lastMapRotationDegrees = 0;
+    static double lastMapRotationTimestamp = 0;
+    
+    if (!touchDown) {
+        
+        if (fabs(lastMapRotationDegrees - degrees) > 2) {
+            
+            lastMapRotationDegrees = degrees;
+            lastMapRotationTimestamp = timestamp;
+            
+            //MKMapView "flickers" for values near North, as it is (un)hiding its small compass symbol
+            const double threshold = 7;
+            if (degrees > threshold && degrees < 360 - threshold) {
+                
+                mapView.camera.heading = degrees;
+            }
+        }
+    }
 }
 
 //MARK: - path rotation

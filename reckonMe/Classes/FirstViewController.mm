@@ -35,6 +35,7 @@
 #import "OutdoorMapView.h"
 #import "SettingsViewController.h"
 #import "Settings.h"
+#import "proj_api.h"
 
 NSString* const PDRStatusChangedNotification = @"PDRStatusChangedNotification";
 #define kInitialPathCapacity 2000
@@ -211,6 +212,7 @@ typedef enum {
     [Gyroscope sharedInstance].frequency = 50;
     
     [[CompassAndGPS sharedInstance] addListener:(id<SensorListener>) self];
+    [[CompassAndGPS sharedInstance] startCompass];
     
     [BLE_P2PExchange sharedInstance].delegate = pdr;
     
@@ -232,6 +234,7 @@ typedef enum {
     self.lastGPSfix = self.lastPosition = self.correctedPosition = nil;
     
     [[CompassAndGPS sharedInstance] removeListener:(id<SensorListener>) self];
+    [[CompassAndGPS sharedInstance] stopCompass];
     
     [super dealloc];
 }
@@ -954,6 +957,8 @@ typedef enum {
                 
                 //start the sensors
                 [[Gyroscope sharedInstance] start];
+#warning Workaround: add self as listener in order to really start the motion manager now, in order to get the pathRotionamount "right"
+                [[Gyroscope sharedInstance] addListener:(id<SensorListener>)self];
                 [[CompassAndGPS sharedInstance] start];
                 
                 if (walkerMode) {
@@ -968,9 +973,12 @@ typedef enum {
         [self.mapView setStartingPosition:self.lastPosition];
         
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm",
+        pdr.pathRotationAmount = -lastHeading * DEG_TO_RAD;
+        
+        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm rot=%.1f",
                                                          lastPosition.easting,
-                                                         lastPosition.northing]];
+                                                         lastPosition.northing,
+                                                         pdr.pathRotationAmount]];
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
                                                                      object:self];
@@ -991,8 +999,6 @@ typedef enum {
         self.pdrButton.title = kStartPDRButtonTitle;
         
         [[Gyroscope sharedInstance] stop];
-        [[CompassAndGPS sharedInstance] stop];
-        
         [[BLE_P2PExchange sharedInstance] stop];
         
         [pdr stopPDRsession];
@@ -1015,7 +1021,42 @@ typedef enum {
 
 -(void)didReceiveCompassValueWithMagneticHeading:(double)magneticHeading trueHeading:(double)trueHeading headingAccuracy:(double)headingAccuracy X:(double)x Y:(double)y Z:(double)z timestamp:(NSTimeInterval)timestamp label:(int)label {
 
-    //do nothing. this method is called by CompassAndGPS
+    //filtering parameters
+    const double rate = 0.1; //in [0...1] determines the amount by which a new value is "incorporated" into the result
+    double input_value = trueHeading;
+    double previous_output_value = lastHeading;
+    
+    //deal with wrapping issues by adding 360 degrees if necessary
+    double difference = previous_output_value - input_value;
+    if (fabs(difference) > 180) {
+        
+        if (difference > 0) {
+            
+            input_value += 360;
+            
+        } else {
+            
+            previous_output_value += 360;
+            
+        }
+    }
+    
+    //first order IIR low-pass filter
+    double output_value = rate * input_value + (1.0 - rate) * previous_output_value;
+    
+    lastHeading = fmod(output_value, 360); //clamp to [0...360)
+    
+    switch (self.status) {
+        
+        case DoNothing:
+        case WaitingForStartingFix:
+        case TrackingPaused:
+            [self.mapView rotateMapByDegrees:lastHeading
+                                   timestamp:timestamp];
+            break;
+        default:
+            break;
+    }
 }
 
 -(void)didReceiveGPSvalueWithLongitude:(double)longitude latitude:(double)latitude altitude:(double)altitude speed:(double)speed course:(double)course horizontalAccuracy:(double)horizontalAccuracy verticalAccuracy:(double)verticalAccuracy timestamp:(NSTimeInterval)timestamp label:(int)label {
@@ -1046,7 +1087,7 @@ typedef enum {
             yawOffset = motion.attitude.yaw;
         }
         lastYaw = motion.attitude.yaw - yawOffset;
-        
+        NSLog(@"lastYaw %.1f", lastYaw);
         [self.mapView rotatePathViewBy:lastYaw];
     }
 }
