@@ -26,23 +26,16 @@
 **/
 
 #import <Foundation/Foundation.h>
-
-extern NSString* const startingSound;
-extern NSString* const pausingSound;
-extern NSString* const calibrateSound;
-extern NSString* const exchangedPositionsSound;
-extern NSString* const goodbyeSound;
-extern NSString* const cymbalsSound;
+#import <AVFoundation/AVFoundation.h>
 
 @interface AlertSoundPlayer : NSObject
 {
- 
-    NSMutableArray *soundURLs;
-    NSMutableDictionary *soundIDs;
+    AVSpeechSynthesizer *synthesizer;
 }
 
 +(AlertSoundPlayer*)sharedInstance;
 
--(void)playSound:(NSString *)name vibrating:(BOOL)vibrating;
+-(void)say:(NSString *)textToSay;
+-(void)vibrate;
 
 @end

@@ -28,17 +28,6 @@
 #import "AlertSoundPlayer.h"
 #import <AudioToolbox/AudioToolbox.h>
 
-
-NSString* const startingSound = @"starting.aiff";
-NSString* const pausingSound = @"pausing.aiff";
-NSString* const calibrateSound = @"calibrate.aiff";
-NSString* const exchangedPositionsSound = @"exchanged.aiff";
-NSString* const goodbyeSound = @"goodbye.aiff";
-NSString* const cymbalsSound = @"cymbalsShort.aiff";
-//ATTENTION: When adding sound file names here, make sure to add
-//them to the fileNames array in init
-
-
 static AlertSoundPlayer *sharedSingleton;
 
 @implementation AlertSoundPlayer
@@ -64,43 +53,7 @@ static AlertSoundPlayer *sharedSingleton;
     
     if (self = [super init]) {
         
-        NSArray *fileNames = [NSArray arrayWithObjects:
-                              startingSound,
-                              pausingSound, 
-                              calibrateSound,
-                              exchangedPositionsSound,
-                              goodbyeSound,
-                              cymbalsSound,
-                              nil];
-
-        soundURLs = [[NSMutableArray alloc] init];
-        soundIDs = [[NSMutableDictionary alloc] init];
-        
-        for (NSString *fileName in fileNames) {
-            
-            NSURL *soundURL = [[NSBundle mainBundle] URLForResource:fileName
-                                                      withExtension:nil];
-            
-            //file found?
-            if (soundURL) {
-                
-                //retain the URLs in the array, because AudioServices doesn't
-                [soundURLs addObject:soundURL];
-                
-                SystemSoundID soundID;
-                OSStatus error = 0;
-                error = AudioServicesCreateSystemSoundID (
-                                                          (CFURLRef) soundURL,
-                                                          &soundID
-                                                          );
-                
-                if (!error) {
-                    
-                    [soundIDs setValue:[NSNumber numberWithUnsignedInt:soundID]
-                                forKey:fileName];   
-                }
-            }
-        }
+        synthesizer = [[AVSpeechSynthesizer alloc] init];
     }
     return self;
 }
@@ -108,39 +61,24 @@ static AlertSoundPlayer *sharedSingleton;
     
 -(void)dealloc {
     
-    for (NSNumber *soundID in soundIDs) {
-        
-        AudioServicesDisposeSystemSoundID([soundID unsignedIntValue]);
-    }
-    
-    [soundIDs release];
-    [soundURLs release];
+    [synthesizer release];
     
     [super dealloc];
 }
 
--(void)playSound:(NSString *)name vibrating:(BOOL)vibrating {
+-(void)vibrate {
     
-    if (name == nil && vibrating) {
-        
-        AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
+    AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
+}
+
+-(void)say:(NSString *)textToSay {
     
-    } else {
-        
-        SystemSoundID soundID = [[soundIDs objectForKey:name] unsignedIntValue];
-        
-        if (soundID) {
-            
-            if (vibrating) {
-                
-                AudioServicesPlayAlertSound(soundID);
-                
-            } else {
-                
-                AudioServicesPlaySystemSound(soundID);
-            }
-        }
-    }
+    AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:textToSay];
+    utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
+    utterance.rate = MAX(AVSpeechUtteranceDefaultSpeechRate / 4, AVSpeechUtteranceMinimumSpeechRate);
+    
+    [synthesizer speakUtterance:utterance];
+    [utterance release];
 }
 
 @end

@@ -217,8 +217,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
                                                          (long)signalStrength]];
         [peerPosition release];
         
-        [AlertSoundPlayer.sharedInstance playSound:exchangedPositionsSound
-                                         vibrating:YES];
+        [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]];
     }
 }
 

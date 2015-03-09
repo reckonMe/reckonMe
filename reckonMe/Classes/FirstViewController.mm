@@ -587,8 +587,7 @@ typedef enum {
         
         [[Gyroscope sharedInstance] addListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance playSound:startingSound
-                                         vibrating:YES];
+        [AlertSoundPlayer.sharedInstance say:@"Starting dead reckoning."];
         [[SecondViewController sharedInstance] addToLog:@"Starting sensors."];
         
     });
@@ -605,8 +604,7 @@ typedef enum {
         [[Gyroscope sharedInstance] removeListener:pdr];
         [[CompassAndGPS sharedInstance] removeListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance playSound:pausingSound
-                                         vibrating:YES];
+        [AlertSoundPlayer.sharedInstance say:@"Pausing."];
         
         [[SecondViewController sharedInstance] addToLog:@"Pausing sensors."];
     });
@@ -954,6 +952,8 @@ typedef enum {
                 [[BLE_P2PExchange sharedInstance] startStationaryBeaconMode];
                 
             } else {
+                
+                [AlertSoundPlayer.sharedInstance say:@"Please put me into your pocket."];
                 
                 //start the sensors
                 [[Gyroscope sharedInstance] start];

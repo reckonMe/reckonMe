@@ -68,28 +68,6 @@
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
     
-    //say goodbye to the user
-    if ([mainVC pdrOn]) {
-        
-        backgroundTask = [application beginBackgroundTaskWithExpirationHandler:^(void){
-            
-            //there's nothing to be done on interruption of the sound playback
-        }];
-        
-        //try to play the sound
-        [AlertSoundPlayer.sharedInstance playSound:goodbyeSound
-                                         vibrating:YES];
-        
-        //give it 2 seconds and tell the OS that we have finished
-        [self performSelector:@selector(stopBackground)
-                   withObject:self
-                   afterDelay:2];
-    }
-}
-
--(void)stopBackground {
-    
-    [[UIApplication sharedApplication] endBackgroundTask:backgroundTask];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
