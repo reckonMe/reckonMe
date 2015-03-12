@@ -30,11 +30,10 @@
 #import "PDRController.h"
 #import "PantsPocketDetector.h"
 #import "MapScrollView.h"
-#import "SecondViewController.h"
 
 extern NSString* const PDRStatusChangedNotification;
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, LockScreenDelegate, MapViewDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, MapViewDelegate>
 {
     
     PDRController *pdr;

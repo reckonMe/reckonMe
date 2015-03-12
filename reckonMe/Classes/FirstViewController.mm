@@ -63,9 +63,6 @@ typedef enum {
     DetectedInPocket,
     DetectedOutOfPocket,
     
-    UserUnlockedScreen,
-    UserLockedScreen,
-    
     StartHeadingCorrectionMode,
     StopHeadingCorrectionMode,
     AbortHeadingCorrectionMode
@@ -102,7 +99,6 @@ typedef enum {
 -(void)followPositionButtonPressed:(UIBarButtonItem *)sender;
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender;
 -(void)pdrButtonPressed:(UIBarButtonItem *)sender;
--(void)lockScreenButtonPressed:(UIBarButtonItem *)sender;
 -(void)settingsButtonPressed:(UIBarButtonItem *)settings;
 -(void)preferencesChanged:(NSNotification *)notification;
 -(void)updateStartButton;
@@ -126,7 +122,6 @@ typedef enum {
 -(void)stopStartingPositionFixingMode;
 
 -(void)correctPositionTo:(AbsoluteLocationEntry *)correctTo;
--(void)lockScreen;
 
 -(void)releaseSubviews;
 
@@ -500,7 +495,7 @@ typedef enum {
                     
                     if ([Settings sharedInstance].beaconMode) {
                         
-                        [self didReceiveEvent:UserLockedScreen];
+                        [self didReceiveEvent:DetectedInPocket];
                     }
                 }
                 break;
@@ -524,7 +519,6 @@ typedef enum {
                 break;
                 
             case DetectedInPocket:
-            case UserLockedScreen:
                 
                 if (   self.status == TrackingPaused
                     || self.status == HeadingCorrectionMode) {
@@ -533,13 +527,11 @@ typedef enum {
                     
                     [self stopPocketDetector];
                     [self startSensors];
-                    [self lockScreen];
                     self.status = Tracking;
                 }
                 break;
                 
             case DetectedOutOfPocket:
-            case UserUnlockedScreen:
                 
                 if (self.status == Tracking) {
                     
@@ -588,8 +580,6 @@ typedef enum {
         [[Gyroscope sharedInstance] addListener:pdr];
         
         [AlertSoundPlayer.sharedInstance say:@"Starting dead reckoning."];
-        [[SecondViewController sharedInstance] addToLog:@"Starting sensors."];
-        
     });
 }
 
@@ -605,8 +595,6 @@ typedef enum {
         [[CompassAndGPS sharedInstance] removeListener:pdr];
         
         [AlertSoundPlayer.sharedInstance say:@"Pausing."];
-        
-        [[SecondViewController sharedInstance] addToLog:@"Pausing sensors."];
     });
 }
 
@@ -711,26 +699,7 @@ typedef enum {
     
     [mapView stopPathRotationMode];
     
-    self.correctHeadingButton.style = UIBarButtonItemStyleBordered;//make button look normal again
-}
-
--(void)lockScreen {
-    
-    //dismiss potentially visible UIActionSheets as they lead to a graphical glitch causing the toolbar to have no buttons
-    NSArray *actionSheets = @[correctHeadingActionSheet, stopPDRactionSheet, moveToGPSactionSheet, moveToGPSdestructiveActionSheet];
-    for (UIActionSheet *actionSheet in actionSheets) {
-        
-        if (actionSheet.isVisible) {
-            
-            [actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex
-                                              animated:NO];
-        }
-    }
-    
-    [SecondViewController sharedInstance].delegate = self;
-    [SecondViewController sharedInstance].modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentModalViewController:[SecondViewController sharedInstance]
-                            animated:NO];
+    self.correctHeadingButton.style = UIBarButtonItemStylePlain;//make button look normal again
 }
 
 
@@ -878,12 +847,6 @@ typedef enum {
     }
 }
 
--(void)lockScreenButtonPressed:(UIBarButtonItem *)sender {
-    
-    [self didReceiveEvent:UserLockedScreen];
-}
-
-
 //MARK: - PantsPocketStatusDelegate (switching all other sensors on and off)
 -(void)devicesPocketStatusChanged:(BOOL)isInPocket {
     
@@ -898,14 +861,6 @@ typedef enum {
             [self didReceiveEvent:DetectedOutOfPocket];
         }
     });
-}
-
-//MARK: - lock screen delegate
--(void)userUnlockedScreen {
-
-    [self dismissModalViewControllerAnimated:YES];
-
-    [self didReceiveEvent:UserUnlockedScreen];
 }
 
 //MARK: - PDR
@@ -932,7 +887,6 @@ typedef enum {
         //update the view
         [self.toolbar setItems:self.toolbarItemsWhenPDRon animated:YES];
         [self.mapView clearPath];
-        [[SecondViewController sharedInstance] clearLog];
         
         [self.mapView stopStartingPositionFixingMode];
         
@@ -974,11 +928,6 @@ typedef enum {
         
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
         pdr.pathRotationAmount = -lastHeading * DEG_TO_RAD;
-        
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Starting PDR at x=%.0fm y=%.0fm rot=%.1f",
-                                                         lastPosition.easting,
-                                                         lastPosition.northing,
-                                                         pdr.pathRotationAmount]];
         
         NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
                                                                      object:self];

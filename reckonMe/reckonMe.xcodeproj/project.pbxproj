@@ -35,11 +35,9 @@
 		B50128C4146C223300D8CDFF /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C1146C223300D8CDFF /* CoreImage.framework */; };
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
-		B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */; };
 		B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */ = {isa = PBXBuildFile; fileRef = B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */; };
 		B51F36CD159DF71400517FD7 /* UnlockSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = B5E73DF7159DBD39000B5228 /* UnlockSlider.m */; };
 		B52414E8147DA1BA00ACBCD8 /* goodbye.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */; };
-		B5293E3314C03C8200257CE6 /* BTFancyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B5293E3214C03C8100257CE6 /* BTFancyButton.m */; };
 		B5311FB6159DF403009AB0E9 /* bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = B5311FB4159DF403009AB0E9 /* bottom.png */; };
 		B5311FB7159DF403009AB0E9 /* default_slider.png in Resources */ = {isa = PBXBuildFile; fileRef = B5311FB5159DF403009AB0E9 /* default_slider.png */; };
 		B537006C15B7092A00757BE0 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B537006B15B7092A00757BE0 /* Settings.m */; };
@@ -72,8 +70,6 @@
 		B595D2F01407C01C00EB1A91 /* PDRAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2EF1407C01C00EB1A91 /* PDRAppDelegate.mm */; };
 		B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = B595D2F11407C01C00EB1A91 /* MainWindow.xib */; };
 		B595D2F61407C01C00EB1A91 /* FirstViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2F51407C01C00EB1A91 /* FirstViewController.mm */; };
-		B595D2F91407C01C00EB1A91 /* SecondViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = B595D2F81407C01C00EB1A91 /* SecondViewController.mm */; };
-		B595D2FF1407C01C00EB1A91 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B595D2FD1407C01C00EB1A91 /* SecondView.xib */; };
 		B595D3071407C01C00EB1A91 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D3061407C01C00EB1A91 /* SenTestingKit.framework */; };
 		B595D3081407C01C00EB1A91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2DF1407C01C00EB1A91 /* UIKit.framework */; };
 		B595D3091407C01C00EB1A91 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2E11407C01C00EB1A91 /* Foundation.framework */; };
@@ -156,12 +152,8 @@
 		B50128C1146C223300D8CDFF /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		B50128C2146C223300D8CDFF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
-		B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UntouchableTextView.h; sourceTree = "<group>"; };
-		B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UntouchableTextView.m; sourceTree = "<group>"; };
 		B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dfki-2.OG-trimmed.png"; sourceTree = "<group>"; };
 		B52414E7147DA1BA00ACBCD8 /* goodbye.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = goodbye.aiff; sourceTree = "<group>"; };
-		B5293E3114C03C8100257CE6 /* BTFancyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTFancyButton.h; sourceTree = "<group>"; };
-		B5293E3214C03C8100257CE6 /* BTFancyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTFancyButton.m; sourceTree = "<group>"; };
 		B5311FB4159DF403009AB0E9 /* bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom.png; sourceTree = "<group>"; };
 		B5311FB5159DF403009AB0E9 /* default_slider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default_slider.png; sourceTree = "<group>"; };
 		B537006A15B7092A00757BE0 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -212,9 +204,6 @@
 		B595D2F21407C01C00EB1A91 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		B595D2F41407C01C00EB1A91 /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
 		B595D2F51407C01C00EB1A91 /* FirstViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = FirstViewController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		B595D2F71407C01C00EB1A91 /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		B595D2F81407C01C00EB1A91 /* SecondViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; lineEnding = 0; path = SecondViewController.mm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		B595D2FE1407C01C00EB1A91 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondView.xib; sourceTree = "<group>"; };
 		B595D3051407C01C00EB1A91 /* reckonMeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reckonMeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B595D3061407C01C00EB1A91 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		B595D30F1407C01D00EB1A91 /* reckonMeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "reckonMeTests-Info.plist"; sourceTree = "<group>"; };
@@ -331,8 +320,6 @@
 			isa = PBXGroup;
 			children = (
 				B56F909115878C0700456F62 /* UIImage+PDF */,
-				B5293E3114C03C8100257CE6 /* BTFancyButton.h */,
-				B5293E3214C03C8100257CE6 /* BTFancyButton.m */,
 				B5E73DF6159DBD39000B5228 /* UnlockSlider.h */,
 				B5E73DF7159DBD39000B5228 /* UnlockSlider.m */,
 				B595D2F11407C01C00EB1A91 /* MainWindow.xib */,
@@ -341,11 +328,6 @@
 				B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */,
 				B595D2F41407C01C00EB1A91 /* FirstViewController.h */,
 				B595D2F51407C01C00EB1A91 /* FirstViewController.mm */,
-				B50C232E16FC812400CC9CA6 /* UntouchableTextView.h */,
-				B50C232F16FC812400CC9CA6 /* UntouchableTextView.m */,
-				B595D2F71407C01C00EB1A91 /* SecondViewController.h */,
-				B595D2F81407C01C00EB1A91 /* SecondViewController.mm */,
-				B595D2FD1407C01C00EB1A91 /* SecondView.xib */,
 				B5C6809D156687100099AB49 /* MapViewProtocol.h */,
 				B5A6332A14DC248C00A37780 /* Indoor Map Views */,
 				B59295AF157F66C7008380CE /* Outdoor Map Views */,
@@ -661,7 +643,6 @@
 				8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */,
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
-				B595D2FF1407C01C00EB1A91 /* SecondView.xib in Resources */,
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
 				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
@@ -760,7 +741,6 @@
 				B595D2F01407C01C00EB1A91 /* PDRAppDelegate.mm in Sources */,
 				B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */,
 				B595D2F61407C01C00EB1A91 /* FirstViewController.mm in Sources */,
-				B595D2F91407C01C00EB1A91 /* SecondViewController.mm in Sources */,
 				8E08B585141E04AD0023729B /* matlab-utils.cpp in Sources */,
 				B5499E811425E85700BA7177 /* AbstractSensor.m in Sources */,
 				B5499E831425E85700BA7177 /* Gyroscope.m in Sources */,
@@ -770,7 +750,6 @@
 				8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */,
 				B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */,
 				B5DF906B147D0DB900A39293 /* AlertSoundPlayer.m in Sources */,
-				B5293E3314C03C8200257CE6 /* BTFancyButton.m in Sources */,
 				B5A6332814DC245D00A37780 /* TiledMapView.m in Sources */,
 				B589E66914E84D9300FB89C4 /* MapMarker.m in Sources */,
 				B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */,
@@ -784,7 +763,6 @@
 				B56F909D15878C0700456F62 /* UIView+Image.m in Sources */,
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
-				B50C233016FC812400CC9CA6 /* UntouchableTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,14 +805,6 @@
 				B595D2F21407C01C00EB1A91 /* en */,
 			);
 			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		B595D2FD1407C01C00EB1A91 /* SecondView.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B595D2FE1407C01C00EB1A91 /* en */,
-			);
-			name = SecondView.xib;
 			sourceTree = "<group>";
 		};
 		B595D3101407C01D00EB1A91 /* InfoPlist.strings */ = {

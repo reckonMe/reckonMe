@@ -33,7 +33,6 @@
  **/
 
 #import "BLE_P2PExchange.h"
-#import "SecondViewController.h"
 #import "AlertSoundPlayer.h"
 #import "Settings.h"
 
@@ -209,12 +208,6 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
         //dispatch async??
         [self.delegate didReceivePosition:peerPosition
                                    ofPeer:deviceName];
-        
-        [[SecondViewController sharedInstance] addToLog:[NSString stringWithFormat:@"Received position estimate from \"%@\" at (%.1fm, %.1fm) with %ld db.",
-                                                         deviceName,
-                                                         peerPosition.easting,
-                                                         peerPosition.northing,
-                                                         (long)signalStrength]];
         [peerPosition release];
         
         [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]];
