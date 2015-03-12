@@ -1036,7 +1036,6 @@ typedef enum {
             yawOffset = motion.attitude.yaw;
         }
         lastYaw = motion.attitude.yaw - yawOffset;
-        NSLog(@"lastYaw %.1f", lastYaw);
         [self.mapView rotatePathViewBy:lastYaw];
     }
 }
