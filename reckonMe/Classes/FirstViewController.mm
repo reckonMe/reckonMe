@@ -37,7 +37,6 @@
 #import "Settings.h"
 #import "proj_api.h"
 
-NSString* const PDRStatusChangedNotification = @"PDRStatusChangedNotification";
 #define kInitialPathCapacity 2000
 #define kStartPDRButtonTitle @"Start Dead-Reckoning"
 #define kStartBeaconButtonTitle @"Start Beacon Mode"
@@ -894,11 +893,6 @@ typedef enum {
         
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
         pdr.pathRotationAmount = -lastHeading * DEG_TO_RAD;
-        
-        NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
-                                                                     object:self];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification
-                                                   postingStyle:NSPostWhenIdle];
     }
     pdrOn = YES;
 }
@@ -923,11 +917,6 @@ typedef enum {
         [self.toolbar setItems:self.toolbarItemsWhenPDRoff animated:YES];
         
         [path removeAllObjects];
-        
-        NSNotification *notification = [NSNotification notificationWithName:PDRStatusChangedNotification
-                                                                     object:self];
-        [[NSNotificationQueue defaultQueue] enqueueNotification:notification 
-                                                   postingStyle:NSPostWhenIdle];
         
         //allow auto-lock again
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];

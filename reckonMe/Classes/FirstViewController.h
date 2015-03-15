@@ -30,8 +30,6 @@
 #import "PDRController.h"
 #import "MapScrollView.h"
 
-extern NSString* const PDRStatusChangedNotification;
-
 @interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, MapViewDelegate>
 {
     
