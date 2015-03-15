@@ -29,7 +29,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <CoreMotion/CMDeviceMotion.h>
 #import "LocationEntry.h"
-#import "MapScrollView.h"
 
 @protocol SensorListener
 

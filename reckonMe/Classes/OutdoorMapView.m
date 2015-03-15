@@ -30,12 +30,19 @@
 #import "FloorPlanOverlay.h"
 #import "FloorPlanOverlayView.h"
 #import "PathCopyAnnotation.h"
+#import "GeodeticProjection.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString *startingPinTitle = @"Starting Position";
-static NSString *currentPinTitle = @"Current Position";
+static NSString *currentPinTitle = @"Current PDR Estimate";
 static NSString *rotationAnchorPinTitle = @"Rotation anchor";
 static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
+
+//path drawing properties
+#define kPathStrokeRGBColor 1.0, 0.0, 1.0, 0.8
+#define kPathLineCap kCGLineCapRound
+#define kPathLineJoin kCGLineJoinRound
+#define kPathLineWidth 6.0
 
 @interface OutdoorMapView ()
 

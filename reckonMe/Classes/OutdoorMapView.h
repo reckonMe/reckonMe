@@ -26,9 +26,42 @@
 **/
 
 #import <UIKit/UIKit.h>
-#import "MapViewProtocol.h"
 #import <MapKit/MapKit.h>
+#import "LocationEntry.h"
 
-@interface OutdoorMapView : UIView <MapView, MKMapViewDelegate>
+@class OutdoorMapView; //forward declaration
+@protocol MapViewDelegate <NSObject>
+
+-(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)correctedPosition onMapView:(OutdoorMapView *)view;
+-(void)userMovedRotationAnchorTo:(AbsoluteLocationEntry *)rotationAnchor;
+-(void)userTappedMoveToGPSbutton;
+
+@end
+
+@interface OutdoorMapView : UIView <MKMapViewDelegate>
+
+@property(nonatomic, assign)id<MapViewDelegate> mapViewDelegate;
+@property(nonatomic) BOOL showGPSfix;
+
+//moves the marker symbolizing the starting position to the specified point
+-(void)setStartingPosition:(AbsoluteLocationEntry *)mapPoint;
+
+-(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint;
+
+-(void)addPathLineTo:(AbsoluteLocationEntry *)mapPoint;
+-(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition;
+-(void)replacePathBy:(NSArray *)path;
+-(void)clearPath;
+
+-(void)moveCurrentPositionMarkerTo:(AbsoluteLocationEntry *)newPosition;
+
+-(void)startStartingPositionFixingMode;
+-(void)stopStartingPositionFixingMode;
+
+-(void)startPathRotationModeForSubPath:(NSArray *)subPath aroundPosition:(AbsoluteLocationEntry *)rotationCenter;
+-(void)rotatePathViewBy:(CGFloat)radians;
+-(void)stopPathRotationMode;
+
+-(void)rotateMapByDegrees:(double)degrees timestamp:(NSTimeInterval)timestamp;
 
 @end

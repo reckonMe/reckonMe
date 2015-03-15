@@ -28,7 +28,7 @@
 #import <UIKit/UIKit.h>
 #import "PDRExchange.h"
 #import "PDRController.h"
-#import "MapScrollView.h"
+#import "OutdoorMapView.h"
 
 @interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, MapViewDelegate>
 {

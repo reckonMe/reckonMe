@@ -31,7 +31,6 @@
 #import "BLE_P2PExchange.h"
 #import "Gyroscope.h"
 #import "AlertSoundPlayer.h"
-#import "MapMarker.h"
 #import "OutdoorMapView.h"
 #import "SettingsViewController.h"
 #import "Settings.h"
@@ -74,7 +73,7 @@ typedef enum {
 @property(nonatomic) TrackingVCStatus status;
 -(void)didReceiveEvent:(TrackingVCEvent)event;
 
-@property(nonatomic, retain) UIView<MapView> *mapView;
+@property(nonatomic, retain) OutdoorMapView *mapView;
 
 @property(nonatomic, retain) UIToolbar *toolbar;
 @property(nonatomic, retain) UIBarButtonItem *toolbarSpacer;
@@ -724,7 +723,7 @@ typedef enum {
 }
 
 //MARK: - MapViewDelegate
--(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)newCorrectedPosition onMapView:(id<MapView>)view {
+-(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)newCorrectedPosition onMapView:(OutdoorMapView *)view {
     
     self.correctedPosition = newCorrectedPosition;
     self.correctedPosition.timestamp = [[NSDate date] timeIntervalSince1970];

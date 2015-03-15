@@ -52,7 +52,6 @@
 		B56F909D15878C0700456F62 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909915878C0700456F62 /* UIView+Image.m */; };
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
 		B5789A2D1564170B0087502C /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5789A29156415B70087502C /* libProj4.a */; };
-		B589E66914E84D9300FB89C4 /* MapMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = B589E66814E84D9300FB89C4 /* MapMarker.m */; };
 		B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */; };
 		B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B59295B1157F66FB008380CE /* PinAnnotation.m */; };
 		B595D2E01407C01C00EB1A91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2DF1407C01C00EB1A91 /* UIKit.framework */; };
@@ -74,7 +73,6 @@
 		B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */ = {isa = PBXBuildFile; fileRef = B59BD118156443DB00433C17 /* GeodeticProjection.m */; };
 		B5A3B01014CC6140004A0E54 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00E14CC6140004A0E54 /* Accelerate.framework */; };
 		B5A3B01114CC6140004A0E54 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */; };
-		B5A6332814DC245D00A37780 /* TiledMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5A6332514DC245D00A37780 /* TiledMapView.m */; };
 		B5BDDC19142FDC700044F56B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BDDC18142FDC700044F56B /* GameKit.framework */; };
 		B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C6809B156667A80099AB49 /* MapKit.framework */; };
 		B5D068B91581ED8D005A1C83 /* FloorPlanOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D068B81581ED8D005A1C83 /* FloorPlanOverlay.m */; };
@@ -170,8 +168,6 @@
 		B56F909915878C0700456F62 /* UIView+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Image.m"; sourceTree = "<group>"; };
 		B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "itz-floorplanRotated.pdf"; sourceTree = "<group>"; };
 		B5789A21156415B60087502C /* Proj4 */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Proj4; path = ../Proj4/Proj4.xcodeproj; sourceTree = "<group>"; };
-		B589E66714E84D9300FB89C4 /* MapMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapMarker.h; sourceTree = "<group>"; };
-		B589E66814E84D9300FB89C4 /* MapMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapMarker.m; sourceTree = "<group>"; };
 		B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itz-grayHalf.png"; sourceTree = "<group>"; };
 		B59295B0157F66FB008380CE /* PinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinAnnotation.h; sourceTree = "<group>"; };
 		B59295B1157F66FB008380CE /* PinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinAnnotation.m; sourceTree = "<group>"; };
@@ -199,13 +195,8 @@
 		B59BD118156443DB00433C17 /* GeodeticProjection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeodeticProjection.m; sourceTree = "<group>"; };
 		B5A3B00E14CC6140004A0E54 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		B5A6332414DC245D00A37780 /* TiledMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiledMapView.h; sourceTree = "<group>"; };
-		B5A6332514DC245D00A37780 /* TiledMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiledMapView.m; sourceTree = "<group>"; };
-		B5A6332614DC245D00A37780 /* MapScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapScrollView.h; sourceTree = "<group>"; };
-		B5A6332714DC245D00A37780 /* MapScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapScrollView.m; sourceTree = "<group>"; };
 		B5BDDC18142FDC700044F56B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B5C6809B156667A80099AB49 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		B5C6809D156687100099AB49 /* MapViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewProtocol.h; sourceTree = "<group>"; };
 		B5D068B71581ED8D005A1C83 /* FloorPlanOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloorPlanOverlay.h; sourceTree = "<group>"; };
 		B5D068B81581ED8D005A1C83 /* FloorPlanOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloorPlanOverlay.m; sourceTree = "<group>"; };
 		B5D068BB1581EDC6005A1C83 /* FloorPlanOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloorPlanOverlayView.h; sourceTree = "<group>"; };
@@ -306,8 +297,6 @@
 				B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */,
 				B595D2F41407C01C00EB1A91 /* FirstViewController.h */,
 				B595D2F51407C01C00EB1A91 /* FirstViewController.mm */,
-				B5C6809D156687100099AB49 /* MapViewProtocol.h */,
-				B5A6332A14DC248C00A37780 /* Indoor Map Views */,
 				B59295AF157F66C7008380CE /* Outdoor Map Views */,
 			);
 			name = Views;
@@ -489,19 +478,6 @@
 				B595D3101407C01D00EB1A91 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B5A6332A14DC248C00A37780 /* Indoor Map Views */ = {
-			isa = PBXGroup;
-			children = (
-				B5A6332414DC245D00A37780 /* TiledMapView.h */,
-				B5A6332514DC245D00A37780 /* TiledMapView.m */,
-				B5A6332614DC245D00A37780 /* MapScrollView.h */,
-				B5A6332714DC245D00A37780 /* MapScrollView.m */,
-				B589E66714E84D9300FB89C4 /* MapMarker.h */,
-				B589E66814E84D9300FB89C4 /* MapMarker.m */,
-			);
-			name = "Indoor Map Views";
 			sourceTree = "<group>";
 		};
 		B5C0306114EA9DDA00625FFF /* P2P */ = {
@@ -710,8 +686,6 @@
 				8E9F366C14297D9C006CE285 /* LocationEntry.m in Sources */,
 				8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */,
 				B5DF906B147D0DB900A39293 /* AlertSoundPlayer.m in Sources */,
-				B5A6332814DC245D00A37780 /* TiledMapView.m in Sources */,
-				B589E66914E84D9300FB89C4 /* MapMarker.m in Sources */,
 				B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */,
 				B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */,
 				B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */,
