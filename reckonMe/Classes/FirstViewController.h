@@ -28,16 +28,14 @@
 #import <UIKit/UIKit.h>
 #import "PDRExchange.h"
 #import "PDRController.h"
-#import "PantsPocketDetector.h"
 #import "MapScrollView.h"
 
 extern NSString* const PDRStatusChangedNotification;
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, MapViewDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, MapViewDelegate>
 {
     
     PDRController *pdr;
-    PantsPocketDetector *pocketDetector;
     
     NSMutableArray *path;//the path since the last start of PDR, necessary to preserve the state between memory warnings
     
