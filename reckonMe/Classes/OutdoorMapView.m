@@ -57,8 +57,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 @property(nonatomic, retain) MKAnnotationView *pathCopy;
 @property(nonatomic, retain) UIImage *pathImageCopy;
 
--(void)setAnchorPoint:(CGPoint)anchorPoint forView:(UIView *)view;
-
 -(MKPolyline *)createPathOverlayFrom:(NSArray *)points;
 -(void)updatePathOverlay;
 
@@ -79,6 +77,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     PinAnnotation *rotationAnchor;
     
     BOOL touchDown;
+    BOOL startingPinDragged;
     BOOL startingPositionFixingMode;
     
 }
@@ -137,6 +136,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         [mapView addOverlay:dfkiOverlay];
         
         startingPositionFixingMode = NO;
+        startingPinDragged = NO;
         
         pathPoints = [[NSMutableArray alloc] init];
     }
@@ -218,6 +218,25 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     return mapView.showsUserLocation;
 }
 
+-(void)updateGPSposition:(AbsoluteLocationEntry *)gpsPosition {
+    
+    static double lastDeviation = DBL_MAX;
+    
+    if (    startingPositionFixingMode
+        && !startingPinDragged
+        && (gpsPosition.deviation <= lastDeviation)) {
+        
+        lastDeviation = gpsPosition.deviation;
+        [self moveCurrentPositionMarkerTo:gpsPosition];
+        [self moveMapCenterTo:gpsPosition];
+    }
+}
+
+-(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition {
+    
+    //ToDo
+}
+
 -(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint {
     
     static BOOL alreadyZoomed = NO;
@@ -245,12 +264,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         
         alreadyZoomed = YES;
     }
-    
-    if (startingPositionFixingMode) {
-        
-        currentPosition.coordinate = moveToCoords;
-    }
-
 }
 
 -(void)addPathLineTo:(AbsoluteLocationEntry *)mapPoint {
@@ -364,6 +377,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         [self correctedPosition];
         
         startingPositionFixingMode = NO;
+        startingPinDragged = NO;
     }
 }
 
@@ -672,6 +686,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
     if (view.annotation == currentPosition) {
         
+        startingPinDragged = YES;
         if (   oldState == MKAnnotationViewDragStateEnding
             && newState == MKAnnotationViewDragStateNone) {
             

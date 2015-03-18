@@ -952,20 +952,15 @@ typedef enum {
 -(void)didReceiveGPSvalueWithLongitude:(double)longitude latitude:(double)latitude altitude:(double)altitude speed:(double)speed course:(double)course horizontalAccuracy:(double)horizontalAccuracy verticalAccuracy:(double)verticalAccuracy timestamp:(NSTimeInterval)timestamp label:(int)label {
     
     CLLocationCoordinate2D gpsLocation = CLLocationCoordinate2DMake(latitude, longitude);
-    AbsoluteLocationEntry *currentLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:timestamp
-                                                                                 eastingDelta:0
-                                                                                northingDelta:0
-                                                                                       origin:gpsLocation
-                                                                                    Deviation:1];
+    AbsoluteLocationEntry *newLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:timestamp
+                                                                             eastingDelta:0
+                                                                            northingDelta:0
+                                                                                   origin:gpsLocation
+                                                                                Deviation:horizontalAccuracy];
+    self.lastGPSfix = newLocation;
+    [newLocation release];
     
-    //first GPS fix?
-    if (!self.lastGPSfix) {
-        
-        [self.mapView moveMapCenterTo:currentLocation];
-    }
-    
-    self.lastGPSfix = currentLocation;
-    [currentLocation release];
+    [mapView updateGPSposition:self.lastGPSfix];
 }
 
 -(void)didReceiveDeviceMotion:(CMDeviceMotion *)motion timestamp:(NSTimeInterval)timestamp {

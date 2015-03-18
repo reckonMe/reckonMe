@@ -43,17 +43,16 @@
 @property(nonatomic, assign)id<MapViewDelegate> mapViewDelegate;
 @property(nonatomic) BOOL showGPSfix;
 
-//moves the marker symbolizing the starting position to the specified point
--(void)setStartingPosition:(AbsoluteLocationEntry *)mapPoint;
-
--(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint;
-
--(void)addPathLineTo:(AbsoluteLocationEntry *)mapPoint;
 -(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition;
+-(void)addPathLineTo:(AbsoluteLocationEntry *)mapPoint;
 -(void)replacePathBy:(NSArray *)path;
 -(void)clearPath;
 
+//moves the marker symbolizing the starting position to the specified point
+-(void)setStartingPosition:(AbsoluteLocationEntry *)mapPoint;
+-(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint;
 -(void)moveCurrentPositionMarkerTo:(AbsoluteLocationEntry *)newPosition;
+-(void)updateGPSposition:(AbsoluteLocationEntry *)gpsPosition;
 
 -(void)startStartingPositionFixingMode;
 -(void)stopStartingPositionFixingMode;
