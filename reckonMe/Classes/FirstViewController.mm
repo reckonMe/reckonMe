@@ -87,7 +87,6 @@ typedef enum {
 @property(nonatomic, retain) UIActionSheet *correctHeadingActionSheet, *stopPDRactionSheet, *moveToGPSactionSheet, *moveToGPSdestructiveActionSheet;
 
 @property(nonatomic, retain) AbsoluteLocationEntry *lastPosition;
-@property(nonatomic, retain) AbsoluteLocationEntry *correctedPosition;
 @property(nonatomic, retain) AbsoluteLocationEntry *lastGPSfix;
 
 -(void)commonInit;
@@ -137,8 +136,6 @@ typedef enum {
 
 //the last position obtained by PDR computation
 @synthesize lastPosition;
-//the last position manually corrected by the user
-@synthesize correctedPosition;
 //the last GPS fix
 @synthesize lastGPSfix;
 
@@ -188,7 +185,6 @@ typedef enum {
     [self.mapView moveMapCenterTo:passauLocation];
     
     self.lastPosition = [passauLocation autorelease];
-    self.correctedPosition = self.lastPosition;
     
     pdr = [PDRController sharedInstance];
     pdr.view = self;
@@ -220,7 +216,7 @@ typedef enum {
     [self releaseSubviews];
     
     [path release];
-    self.lastGPSfix = self.lastPosition = self.correctedPosition = nil;
+    self.lastGPSfix = self.lastPosition = nil;
     
     [[CompassAndGPS sharedInstance] removeListener:(id<SensorListener>) self];
     [[CompassAndGPS sharedInstance] stopCompass];
@@ -271,26 +267,26 @@ typedef enum {
                                                                        style:UIBarButtonItemStylePlain
                                                                       target:self
                                                                       action:@selector(followPositionButtonPressed:)] autorelease];
-    self.followPositionButton.style = mapFollowsPosition ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
+    self.followPositionButton.style = mapFollowsPosition ? UIBarButtonItemStyleDone : UIBarButtonItemStylePlain;
     
     self.toolbarSpacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                             target:nil 
                                                                             action:nil] autorelease];
     
     self.correctHeadingButton = [[[UIBarButtonItem alloc] initWithTitle:@"Correct Heading"
-                                                                        style:UIBarButtonItemStyleBordered
+                                                                        style:UIBarButtonItemStylePlain
                                                                        target:self 
                                                                        action:@selector(correctHeadingButtonPressed:)] autorelease];
-    self.correctHeadingButton.style = UIBarButtonItemStyleBordered;
+    self.correctHeadingButton.style = UIBarButtonItemStylePlain;
     //we end position correction mode when the view unloads, hence we don't need to set the buttons status here
 
     
     self.pdrButton = [[[UIBarButtonItem alloc] initWithTitle:kStartPDRButtonTitle
-                                                                  style:UIBarButtonItemStyleBordered
+                                                                  style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(pdrButtonPressed:)] autorelease];
     self.pdrButton.title = pdrOn ? kStopPDRButtonTitle : kStartPDRButtonTitle;
-    self.pdrButton.style = pdrOn ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
+    self.pdrButton.style = pdrOn ? UIBarButtonItemStyleDone : UIBarButtonItemStylePlain;
     
     self.settingsButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings.png"]
                                                             style:UIBarButtonItemStylePlain
@@ -584,7 +580,6 @@ typedef enum {
         
         //remove the pdr as a listener, but continue
         [[Gyroscope sharedInstance] removeListener:pdr];
-        [[CompassAndGPS sharedInstance] removeListener:pdr];
         
         [AlertSoundPlayer.sharedInstance say:@"Pausing."];
     });
@@ -607,7 +602,7 @@ typedef enum {
     if (mapFollowsPosition) {
         
         self.mapView.showGPSfix = NO;
-        self.followPositionButton.style = UIBarButtonItemStyleBordered;//"normal"
+        self.followPositionButton.style = UIBarButtonItemStylePlain;//"normal"
         
         mapFollowsPosition = NO;
     }
@@ -725,10 +720,10 @@ typedef enum {
 //MARK: - MapViewDelegate
 -(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)newCorrectedPosition onMapView:(OutdoorMapView *)view {
     
-    self.correctedPosition = newCorrectedPosition;
-    self.correctedPosition.timestamp = [[NSDate date] timeIntervalSince1970];
+    self.lastPosition = newCorrectedPosition;
+    self.lastPosition.timestamp = [[NSDate date] timeIntervalSince1970];
     
-    [self correctPositionTo:self.correctedPosition];
+    [self correctPositionTo:self.lastPosition];
 }
 
 -(void)userTappedMoveToGPSbutton {
@@ -757,7 +752,6 @@ typedef enum {
     }
 }
 
-//MARK: -
 -(void)correctPositionTo:(AbsoluteLocationEntry *)correctTo {
     
     if (self.status == WaitingForStartingFix) {
@@ -854,16 +848,12 @@ typedef enum {
         
         [self.mapView stopStartingPositionFixingMode];
         
-        if (testing) {
-            
-            self.correctedPosition = self.lastPosition;
-            
-        } else {
+        if (!testing) {
             
             BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
             BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
             
-            [BLE_P2PExchange sharedInstance].advertisedPosition = self.correctedPosition;
+            [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
             
             if (beaconMode) {
                 
@@ -887,7 +877,6 @@ typedef enum {
         }
         
         //determine the starting point and start PDR
-        self.lastPosition = self.correctedPosition;
         [self.mapView setStartingPosition:self.lastPosition];
         
         [pdr startPDRsessionWithGPSfix:self.lastPosition];
@@ -903,7 +892,7 @@ typedef enum {
         
         pdrOn = NO;
         
-        self.pdrButton.style = UIBarButtonItemStyleBordered;//normal
+        self.pdrButton.style = UIBarButtonItemStylePlain;//normal
         self.pdrButton.title = kStartPDRButtonTitle;
         
         [[Gyroscope sharedInstance] stop];
