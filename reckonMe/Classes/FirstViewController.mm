@@ -657,8 +657,6 @@ typedef enum {
         [pdr rotatePathBy:-lastYaw];
     }
     
-    [[Gyroscope sharedInstance] removeListener:(id<SensorListener>) self];
-    
     [mapView stopPathRotationMode];
     
     self.correctHeadingButton.style = UIBarButtonItemStylePlain;//make button look normal again
