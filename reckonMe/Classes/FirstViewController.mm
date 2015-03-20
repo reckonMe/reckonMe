@@ -78,6 +78,7 @@ typedef enum {
 @property(nonatomic, retain) UIToolbar *toolbar;
 @property(nonatomic, retain) UIBarButtonItem *toolbarSpacer;
 @property(nonatomic, retain) UIBarButtonItem *followPositionButton;
+@property(nonatomic, retain) UIBarButtonItem *followHeadingButton;
 @property(nonatomic, retain) UIBarButtonItem *correctHeadingButton;
 @property(nonatomic, retain) UIBarButtonItem *pdrButton;
 @property(nonatomic, retain) UIBarButtonItem *settingsButton;
@@ -172,6 +173,7 @@ typedef enum {
 -(void)commonInit {
     
     mapFollowsPosition = NO;
+    mapFollowsHeading = YES;
     pdrOn = NO;
     
     path = [[NSMutableArray alloc] initWithCapacity:kInitialPathCapacity];
@@ -239,18 +241,6 @@ typedef enum {
                                      self.view.bounds.size.width,
                                      self.view.bounds.size.height - toolbarHeight);
 
-    //"itz-floorplan.pdf" scale:8.09
-    //itz-floorplan.png scale:36.63
-
-    //KL_Hauptgebaeude_EG-rotated scale:615 pixel / 28(?)m = 21.96
-    /*NSString *mapPath = [[NSBundle mainBundle] pathForResource:@"itz-floorplan1bit.tiff"
-                                                       ofType:nil];
-    
-    self.mapView = [[[MapScrollView alloc] initWithFrame:mapViewFrame
-                                             mapFilePath:mapPath
-                                                mapScale:36.63//pixels per meter (measured with inkscape)
-                     ] autorelease];
-    */
     
     self.mapView = [[[OutdoorMapView alloc] initWithFrame:mapViewFrame] autorelease];
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
@@ -268,6 +258,12 @@ typedef enum {
                                                                       target:self
                                                                       action:@selector(followPositionButtonPressed:)] autorelease];
     self.followPositionButton.style = mapFollowsPosition ? UIBarButtonItemStyleDone : UIBarButtonItemStylePlain;
+    
+    self.followHeadingButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gps-arrow.png"]
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(followHeadingButtonPressed:)] autorelease];
+    self.followHeadingButton.style = mapFollowsHeading ? UIBarButtonItemStyleDone : UIBarButtonItemStylePlain;
     
     self.toolbarSpacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                             target:nil 
@@ -295,6 +291,7 @@ typedef enum {
     
     self.toolbarItemsWhenPDRon = [NSArray arrayWithObjects:
                                   self.followPositionButton,
+                                  self.followHeadingButton,
                                   self.toolbarSpacer,
                                   self.correctHeadingButton,
                                   self.toolbarSpacer,
@@ -303,6 +300,7 @@ typedef enum {
     
     self.toolbarItemsWhenPDRoff = [NSArray arrayWithObjects:
                                    self.followPositionButton,
+                                   self.followHeadingButton,
                                    self.toolbarSpacer,
                                    self.pdrButton,
                                    self.toolbarSpacer,
@@ -608,6 +606,24 @@ typedef enum {
     }
 }
 
+-(void)startFollowHeadingMode {
+    
+    if (!mapFollowsHeading) {
+        
+        self.followHeadingButton.style = UIBarButtonItemStyleDone;//blue
+        mapFollowsHeading = YES;
+    }
+}
+
+-(void)stopFollowHeadingMode {
+    
+    if (mapFollowsHeading) {
+        
+        self.followHeadingButton.style = UIBarButtonItemStylePlain;//"normal"
+        mapFollowsHeading = NO;
+    }
+}
+
 -(void)startStartingPositionFixingMode {
 
     [[CompassAndGPS sharedInstance] startGPS];
@@ -676,6 +692,18 @@ typedef enum {
     }
 }
 
+-(void)followHeadingButtonPressed:(UIBarButtonItem *)sender {
+    
+    if (mapFollowsHeading) {
+        
+        [self stopFollowHeadingMode];
+        
+    } else {
+        
+        [self startFollowHeadingMode];
+    }
+}
+
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender {
     
     if (self.status != HeadingCorrectionMode) {
@@ -734,6 +762,11 @@ typedef enum {
         
         [self.moveToGPSactionSheet showFromToolbar:self.toolbar];
     }
+}
+
+-(void)userTouchedMap {
+    
+    [self stopFollowHeadingMode];
 }
 
 -(void)userMovedRotationAnchorTo:(AbsoluteLocationEntry *)rotationAnchor {
@@ -941,8 +974,11 @@ typedef enum {
         case DoNothing:
         case WaitingForStartingFix:
         case TrackingPaused:
-            [self.mapView rotateMapByDegrees:lastHeading
-                                   timestamp:timestamp];
+            if (mapFollowsHeading) {
+                
+                [self.mapView rotateMapByDegrees:lastHeading
+                                       timestamp:timestamp];
+            }
             break;
         default:
             break;

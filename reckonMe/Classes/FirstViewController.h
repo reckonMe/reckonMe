@@ -38,6 +38,7 @@
     NSMutableArray *path;//the path since the last start of PDR, necessary to preserve the state between memory warnings
     
     BOOL mapFollowsPosition;
+    BOOL mapFollowsHeading;
     BOOL pdrOn;
     
     double yawOffset;

@@ -35,6 +35,7 @@
 -(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)correctedPosition onMapView:(OutdoorMapView *)view;
 -(void)userMovedRotationAnchorTo:(AbsoluteLocationEntry *)rotationAnchor;
 -(void)userTappedMoveToGPSbutton;
+-(void)userTouchedMap;
 
 @end
 
