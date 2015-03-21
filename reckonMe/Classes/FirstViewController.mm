@@ -35,6 +35,7 @@
 #import "SettingsViewController.h"
 #import "Settings.h"
 #import "proj_api.h"
+#import "UIImage+PDF.h"
 
 #define kInitialPathCapacity 2000
 #define kStartPDRButtonTitle @"Start Dead-Reckoning"
@@ -92,7 +93,6 @@ typedef enum {
 
 -(void)commonInit;
 
--(void)followPositionButtonPressed:(UIBarButtonItem *)sender;
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender;
 -(void)pdrButtonPressed:(UIBarButtonItem *)sender;
 -(void)settingsButtonPressed:(UIBarButtonItem *)settings;
@@ -104,9 +104,6 @@ typedef enum {
 
 -(void)startSensors;
 -(void)pauseSensors;
-
--(void)startFollowPositionMode;
--(void)stopFollowPositionMode;
 
 -(void)stopHeadingCorrectionModeUseResult:(BOOL)useResult;
 -(BOOL)startHeadingCorrectionMode;
@@ -172,8 +169,7 @@ typedef enum {
 
 -(void)commonInit {
     
-    mapFollowsPosition = NO;
-    mapFollowsHeading = YES;
+    mapFollowsHeading = NO;
     pdrOn = NO;
     
     path = [[NSMutableArray alloc] initWithCapacity:kInitialPathCapacity];
@@ -252,14 +248,9 @@ typedef enum {
                                                                 self.view.bounds.size.width,
                                                                 toolbarHeight)] autorelease];
     self.toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
-    self.followPositionButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gps-arrow.png"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(followPositionButtonPressed:)] autorelease];
-    self.followPositionButton.style = mapFollowsPosition ? UIBarButtonItemStyleDone : UIBarButtonItemStylePlain;
-    
-    self.followHeadingButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gps-arrow.png"]
+
+    self.followHeadingButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageWithPDFNamed:@"CompassWithoutCircleLarge.pdf"
+                                                                                         atHeight:20]
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(followHeadingButtonPressed:)] autorelease];
@@ -290,7 +281,6 @@ typedef enum {
                                                            action:@selector(settingsButtonPressed:)] autorelease];
     
     self.toolbarItemsWhenPDRon = [NSArray arrayWithObjects:
-                                  self.followPositionButton,
                                   self.followHeadingButton,
                                   self.toolbarSpacer,
                                   self.correctHeadingButton,
@@ -299,7 +289,6 @@ typedef enum {
                                   nil];
     
     self.toolbarItemsWhenPDRoff = [NSArray arrayWithObjects:
-                                   self.followPositionButton,
                                    self.followHeadingButton,
                                    self.toolbarSpacer,
                                    self.pdrButton,
@@ -362,8 +351,8 @@ typedef enum {
     
     //make the starting pin move to GPS location
     if (self.status == WaitingForStartingFix) {
-        
-        [self startFollowPositionMode];
+    
+        [self startFollowHeadingMode];
     }
 }
 
@@ -406,11 +395,8 @@ typedef enum {
     
     [super viewDidAppear:animated];
     
-    if (mapFollowsPosition && pdrOn) {
-        
-        //the scrolling only takes place when mapView is on screen
-        [self.mapView moveMapCenterTo:lastPosition];
-    }
+    //the scrolling only takes place when mapView is on screen
+    [self.mapView moveMapCenterTo:lastPosition];
     
     //listen for changes in preferences.
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -583,34 +569,12 @@ typedef enum {
     });
 }
 
--(void)startFollowPositionMode {
-    
-    if (!mapFollowsPosition) {
-        
-        self.mapView.showGPSfix = YES;
-        
-        self.followPositionButton.style = UIBarButtonItemStyleDone;//blue
-        
-        mapFollowsPosition = YES;
-    }
-}
-
--(void)stopFollowPositionMode {
-    
-    if (mapFollowsPosition) {
-        
-        self.mapView.showGPSfix = NO;
-        self.followPositionButton.style = UIBarButtonItemStylePlain;//"normal"
-        
-        mapFollowsPosition = NO;
-    }
-}
-
 -(void)startFollowHeadingMode {
     
     if (!mapFollowsHeading) {
         
-        self.followHeadingButton.style = UIBarButtonItemStyleDone;//blue
+        self.followHeadingButton.enabled = NO;
+        self.mapView.showGPSfix = YES;
         mapFollowsHeading = YES;
     }
 }
@@ -619,7 +583,8 @@ typedef enum {
     
     if (mapFollowsHeading) {
         
-        self.followHeadingButton.style = UIBarButtonItemStylePlain;//"normal"
+        self.followHeadingButton.enabled = YES;
+        self.mapView.showGPSfix = NO;
         mapFollowsHeading = NO;
     }
 }
@@ -680,18 +645,6 @@ typedef enum {
 
 
 //MARK: - responding to buttons
--(void)followPositionButtonPressed:(UIBarButtonItem *)sender {
-    
-    if (mapFollowsPosition) {
-        
-        [self stopFollowPositionMode];
-    
-    } else {
-        
-        [self startFollowPositionMode];
-    }
-}
-
 -(void)followHeadingButtonPressed:(UIBarButtonItem *)sender {
     
     if (mapFollowsHeading) {
@@ -1025,10 +978,7 @@ typedef enum {
         
         self.correctHeadingButton.enabled = [path count] >= 2;
         
-        if (mapFollowsPosition) {
-            
-            [mapView moveMapCenterTo:position];
-        }
+        [mapView moveMapCenterTo:position];
         
         [self.mapView moveCurrentPositionMarkerTo:position];
     });

@@ -359,7 +359,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     static double lastMapRotationDegrees = 0;
     static double lastMapRotationTimestamp = 0;
     
-    if (fabs(lastMapRotationDegrees - degrees) > 0.1) {
+    if (fabs(lastMapRotationDegrees - degrees) > 0.5) {
         
         lastMapRotationDegrees = degrees;
         lastMapRotationTimestamp = timestamp;
