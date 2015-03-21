@@ -1,10 +1,13 @@
 PODS:
   - DCIntrospect-ARC (0.0.8)
+  - UIImage+PDF (1.1.3)
 
 DEPENDENCIES:
   - DCIntrospect-ARC (~> 0.0.8)
+  - UIImage+PDF
 
 SPEC CHECKSUMS:
   DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
+  UIImage+PDF: e2670143b9a404ce7def93cd4f7fd2c532aeba89
 
 COCOAPODS: 0.34.4

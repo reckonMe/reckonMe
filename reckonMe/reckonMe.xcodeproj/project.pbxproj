@@ -38,6 +38,7 @@
 		B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */ = {isa = PBXBuildFile; fileRef = B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */; };
 		B537006C15B7092A00757BE0 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B537006B15B7092A00757BE0 /* Settings.m */; };
 		B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B53AAF88156A7C3E00714192 /* OutdoorMapView.m */; };
+		B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */; };
 		B54276C914505C720072ACA5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54276C814505C720072ACA5 /* AudioToolbox.framework */; };
 		B5499E811425E85700BA7177 /* AbstractSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7A1425E85600BA7177 /* AbstractSensor.m */; };
 		B5499E831425E85700BA7177 /* Gyroscope.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7E1425E85700BA7177 /* Gyroscope.m */; };
@@ -46,10 +47,6 @@
 		B5617663146AC44000945446 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5617662146AC44000945446 /* AVFoundation.framework */; };
 		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
 		B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */; };
-		B56F909A15878C0700456F62 /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909315878C0700456F62 /* NSString+MD5.m */; };
-		B56F909B15878C0700456F62 /* PDFView.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909515878C0700456F62 /* PDFView.m */; };
-		B56F909C15878C0700456F62 /* UIImage+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909715878C0700456F62 /* UIImage+PDF.m */; };
-		B56F909D15878C0700456F62 /* UIView+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F909915878C0700456F62 /* UIView+Image.m */; };
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
 		B5789A2D1564170B0087502C /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5789A29156415B70087502C /* libProj4.a */; };
 		B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */; };
@@ -146,6 +143,7 @@
 		B537006B15B7092A00757BE0 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B53AAF87156A7C3E00714192 /* OutdoorMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutdoorMapView.h; sourceTree = "<group>"; };
 		B53AAF88156A7C3E00714192 /* OutdoorMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutdoorMapView.m; sourceTree = "<group>"; };
+		B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CompassWithoutCircleLarge.pdf; sourceTree = "<group>"; };
 		B54276C814505C720072ACA5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B5499E791425E85600BA7177 /* AbstractSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AbstractSensor.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B5499E7A1425E85600BA7177 /* AbstractSensor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractSensor.m; sourceTree = "<group>"; };
@@ -158,14 +156,6 @@
 		B56F44BD1A38FED6009CEEF4 /* BLE_P2PExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE_P2PExchange.h; sourceTree = "<group>"; };
 		B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_P2PExchange.m; sourceTree = "<group>"; };
 		B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
-		B56F909215878C0700456F62 /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
-		B56F909315878C0700456F62 /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
-		B56F909415878C0700456F62 /* PDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFView.h; sourceTree = "<group>"; };
-		B56F909515878C0700456F62 /* PDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFView.m; sourceTree = "<group>"; };
-		B56F909615878C0700456F62 /* UIImage+PDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+PDF.h"; sourceTree = "<group>"; };
-		B56F909715878C0700456F62 /* UIImage+PDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+PDF.m"; sourceTree = "<group>"; };
-		B56F909815878C0700456F62 /* UIView+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Image.h"; sourceTree = "<group>"; };
-		B56F909915878C0700456F62 /* UIView+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Image.m"; sourceTree = "<group>"; };
 		B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "itz-floorplanRotated.pdf"; sourceTree = "<group>"; };
 		B5789A21156415B60087502C /* Proj4 */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Proj4; path = ../Proj4/Proj4.xcodeproj; sourceTree = "<group>"; };
 		B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itz-grayHalf.png"; sourceTree = "<group>"; };
@@ -290,7 +280,6 @@
 		B5499E881425E93B00BA7177 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B56F909115878C0700456F62 /* UIImage+PDF */,
 				B595D2F11407C01C00EB1A91 /* MainWindow.xib */,
 				8E0318DD143513200014FB18 /* SettingsViewController.h */,
 				8E0318DE143513200014FB18 /* SettingsViewController.mm */,
@@ -300,22 +289,6 @@
 				B59295AF157F66C7008380CE /* Outdoor Map Views */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		B56F909115878C0700456F62 /* UIImage+PDF */ = {
-			isa = PBXGroup;
-			children = (
-				B56F909215878C0700456F62 /* NSString+MD5.h */,
-				B56F909315878C0700456F62 /* NSString+MD5.m */,
-				B56F909415878C0700456F62 /* PDFView.h */,
-				B56F909515878C0700456F62 /* PDFView.m */,
-				B56F909615878C0700456F62 /* UIImage+PDF.h */,
-				B56F909715878C0700456F62 /* UIImage+PDF.m */,
-				B56F909815878C0700456F62 /* UIView+Image.h */,
-				B56F909915878C0700456F62 /* UIView+Image.m */,
-			);
-			name = "UIImage+PDF";
-			path = "../UIImage+PDF";
 			sourceTree = "<group>";
 		};
 		B57550381413D9A100193A4C /* Resources */ = {
@@ -342,6 +315,7 @@
 		B5796EAA14292D2D00C138BD /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */,
 				8E5C0B57159C7B5600E1D21C /* gps-round-button-pressed.png */,
 				8E5C0B4C159C72A200E1D21C /* gps-round-button-pressed@2x.png */,
 				8E5C0B48159B77C000E1D21C /* gps-round-button-depressed.png */,
@@ -588,6 +562,7 @@
 				8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */,
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
+				B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */,
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
 				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
@@ -691,10 +666,6 @@
 				B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */,
 				B5D068B91581ED8D005A1C83 /* FloorPlanOverlay.m in Sources */,
 				B5D068BD1581EDC6005A1C83 /* FloorPlanOverlayView.m in Sources */,
-				B56F909A15878C0700456F62 /* NSString+MD5.m in Sources */,
-				B56F909B15878C0700456F62 /* PDFView.m in Sources */,
-				B56F909C15878C0700456F62 /* UIImage+PDF.m in Sources */,
-				B56F909D15878C0700456F62 /* UIView+Image.m in Sources */,
 				B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */,
 				B537006C15B7092A00757BE0 /* Settings.m in Sources */,
 			);

@@ -5,6 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'reckonMe' do
 pod 'DCIntrospect-ARC', '~> 0.0.8'
+pod 'UIImage+PDF'
 end
 
 target 'reckonMeTests' do
