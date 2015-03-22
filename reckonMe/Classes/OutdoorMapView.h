@@ -44,7 +44,8 @@
 @property(nonatomic, assign)id<MapViewDelegate> mapViewDelegate;
 @property(nonatomic) BOOL showGPSfix;
 
--(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition;
+-(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition peerName:(NSString *)peerName;
+-(void)removeExchanges;
 -(void)addPathLineTo:(AbsoluteLocationEntry *)mapPoint;
 -(void)replacePathBy:(NSArray *)path;
 -(void)clearPath;

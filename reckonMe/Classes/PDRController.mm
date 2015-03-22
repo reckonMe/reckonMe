@@ -390,6 +390,8 @@ static PDRController *sharedSingleton;
     [logger didReceiveCompleteCollaborativePath:completePath];
 
     [view didReceivePosition:afterEntry];
+    [view didReceivePeerPosition:position
+                          ofPeer:peerID];
 }
 
     

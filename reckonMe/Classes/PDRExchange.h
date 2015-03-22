@@ -69,6 +69,8 @@
 
 - (void)didReceivePosition:(AbsoluteLocationEntry *)position;
 
+- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName;
+
 - (void)didReceiveCompletePath:(NSArray *)path;
 
 @end

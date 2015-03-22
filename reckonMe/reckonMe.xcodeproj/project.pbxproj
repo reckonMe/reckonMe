@@ -49,6 +49,8 @@
 		B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */; };
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
 		B5789A2D1564170B0087502C /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5789A29156415B70087502C /* libProj4.a */; };
+		B582BFF41ABEFB1F0049A0EE /* PeerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */; };
+		B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B582BFF61ABF02020049A0EE /* pedestrian.pdf */; };
 		B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */; };
 		B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B59295B1157F66FB008380CE /* PinAnnotation.m */; };
 		B595D2E01407C01C00EB1A91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2DF1407C01C00EB1A91 /* UIKit.framework */; };
@@ -158,6 +160,9 @@
 		B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "itz-floorplanRotated.pdf"; sourceTree = "<group>"; };
 		B5789A21156415B60087502C /* Proj4 */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Proj4; path = ../Proj4/Proj4.xcodeproj; sourceTree = "<group>"; };
+		B582BFF21ABEFB1F0049A0EE /* PeerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerAnnotation.h; sourceTree = "<group>"; };
+		B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerAnnotation.m; sourceTree = "<group>"; };
+		B582BFF61ABF02020049A0EE /* pedestrian.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pedestrian.pdf; sourceTree = "<group>"; };
 		B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itz-grayHalf.png"; sourceTree = "<group>"; };
 		B59295B0157F66FB008380CE /* PinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinAnnotation.h; sourceTree = "<group>"; };
 		B59295B1157F66FB008380CE /* PinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinAnnotation.m; sourceTree = "<group>"; };
@@ -294,6 +299,7 @@
 		B57550381413D9A100193A4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B582BFF61ABF02020049A0EE /* pedestrian.pdf */,
 				B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */,
 				B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */,
 				B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */,
@@ -344,6 +350,8 @@
 				B5D068BC1581EDC6005A1C83 /* FloorPlanOverlayView.m */,
 				B5FF80341590D55200B3601C /* PathCopyAnnotation.h */,
 				B5FF80351590D55200B3601C /* PathCopyAnnotation.m */,
+				B582BFF21ABEFB1F0049A0EE /* PeerAnnotation.h */,
+				B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */,
 			);
 			name = "Outdoor Map Views";
 			sourceTree = "<group>";
@@ -563,6 +571,7 @@
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
 				B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */,
+				B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */,
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
 				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
@@ -655,6 +664,7 @@
 				B595D2F61407C01C00EB1A91 /* FirstViewController.mm in Sources */,
 				8E08B585141E04AD0023729B /* matlab-utils.cpp in Sources */,
 				B5499E811425E85700BA7177 /* AbstractSensor.m in Sources */,
+				B582BFF41ABEFB1F0049A0EE /* PeerAnnotation.m in Sources */,
 				B5499E831425E85700BA7177 /* Gyroscope.m in Sources */,
 				B5499E841425E85700BA7177 /* CompassAndGPS.m in Sources */,
 				8E9F366B14297D64006CE285 /* PDRController.mm in Sources */,

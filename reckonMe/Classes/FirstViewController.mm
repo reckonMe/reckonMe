@@ -180,8 +180,6 @@ typedef enum {
                                                                                northingDelta:0
                                                                                       origin:passau
                                                                                    Deviation:1];
-    [self.mapView moveMapCenterTo:passauLocation];
-    
     self.lastPosition = [passauLocation autorelease];
     
     pdr = [PDRController sharedInstance];
@@ -829,6 +827,7 @@ typedef enum {
         //update the view
         [self.toolbar setItems:self.toolbarItemsWhenPDRon animated:YES];
         [self.mapView clearPath];
+        [self.mapView removeExchanges];
         
         [self.mapView stopStartingPositionFixingMode];
         
@@ -982,6 +981,12 @@ typedef enum {
         
         [self.mapView moveCurrentPositionMarkerTo:position];
     });
+}
+
+- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName {
+    
+    [self.mapView addExchangeWithPeerAtPosition:position
+                                       peerName:peerName];
 }
 
 - (void)didReceiveCompletePath:(NSArray *)newPath {

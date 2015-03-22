@@ -27,10 +27,12 @@
 
 #import "OutdoorMapView.h"
 #import "PinAnnotation.h"
+#import "PeerAnnotation.h"
 #import "FloorPlanOverlay.h"
 #import "FloorPlanOverlayView.h"
 #import "PathCopyAnnotation.h"
 #import "GeodeticProjection.h"
+#import "UIImage+PDF.h"
 #import <QuartzCore/QuartzCore.h>
 
 static NSString *startingPinTitle = @"Starting Position";
@@ -76,6 +78,9 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     PinAnnotation *startingPosition;
     PinAnnotation *rotationAnchor;
     
+    NSMutableArray *exchangeAnnotations;
+    NSMutableArray *exchangeOverlays;
+    
     BOOL startingPinDragged;
     BOOL startingPositionFixingMode;
 }
@@ -102,6 +107,9 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         mapView.delegate = self;
         self.pathOverlay = nil;
         [self addSubview:mapView];
+        
+        exchangeAnnotations = [[NSMutableArray alloc] init];
+        exchangeOverlays = [[NSMutableArray alloc] init];
         
         currentPosition = [[PinAnnotation alloc] init];
         currentPosition.title = startingPinTitle;
@@ -150,6 +158,8 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     [currentPosition release];
     [startingPosition release];
     [rotationAnchor release];
+    [exchangeOverlays release];
+    [exchangeAnnotations release];
     
     [super dealloc];
 }
@@ -192,9 +202,23 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
 }
 
--(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition {
+-(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition peerName:(NSString *)peerName {
     
-    //ToDo
+    MKCircle *peerCircle = [MKCircle circleWithCenterCoordinate:peerPosition.absolutePosition
+                                                         radius:peerPosition.deviation];
+    [mapView addOverlay:peerCircle];
+    [exchangeOverlays addObject:peerCircle];
+    
+    PeerAnnotation *peer = [[PeerAnnotation alloc] initWithPosition:peerPosition
+                                                           peerName:peerName];
+    [mapView addAnnotation:peer];
+    [exchangeAnnotations addObject:peer];
+}
+
+-(void)removeExchanges {
+    
+    [mapView removeAnnotations:exchangeAnnotations];
+    [mapView removeOverlays:exchangeOverlays];
 }
 
 -(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint {
@@ -493,7 +517,9 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 //MARK: - MKMapViewDelegate protocol
 
 //deprecated in iOS7: Implement the mapView:rendererForOverlay: method instead.
--(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+//-(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+
+-(MKOverlayRenderer*)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     
     if (overlay == self.pathOverlay) {
         
@@ -542,6 +568,31 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         return [floorPlan autorelease];
     }
     
+    if ([overlay isKindOfClass:[MKCircle class]]) {
+    
+        MKCircleRenderer *circleRenderer = [[MKCircleRenderer alloc] initWithCircle:overlay];
+//        CGFloat r = 20/255.0;
+//        CGFloat g = 204/255.0;
+//        CGFloat b = 180/255.0;
+        CGFloat r = 255/255.0;
+        CGFloat g = 207/255.0;
+        CGFloat b = 25/255.0;
+        
+        UIColor *fillColor = [UIColor colorWithRed:r
+                                             green:g
+                                              blue:b
+                                             alpha:0.3];
+        UIColor *strokeColor = [UIColor colorWithRed:r
+                                               green:g
+                                                blue:b
+                                               alpha:0.8];
+        circleRenderer.fillColor = fillColor;
+        circleRenderer.strokeColor = strokeColor;
+        circleRenderer.lineWidth = 1;
+        
+        return circleRenderer;
+    }
+    
     return nil;
 }
 
@@ -551,6 +602,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     static NSString *startingIdentifier = @"start";
     static NSString *pathCopyIdentifier = @"pathCopy";
     static NSString *rotationAnchorIdentifier = @"rotAnchor";
+    static NSString *peerIdentifier = @"peer";
     
     MKPinAnnotationView *aView = nil;
     
@@ -630,6 +682,26 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
             self.pathCopy.image = self.pathImageCopy;
         }
         return pathCopy;
+    }
+    if ([annotation isKindOfClass:[PeerAnnotation class]]) {
+        
+        MKAnnotationView *peerView = (MKAnnotationView *) [_mapView dequeueReusableAnnotationViewWithIdentifier:peerIdentifier];
+        
+        if (peerView == nil) {
+            
+            peerView = [[[MKAnnotationView alloc] initWithAnnotation:annotation
+                                                     reuseIdentifier:peerIdentifier] autorelease];
+            UIImage *pedestrian = [UIImage imageWithPDFNamed:@"pedestrian.pdf"
+                                                    atHeight:20];
+            
+            peerView.image = pedestrian;
+            
+        }
+        peerView.annotation = annotation;
+        peerView.canShowCallout = YES;
+        peerView.draggable = YES;
+        
+        return peerView;
     }
     return aView;
 }

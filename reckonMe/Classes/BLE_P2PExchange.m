@@ -189,7 +189,7 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     
-    //NSLog(@"%@ %@ %@", RSSI, peripheral.name, [advertisementData objectForKey:CBAdvertisementDataLocalNameKey]);
+    NSLog(@"%@ %@ %@", RSSI, peripheral.name, [advertisementData objectForKey:CBAdvertisementDataLocalNameKey]);
     
     NSInteger signalStrength = [RSSI integerValue];
     if (signalStrength < self.rssiThreshold) return;
@@ -204,13 +204,21 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
     if ([self.delegate shouldConnectToPeerID:deviceName]) {
         
         AbsoluteLocationEntry *peerPosition = [[AbsoluteLocationEntry alloc] initWithBase64String:advertisedData];
+        BOOL isRealDeviceName = ![deviceName isEqualToString:advertisedData];
         
         //dispatch async??
         [self.delegate didReceivePosition:peerPosition
                                    ofPeer:deviceName];
         [peerPosition release];
         
-        [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]];
+        if (isRealDeviceName) {
+            
+            [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]];
+        
+        } else {
+            
+            [AlertSoundPlayer.sharedInstance say:@"Hello!"];
+        }
     }
 }
 
