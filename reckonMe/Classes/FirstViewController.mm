@@ -91,8 +91,6 @@ typedef enum {
 @property(nonatomic, retain) AbsoluteLocationEntry *lastPosition;
 @property(nonatomic, retain) AbsoluteLocationEntry *lastGPSfix;
 
-@property(nonatomic, retain) NSTimer *pocketDetectorStarter;
-
 -(void)commonInit;
 
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender;
@@ -107,7 +105,7 @@ typedef enum {
 -(void)startSensors;
 -(void)pauseSensors;
 
--(void)startPocketDetectorDelayed:(BOOL)delayed;
+-(void)startPocketDetector;
 -(void)stopPocketDetector;
 
 -(void)stopHeadingCorrectionModeUseResult:(BOOL)useResult;
@@ -141,7 +139,6 @@ typedef enum {
 @synthesize lastPosition;
 //the last GPS fix
 @synthesize lastGPSfix;
-@synthesize pocketDetectorStarter;
 
 @synthesize pdrOn;
 
@@ -466,7 +463,7 @@ typedef enum {
                     
                     [self stopStartingPositionFixingMode];
                     [self startPDR];
-                    [self startPocketDetectorDelayed:NO];
+                    [self startPocketDetector];
                     self.status = TrackingPaused;
                     
                     if ([Settings sharedInstance].beaconMode) {
@@ -501,7 +498,6 @@ typedef enum {
                     
                     [self didReceiveEvent:AbortHeadingCorrectionMode];
                     
-                    [self stopPocketDetector];
                     [self startSensors];
                     self.status = Tracking;
                 }
@@ -512,7 +508,6 @@ typedef enum {
                 if (self.status == Tracking) {
                     
                     [self pauseSensors];
-                    [self startPocketDetectorDelayed:YES];
                     self.status = TrackingPaused;
                 }
                 break;
@@ -577,28 +572,13 @@ typedef enum {
     });
 }
 
--(void)startPocketDetectorDelayed:(BOOL)delayed {
-    
-    if (delayed) {
+-(void)startPocketDetector {
         
-        self.pocketDetectorStarter = [NSTimer scheduledTimerWithTimeInterval:5
-                                                                      target:pocketDetector
-                                                                    selector:@selector(start)
-                                                                    userInfo:nil
-                                                                     repeats:NO];
-    } else {
-        
-        [pocketDetector start];
-    }
+    [pocketDetector start];
 }
 
 -(void)stopPocketDetector {
     
-    if (self.pocketDetectorStarter) {
-        
-        [self.pocketDetectorStarter invalidate];
-        self.pocketDetectorStarter = nil;
-    }
     [pocketDetector stop];
 }
 

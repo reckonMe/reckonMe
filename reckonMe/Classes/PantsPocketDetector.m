@@ -26,13 +26,13 @@
 **/
 
 #import "PantsPocketDetector.h"
-#define PANTS_DETECTOR_USE_ONLY_CAM
 
 typedef enum {
     
     Off,
-    NotProximate,
-    ProximateAndWaitingForDarkness,
+    NotProximateAndLight,
+    NotProximateAndDark,
+    ProximateAndLight,
     ProximateAndDark
     
 } PocketDetectorStatus;
@@ -43,7 +43,8 @@ typedef enum {
     Stop,
     BecameProximate,
     BecameNotProximate,
-    BecameDark
+    BecameDark,
+    BecameLight
     
 } PocketDetectorEvent;
 
@@ -157,15 +158,7 @@ typedef enum {
 
 -(BOOL)isInPocket {
     
-    if (isCameraAvailable) {
-        
-        return (self.status == ProximateAndDark);
-   
-    } else {
-        
-        //use only the proximity sensor to determine the status if no camera is available
-        return (self.status == ProximateAndWaitingForDarkness);
-    }
+    return (self.status == ProximateAndDark) || (self.status == NotProximateAndDark);
 }
 
 //MARK: -
@@ -185,39 +178,6 @@ typedef enum {
     //this method may be called from several threads, but setting the status is critical, hence the mutex
     @synchronized(self) {
         
-#ifdef PANTS_DETECTOR_USE_ONLY_CAM
-        switch (event) {
-                
-            case Start:
-                
-                switch (self.status) {
-                        
-                    case Off:
-                        [self startCapturing];
-                        self.status = NotProximate;
-                        break;
-                        
-                    default:
-                        break;
-                }
-                break;
-                
-            case Stop:
-                [self stopCapturing];
-                self.status = Off;
-                break;
-                
-            case BecameDark:
-                if (   self.status != Off
-                    && self.status != ProximateAndDark) {
-                    
-                    self.status = ProximateAndDark;
-                    [self.delegate devicesPocketStatusChanged:YES];
-                }
-            default:
-                break;
-        }
-#else
         switch (event) {
                 
             case Start:
@@ -238,38 +198,25 @@ typedef enum {
                 
             case Stop:
                 
-                switch (self.status) {
-                        
-                    case ProximateAndWaitingForDarkness:
-                        [self stopCapturing];
-                        //no break;
-                    default:
-                        //ATTENTION: The proximity will not turn itself off and unlock the screen, 
-                        //until the object triggering is actually moving away.
-                        //Another undocumented side-effect is the muting of the audio speaker.
-                        [UIDevice currentDevice].proximityMonitoringEnabled = NO;
-                        self.status = Off;
-                        break;
-                }
-                break;
+                [self stopCapturing];
+                [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+                self.status = Off;
                 
+                break;
                 
             case BecameProximate:
                 
                 switch (self.status) {
                         
                     case Off:
-                    case NotProximate:
+                    case NotProximateAndLight:
+                        [self startCapturing];
+                        self.status = ProximateAndLight;
+                        break;
                         
-                        if (isCameraAvailable) {
-                            
-                            [self startCapturing];
-                        
-                        } else {
-                            
-                            [self.delegate devicesPocketStatusChanged:YES];
-                        }
-                        self.status = ProximateAndWaitingForDarkness;
+                    case NotProximateAndDark:
+                        [self.delegate devicesPocketStatusChanged:YES];
+                        self.status = ProximateAndDark;
                         break;
                         
                     default:
@@ -277,32 +224,28 @@ typedef enum {
                 }
                 break;
                 
-                
             case BecameNotProximate:
                 
                 switch (self.status) {
                         
-                    case ProximateAndWaitingForDarkness:
+                    case Off:
+                        self.status = NotProximateAndLight;
+                        break;
                         
-                        if (isCameraAvailable) {
-                            
-                            [self stopCapturing];
-                        
-                        } else {
-                            
-                            [self.delegate devicesPocketStatusChanged:NO];
-                        }
+                    case ProximateAndLight:
+                        [self stopCapturing];
+                        [self.delegate devicesPocketStatusChanged:NO];
+                        self.status = NotProximateAndLight;
                         break;
                     
                     case ProximateAndDark:
-                        self.status = NotProximate;
-                        [self.delegate devicesPocketStatusChanged:NO];
+                        [self startCapturing];
+                        self.status = NotProximateAndDark;
                         break;
                         
                     default:
                         break;
                 }
-                self.status = NotProximate;
                 break;
                 
                 
@@ -310,10 +253,37 @@ typedef enum {
                 
                 switch (self.status) {
                         
-                    case ProximateAndWaitingForDarkness:
+                    case NotProximateAndLight:
+                        self.status = NotProximateAndDark;
+                        break;
+                    
+                    case ProximateAndLight:
                         [self stopCapturing];
-                        self.status = ProximateAndDark;
                         [self.delegate devicesPocketStatusChanged:YES];
+                        self.status = ProximateAndDark;
+                        break;
+                    
+                    case ProximateAndDark:
+                        [self stopCapturing];
+                        break;
+                        
+                    default:
+                        break;
+                }
+                break;
+            
+            case BecameLight:
+                
+                switch (self.status) {
+                        
+                    case NotProximateAndDark:
+                        [self stopCapturing];
+                        [self.delegate devicesPocketStatusChanged:NO];
+                        self.status = NotProximateAndLight;
+                        break;
+                    
+                    case ProximateAndDark:
+                        self.status = ProximateAndLight;
                         break;
                         
                     default:
@@ -324,20 +294,26 @@ typedef enum {
             default:
                 break;
         }
-#endif
     }
 }
 
 //MARK: - capturing
 -(void)startCapturing {
-    
-    frameCounter = 0;
-    [captureSession startRunning];
+    NSLog(@"startCap");
+    if (!captureSession.isRunning) {
+        
+        frameCounter = 0;
+        [captureSession startRunning];
+    }
 }
 
 -(void)stopCapturing {
     
-    [captureSession stopRunning];   
+    NSLog(@"stopCap");
+    if (captureSession.isRunning) {
+        
+        [captureSession stopRunning];
+    }
 }
 
 //MARK: - sensor callbacks
@@ -346,10 +322,12 @@ typedef enum {
     if ([UIDevice currentDevice].proximityState) {
         
         [self didReceiveEvent:BecameProximate];
+        NSLog(@"prox");
         
     } else {
         
         [self didReceiveEvent:BecameNotProximate];
+        NSLog(@"!prox");
     }
 }
 
@@ -397,6 +375,12 @@ typedef enum {
             && (standardDeviation <= kPantsPocketDetectorLuminanceStandardDeviationThreshold)) {
             
             [self didReceiveEvent:BecameDark];
+            NSLog(@"dark");
+            
+        } else {
+            
+            [self didReceiveEvent:BecameLight];
+            NSLog(@"light");
         }
     }
 }
