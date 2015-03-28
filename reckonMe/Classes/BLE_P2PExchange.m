@@ -213,11 +213,15 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
         
         if (isRealDeviceName) {
             
-            [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]];
+            [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]
+                          interruptOngoingSpeech:NO
+                                         vibrate:YES];
         
         } else {
             
-            [AlertSoundPlayer.sharedInstance say:@"Hello!"];
+            [AlertSoundPlayer.sharedInstance say:@"Hello!"
+                          interruptOngoingSpeech:NO
+                                         vibrate:YES];
         }
     }
 }

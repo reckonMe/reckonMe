@@ -71,7 +71,12 @@ static AlertSoundPlayer *sharedSingleton;
     AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);
 }
 
--(void)say:(NSString *)textToSay {
+-(void)say:(NSString *)textToSay interruptOngoingSpeech:(BOOL)interrupt vibrate:(BOOL)vibrate {
+    
+    if (interrupt && synthesizer.isSpeaking) {
+        
+        [synthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    }
     
     AVSpeechUtterance *utterance = [[AVSpeechUtterance alloc] initWithString:textToSay];
     utterance.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"en-US"];
@@ -79,6 +84,11 @@ static AlertSoundPlayer *sharedSingleton;
     
     [synthesizer speakUtterance:utterance];
     [utterance release];
+    
+    if (vibrate) {
+        
+        [self vibrate];
+    }
 }
 
 @end

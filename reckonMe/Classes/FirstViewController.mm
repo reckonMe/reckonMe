@@ -549,7 +549,9 @@ typedef enum {
         
         [[Gyroscope sharedInstance] addListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance say:@"Starting."];
+        [AlertSoundPlayer.sharedInstance say:@"Starting."
+                      interruptOngoingSpeech:NO
+                                     vibrate:YES];
     });
 }
 
@@ -563,7 +565,9 @@ typedef enum {
         //remove the pdr as a listener, but continue
         [[Gyroscope sharedInstance] removeListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance say:@"Pausing."];
+        [AlertSoundPlayer.sharedInstance say:@"Pausing."
+                      interruptOngoingSpeech:YES
+                                     vibrate:NO];
     });
 }
 
@@ -844,7 +848,9 @@ typedef enum {
                 
             } else {
                 
-                [AlertSoundPlayer.sharedInstance say:@"Please put me into your pocket."];
+                [AlertSoundPlayer.sharedInstance say:@"Please put me into your pocket."
+                              interruptOngoingSpeech:NO
+                                             vibrate:NO];
                 
                 //start the sensors
                 [[Gyroscope sharedInstance] start];

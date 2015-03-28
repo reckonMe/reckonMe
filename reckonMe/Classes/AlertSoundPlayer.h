@@ -35,7 +35,7 @@
 
 +(AlertSoundPlayer*)sharedInstance;
 
--(void)say:(NSString *)textToSay;
+-(void)say:(NSString *)textToSay interruptOngoingSpeech:(BOOL)interrupt vibrate:(BOOL)vibrate;
 -(void)vibrate;
 
 @end
