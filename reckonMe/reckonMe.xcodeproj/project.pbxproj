@@ -36,6 +36,7 @@
 		B50128C5146C223300D8CDFF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C2146C223300D8CDFF /* CoreMedia.framework */; };
 		B50128C6146C223300D8CDFF /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B50128C3146C223300D8CDFF /* CoreVideo.framework */; };
 		B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */ = {isa = PBXBuildFile; fileRef = B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */; };
+		B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B51D3D6B1AC367610059BE17 /* Images.xcassets */; };
 		B537006C15B7092A00757BE0 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B537006B15B7092A00757BE0 /* Settings.m */; };
 		B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B53AAF88156A7C3E00714192 /* OutdoorMapView.m */; };
 		B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */; };
@@ -141,6 +142,7 @@
 		B50128C2146C223300D8CDFF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		B50128C3146C223300D8CDFF /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dfki-2.OG-trimmed.png"; sourceTree = "<group>"; };
+		B51D3D6B1AC367610059BE17 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = reckonMe/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		B537006A15B7092A00757BE0 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		B537006B15B7092A00757BE0 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B53AAF87156A7C3E00714192 /* OutdoorMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutdoorMapView.h; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				B537006A15B7092A00757BE0 /* Settings.h */,
 				B537006B15B7092A00757BE0 /* Settings.m */,
 				B57550381413D9A100193A4C /* Resources */,
+				B51D3D6B1AC367610059BE17 /* Images.xcassets */,
 				B595D2E61407C01C00EB1A91 /* Supporting Files */,
 			);
 			name = reckonMe;
@@ -575,6 +578,7 @@
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
 				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
+				B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */,
 				8E3AF9FF1436159A00D88C95 /* settings.png in Resources */,
 				8E3AFA001436159A00D88C95 /* settings@2x.png in Resources */,
 				B5DD31BA14FD2DF0006D1F35 /* cymbalsShort.aiff in Resources */,
@@ -804,6 +808,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 74600FE66BE57AD0402645C4 /* Pods-reckonMe.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -832,6 +838,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D97F5BFD9BE63397CD1E84F5 /* Pods-reckonMe.release.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";

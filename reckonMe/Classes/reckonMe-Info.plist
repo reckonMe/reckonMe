@@ -10,11 +10,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>pdr-icon-retina.png</string>
-		<string>pdr-icon.png</string>
-	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.benthiel.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
