@@ -989,10 +989,10 @@ typedef enum {
     });
 }
 
-- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName {
+- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName isRealName:(BOOL)isRealName {
     
     [self.mapView addExchangeWithPeerAtPosition:position
-                                       peerName:peerName];
+                                       peerName:isRealName ? peerName : @"Another User"];
 }
 
 - (void)didReceiveCompletePath:(NSArray *)newPath {

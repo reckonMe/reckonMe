@@ -337,7 +337,7 @@ static PDRController *sharedSingleton;
 }
 
     
-- (void)didReceivePosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerID {
+- (void)didReceivePosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerID isRealName:(BOOL)isRealName {
     
     if(!pdrRunning)
         return;
@@ -391,7 +391,8 @@ static PDRController *sharedSingleton;
 
     [view didReceivePosition:afterEntry];
     [view didReceivePeerPosition:position
-                          ofPeer:peerID];
+                          ofPeer:peerID
+                      isRealName:isRealName];
 }
 
     

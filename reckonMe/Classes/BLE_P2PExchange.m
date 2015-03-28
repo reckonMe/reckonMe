@@ -208,7 +208,8 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
         
         //dispatch async??
         [self.delegate didReceivePosition:peerPosition
-                                   ofPeer:deviceName];
+                                   ofPeer:deviceName
+                               isRealName:isRealDeviceName];
         [peerPosition release];
         
         if (isRealDeviceName) {

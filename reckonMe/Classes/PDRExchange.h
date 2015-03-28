@@ -54,7 +54,7 @@
 /* data is exchanged if at least one party responds with YES */
 - (bool)shouldConnectToPeerID:(NSString *) peerID;
 
-- (void)didReceivePosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerID;
+- (void)didReceivePosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerID isRealName:(BOOL)isRealName;
 
 - (AbsoluteLocationEntry *)positionForExchange;
 
@@ -69,7 +69,7 @@
 
 - (void)didReceivePosition:(AbsoluteLocationEntry *)position;
 
-- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName;
+- (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName isRealName:(BOOL)isRealName;
 
 - (void)didReceiveCompletePath:(NSArray *)path;
 
