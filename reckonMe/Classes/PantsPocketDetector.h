@@ -25,34 +25,36 @@
 *	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 
-#import <UIKit/UIKit.h>
-#import "PDRExchange.h"
-#import "PDRController.h"
-#import "OutdoorMapView.h"
-#import "PantsPocketDetector.h"
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, MapViewDelegate>
+#define kPantsPocketDetectorLuminanceThreshold 0.10 //luminance in [0,1]
+#define kPantsPocketDetectorLuminanceStandardDeviationThreshold 0.023
+#define kPantsPocketDetectorCaptureInterval 1 //seconds
+
+@protocol PantsPocketDetectorDelegate <NSObject>
+
+//ATTENTION: this method may be called from any thread
+-(void)devicesPocketStatusChanged:(BOOL)isInPocket;
+
+@end
+
+@interface PantsPocketDetector : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 {
     
-    PDRController *pdr;
-    PantsPocketDetector *pocketDetector;
+    AVCaptureSession *captureSession;
+    AVCaptureVideoDataOutput *videoOut;
+    dispatch_queue_t captureQueue;
     
-    NSMutableArray *path;//the path since the last start of PDR, necessary to preserve the state between memory warnings
-    
-    BOOL mapFollowsPosition;
-    BOOL mapFollowsHeading;
-    BOOL pdrOn;
-    
-    double yawOffset;
-    double lastYaw;
-    double lastHeading;
+    unsigned int frameCounter;
 }
 
-@property (nonatomic) BOOL pdrOn;
+@property(nonatomic, assign) id<PantsPocketDetectorDelegate> delegate;
+@property(nonatomic, readonly) BOOL isCameraAvailable;
+@property(nonatomic, readonly) BOOL isStarted;
+@property(nonatomic, readonly) BOOL isInPocket;
 
--(void)startPDR;
--(void)stopPDR;
-
--(void)testPDR;
+-(void)start;
+-(void)stop;
 
 @end

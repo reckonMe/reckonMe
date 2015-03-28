@@ -91,6 +91,8 @@ typedef enum {
 @property(nonatomic, retain) AbsoluteLocationEntry *lastPosition;
 @property(nonatomic, retain) AbsoluteLocationEntry *lastGPSfix;
 
+@property(nonatomic, retain) NSTimer *pocketDetectorStarter;
+
 -(void)commonInit;
 
 -(void)correctHeadingButtonPressed:(UIBarButtonItem *)sender;
@@ -104,6 +106,9 @@ typedef enum {
 
 -(void)startSensors;
 -(void)pauseSensors;
+
+-(void)startPocketDetectorDelayed:(BOOL)delayed;
+-(void)stopPocketDetector;
 
 -(void)stopHeadingCorrectionModeUseResult:(BOOL)useResult;
 -(BOOL)startHeadingCorrectionMode;
@@ -136,6 +141,7 @@ typedef enum {
 @synthesize lastPosition;
 //the last GPS fix
 @synthesize lastGPSfix;
+@synthesize pocketDetectorStarter;
 
 @synthesize pdrOn;
 
@@ -185,11 +191,8 @@ typedef enum {
     pdr = [PDRController sharedInstance];
     pdr.view = self;
     
-    //listen for proximity sensor
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(proximitySensorStateChanged)
-                                                 name:@"UIDeviceProximityStateDidChangeNotification"
-                                               object:nil];
+    pocketDetector = [[PantsPocketDetector alloc] init];
+    pocketDetector.delegate = self;
     
     [Gyroscope sharedInstance].frequency = 50;
     
@@ -208,6 +211,7 @@ typedef enum {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [pdr release];
+    [pocketDetector release];
     
     [self releaseSubviews];
     
@@ -462,7 +466,7 @@ typedef enum {
                     
                     [self stopStartingPositionFixingMode];
                     [self startPDR];
-                    [UIDevice currentDevice].proximityMonitoringEnabled = YES;
+                    [self startPocketDetectorDelayed:NO];
                     self.status = TrackingPaused;
                     
                     if ([Settings sharedInstance].beaconMode) {
@@ -482,7 +486,7 @@ typedef enum {
                     default:
                         break;
                 }
-                [UIDevice currentDevice].proximityMonitoringEnabled = NO;
+                [self stopPocketDetector];
                 [self stopPDR];
                 self.status = DoNothing;
                 
@@ -497,6 +501,7 @@ typedef enum {
                     
                     [self didReceiveEvent:AbortHeadingCorrectionMode];
                     
+                    [self stopPocketDetector];
                     [self startSensors];
                     self.status = Tracking;
                 }
@@ -507,6 +512,7 @@ typedef enum {
                 if (self.status == Tracking) {
                     
                     [self pauseSensors];
+                    [self startPocketDetectorDelayed:YES];
                     self.status = TrackingPaused;
                 }
                 break;
@@ -569,6 +575,31 @@ typedef enum {
                       interruptOngoingSpeech:YES
                                      vibrate:NO];
     });
+}
+
+-(void)startPocketDetectorDelayed:(BOOL)delayed {
+    
+    if (delayed) {
+        
+        self.pocketDetectorStarter = [NSTimer scheduledTimerWithTimeInterval:5
+                                                                      target:pocketDetector
+                                                                    selector:@selector(start)
+                                                                    userInfo:nil
+                                                                     repeats:NO];
+    } else {
+        
+        [pocketDetector start];
+    }
+}
+
+-(void)stopPocketDetector {
+    
+    if (self.pocketDetectorStarter) {
+        
+        [self.pocketDetectorStarter invalidate];
+        self.pocketDetectorStarter = nil;
+    }
+    [pocketDetector stop];
 }
 
 -(void)startFollowHeadingMode {
@@ -795,16 +826,19 @@ typedef enum {
 }
 
 //MARK: - PantsPocketStatusDelegate (switching all other sensors on and off)
--(void)proximitySensorStateChanged {
+-(void)devicesPocketStatusChanged:(BOOL)isInPocket {
     
-    if ([UIDevice currentDevice].proximityState) {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
         
-        [self didReceiveEvent:DetectedInPocket];
-        
-    } else {
-        
-        [self didReceiveEvent:DetectedOutOfPocket];
-    }
+        if (isInPocket) {
+            
+            [self didReceiveEvent:DetectedInPocket];
+            
+        } else {
+            
+            [self didReceiveEvent:DetectedOutOfPocket];
+        }
+    });
 }
 
 //MARK: - PDR

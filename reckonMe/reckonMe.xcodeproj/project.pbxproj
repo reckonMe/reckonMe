@@ -45,6 +45,7 @@
 		B5499E831425E85700BA7177 /* Gyroscope.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7E1425E85700BA7177 /* Gyroscope.m */; };
 		B5499E841425E85700BA7177 /* CompassAndGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E801425E85700BA7177 /* CompassAndGPS.m */; };
 		B5499E8A1425E9A700BA7177 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5499E891425E9A700BA7177 /* CoreMotion.framework */; };
+		B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = B5617660146ABD4000945446 /* PantsPocketDetector.m */; };
 		B5617663146AC44000945446 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5617662146AC44000945446 /* AVFoundation.framework */; };
 		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
 		B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */; };
@@ -156,6 +157,8 @@
 		B5499E7F1425E85700BA7177 /* CompassAndGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompassAndGPS.h; sourceTree = "<group>"; };
 		B5499E801425E85700BA7177 /* CompassAndGPS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompassAndGPS.m; sourceTree = "<group>"; };
 		B5499E891425E9A700BA7177 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		B561765F146ABD4000945446 /* PantsPocketDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PantsPocketDetector.h; sourceTree = "<group>"; };
+		B5617660146ABD4000945446 /* PantsPocketDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PantsPocketDetector.m; sourceTree = "<group>"; };
 		B5617662146AC44000945446 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B56F44BD1A38FED6009CEEF4 /* BLE_P2PExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLE_P2PExchange.h; sourceTree = "<group>"; };
 		B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_P2PExchange.m; sourceTree = "<group>"; };
@@ -414,6 +417,8 @@
 				B5499E881425E93B00BA7177 /* Views */,
 				B595D2EE1407C01C00EB1A91 /* PDRAppDelegate.h */,
 				B595D2EF1407C01C00EB1A91 /* PDRAppDelegate.mm */,
+				B561765F146ABD4000945446 /* PantsPocketDetector.h */,
+				B5617660146ABD4000945446 /* PantsPocketDetector.m */,
 				B5DF9069147D0DB900A39293 /* AlertSoundPlayer.h */,
 				B5DF906A147D0DB900A39293 /* AlertSoundPlayer.m */,
 				B59BD117156443DB00433C17 /* GeodeticProjection.h */,
@@ -674,6 +679,7 @@
 				8E9F366B14297D64006CE285 /* PDRController.mm in Sources */,
 				8E9F366C14297D9C006CE285 /* LocationEntry.m in Sources */,
 				8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */,
+				B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */,
 				B5DF906B147D0DB900A39293 /* AlertSoundPlayer.m in Sources */,
 				B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */,
 				B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */,
