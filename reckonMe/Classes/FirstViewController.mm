@@ -549,7 +549,7 @@ typedef enum {
         
         [[Gyroscope sharedInstance] addListener:pdr];
         
-        [AlertSoundPlayer.sharedInstance say:@"Starting dead reckoning."];
+        [AlertSoundPlayer.sharedInstance say:@"Starting."];
     });
 }
 
