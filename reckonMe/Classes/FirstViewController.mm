@@ -985,12 +985,20 @@ typedef enum {
     }
 }
 
-- (void)didReceivePosition:(AbsoluteLocationEntry *)position {
+- (void)didReceivePosition:(AbsoluteLocationEntry *)position isResultOfExchange:(BOOL)fromExchange {
     
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         self.lastPosition = position;
-        [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
+        
+        /* Postpone the advertisement of new position stemming from an exchange 
+         * in order to give the other peer an opportunity to pick up the "old" position.
+         * The next update is happening with the next computed step(s).
+         */
+        if (!fromExchange) {
+            
+            [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
+        }
         
         //update path
         [path addObject:position];

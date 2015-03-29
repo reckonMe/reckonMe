@@ -67,7 +67,7 @@
 
 @protocol PDRView
 
-- (void)didReceivePosition:(AbsoluteLocationEntry *)position;
+- (void)didReceivePosition:(AbsoluteLocationEntry *)position isResultOfExchange:(BOOL)fromExchange;
 
 - (void)didReceivePeerPosition:(AbsoluteLocationEntry *)position ofPeer:(NSString *)peerName isRealName:(BOOL)isRealName;
 

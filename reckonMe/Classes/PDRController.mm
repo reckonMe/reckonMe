@@ -212,7 +212,8 @@ static PDRController *sharedSingleton;
     
     // notify logger & view of the initial step
     AbsoluteLocationEntry *entry = [self absoluteLocationEntryFrom:initialPosition];
-    [view didReceivePosition:entry];
+    [view didReceivePosition:entry
+          isResultOfExchange:NO];
     [logger didReceivePDRPosition:entry];
     [logger didReceiveCollaborativeLocalisationPosition:entry];
     
@@ -389,7 +390,8 @@ static PDRController *sharedSingleton;
     NSMutableArray *completePath = [self collaborativeTraceToNSMutableArrayStartingAt:collaborativeTrace.begin()];
     [logger didReceiveCompleteCollaborativePath:completePath];
 
-    [view didReceivePosition:afterEntry];
+    [view didReceivePosition:afterEntry
+          isResultOfExchange:YES];
     [view didReceivePeerPosition:position
                           ofPeer:peerID
                       isRealName:isRealName];
@@ -873,7 +875,8 @@ static PDRController *sharedSingleton;
         // notify logger & view 
         AbsoluteLocationEntry *pdrEntry = [self absoluteLocationEntryFrom:pdrStep];
         AbsoluteLocationEntry *collaborativeEntry = [self absoluteLocationEntryFrom:collaborativeStep];
-        [view didReceivePosition:collaborativeEntry];
+        [view didReceivePosition:collaborativeEntry
+              isResultOfExchange:NO];
         [logger didReceivePDRPosition:pdrEntry];
         [logger didReceiveCollaborativeLocalisationPosition:collaborativeEntry];            
         
