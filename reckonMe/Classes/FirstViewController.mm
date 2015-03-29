@@ -753,6 +753,7 @@ typedef enum {
     
     if (self.status == WaitingForStartingFix) {
         
+        [self.mapView moveCurrentPositionMarkerTo:correctTo];
         [self.mapView moveMapCenterTo:correctTo];
         
     } else {
