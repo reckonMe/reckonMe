@@ -79,7 +79,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     PinAnnotation *rotationAnchor;
     
     NSMutableArray *exchangeAnnotations;
-    NSMutableArray *exchangeOverlays;
     
     BOOL startingPinDragged;
     BOOL startingPositionFixingMode;
@@ -109,7 +108,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         [self addSubview:mapView];
         
         exchangeAnnotations = [[NSMutableArray alloc] init];
-        exchangeOverlays = [[NSMutableArray alloc] init];
         
         currentPosition = [[PinAnnotation alloc] init];
         currentPosition.title = startingPinTitle;
@@ -158,7 +156,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     [currentPosition release];
     [startingPosition release];
     [rotationAnchor release];
-    [exchangeOverlays release];
     [exchangeAnnotations release];
     
     [super dealloc];
@@ -204,11 +201,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 
 -(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition peerName:(NSString *)peerName {
     
-    MKCircle *peerCircle = [MKCircle circleWithCenterCoordinate:peerPosition.absolutePosition
-                                                         radius:peerPosition.deviation];
-    [mapView addOverlay:peerCircle];
-    [exchangeOverlays addObject:peerCircle];
-    
     PeerAnnotation *peer = [[PeerAnnotation alloc] initWithPosition:peerPosition
                                                            peerName:peerName];
     [mapView addAnnotation:peer];
@@ -218,7 +210,7 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 -(void)removeExchanges {
     
     [mapView removeAnnotations:exchangeAnnotations];
-    [mapView removeOverlays:exchangeOverlays];
+    [exchangeAnnotations removeAllObjects];
 }
 
 -(void)moveMapCenterTo:(AbsoluteLocationEntry *)mapPoint {
@@ -341,7 +333,10 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
         
         startingPositionFixingMode = YES;
         
-        [mapView removeAnnotations:mapView.annotations];
+        //remove everything but exchanges
+        NSMutableSet *annotationsWithoutExchanges = [NSMutableSet setWithArray:mapView.annotations];
+        [annotationsWithoutExchanges minusSet:[NSSet setWithArray:exchangeAnnotations]];
+        [mapView removeAnnotations:[annotationsWithoutExchanges allObjects]];
         
         currentPosition.title = startingPinTitle;
         currentPosition.subtitle = correctingPinSubtitle;
@@ -751,5 +746,25 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     }
 }
 
+-(void)mapView:(MKMapView *)_mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    
+    if ([view.annotation isKindOfClass:[PeerAnnotation class]]) {
+        
+        //add the circle
+        PeerAnnotation *peerAnnotation = (PeerAnnotation *) view.annotation;
+        [mapView addOverlay:peerAnnotation.circleOverlay
+                      level:MKOverlayLevelAboveRoads];
+    }
+}
+
+-(void)mapView:(MKMapView *)_mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    
+    if ([view.annotation isKindOfClass:[PeerAnnotation class]]) {
+        
+        //remove the circle
+        PeerAnnotation *peerAnnotation = (PeerAnnotation *) view.annotation;
+        [mapView removeOverlay:peerAnnotation.circleOverlay];
+    }
+}
 
 @end

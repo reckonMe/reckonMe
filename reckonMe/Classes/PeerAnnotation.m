@@ -11,7 +11,7 @@
 
 @implementation PeerAnnotation
 
-@synthesize coordinate, title, timestamp;
+@synthesize coordinate, title, timestamp, circleOverlay;
 @dynamic subtitle;
 
 -(instancetype)initWithPosition:(AbsoluteLocationEntry *)position peerName:(NSString *)peerName {
@@ -21,8 +21,19 @@
         self.coordinate = position.absolutePosition;
         self.title = peerName;
         self.timestamp = [NSDate dateWithTimeIntervalSince1970:position.timestamp];
+        self.circleOverlay = [MKCircle circleWithCenterCoordinate:position.absolutePosition
+                                                           radius:position.deviation];
     }
     return self;
+}
+
+-(void)dealloc {
+    
+    self.title = nil;
+    self.timestamp = nil;
+    self.circleOverlay = nil;
+    
+    [super dealloc];
 }
 
 -(NSString *)subtitle {

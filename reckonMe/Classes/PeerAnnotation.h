@@ -17,6 +17,8 @@
 @property(nonatomic, readonly) NSString *subtitle;
 @property(nonatomic, retain) NSDate *timestamp;
 
+@property(nonatomic, retain) MKCircle *circleOverlay;
+
 -(instancetype)initWithPosition:(AbsoluteLocationEntry *)position peerName:(NSString *)peerName;
 
 @end
