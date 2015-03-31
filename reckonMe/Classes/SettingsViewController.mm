@@ -27,6 +27,7 @@
 
 #import "SettingsViewController.h"
 #import "Settings.h"
+#import "UIImage+PDf.h"
 
 const NSTimeInterval kAnimationDuration = 0.2;
 
@@ -46,7 +47,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 @synthesize blurryBackground;
 @synthesize stepLengthStepper, stepLengthLabel;
 @synthesize p2pExchangeSwitch, beaconSwitch, beaconLabel;
-@synthesize rssiStepper, rssiLabel;
+@synthesize rssiStepper, rssiLabel, rssiDescriptionLabel;
 @synthesize minRequiredDistanceStepper, minRequiredDistanceLabel;
 
 - (void)dealloc {
@@ -129,9 +130,13 @@ const NSTimeInterval kAnimationDuration = 0.2;
     //update the label
     [self minRequiredDistanceChanged:self.minRequiredDistanceStepper];
     
+    CGFloat minMaxImageHeight = 20;
     self.rssiStepper.minimumValue = -100;
     self.rssiStepper.maximumValue = -20;
-    self.rssiStepper.stepValue = 1;
+    self.rssiStepper.minimumValueImage = [UIImage imageWithPDFNamed:@"lowSignal.pdf"
+                                                           atHeight:minMaxImageHeight];
+    self.rssiStepper.maximumValueImage = [UIImage imageWithPDFNamed:@"fullSignal.pdf"
+                                                           atHeight:minMaxImageHeight];
     self.rssiStepper.value = [Settings sharedInstance].rssi;
     //update the label
     [self rssiChanged:self.rssiStepper];
@@ -187,6 +192,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
                              
                              self.rssiLabel.transform = moveDetailControls;
                              self.rssiStepper.transform = moveDetailControls;
+                             self.rssiDescriptionLabel.transform = moveDetailControls;
                              self.minRequiredDistanceStepper.transform = moveDetailControls;
                              self.minRequiredDistanceLabel.transform = moveDetailControls;
                              self.stepLengthLabel.transform = moveDetailControls;
@@ -218,6 +224,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
                          
                          self.rssiLabel.transform = moveDetailControls;
                          self.rssiStepper.transform = moveDetailControls;
+                         self.rssiDescriptionLabel.transform = moveDetailControls;
                          self.minRequiredDistanceStepper.transform = moveDetailControls;
                          self.minRequiredDistanceLabel.transform = moveDetailControls;
                          self.stepLengthLabel.transform = moveDetailControls;
@@ -226,10 +233,10 @@ const NSTimeInterval kAnimationDuration = 0.2;
     
 }
 
--(IBAction)rssiChanged:(UIStepper *)sender {
+-(IBAction)rssiChanged:(UISlider *)sender {
     
     [Settings sharedInstance].rssi = sender.value;
-    self.rssiLabel.text = [NSString stringWithFormat:@"RSSI Threshold: %ld db", (long)[Settings sharedInstance].rssi];
+    self.rssiLabel.text = [NSString stringWithFormat:@"RSSI > %ld db", (long)[Settings sharedInstance].rssi];
 }
 
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender {

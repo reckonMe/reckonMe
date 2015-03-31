@@ -38,8 +38,9 @@
 @property (nonatomic, retain) IBOutlet UISwitch *beaconSwitch;
 @property (nonatomic, retain) IBOutlet UILabel *beaconLabel;
 
-@property (nonatomic, retain) IBOutlet UIStepper *rssiStepper;
+@property (nonatomic, retain) IBOutlet UISlider *rssiStepper;
 @property (nonatomic, retain) IBOutlet UILabel *rssiLabel;
+@property (nonatomic, retain) IBOutlet UILabel *rssiDescriptionLabel;
 
 @property (nonatomic, retain) IBOutlet UIStepper *minRequiredDistanceStepper;
 @property (nonatomic, retain) IBOutlet UILabel *minRequiredDistanceLabel;
@@ -49,7 +50,7 @@
 -(IBAction)p2pExchangeChanged:(UISwitch *)sender;
 -(IBAction)beaconSwitchChanged:(UISwitch *)sender;
 
--(IBAction)rssiChanged:(UIStepper *)sender;
+-(IBAction)rssiChanged:(UISlider *)sender;
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender;
 
 @end

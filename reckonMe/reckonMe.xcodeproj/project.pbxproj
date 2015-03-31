@@ -74,6 +74,8 @@
 		B59BD119156443DB00433C17 /* GeodeticProjection.m in Sources */ = {isa = PBXBuildFile; fileRef = B59BD118156443DB00433C17 /* GeodeticProjection.m */; };
 		B5A3B01014CC6140004A0E54 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00E14CC6140004A0E54 /* Accelerate.framework */; };
 		B5A3B01114CC6140004A0E54 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */; };
+		B5BD2DE01ACB4BD7001C22ED /* fullSignal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5BD2DDE1ACB4BD7001C22ED /* fullSignal.pdf */; };
+		B5BD2DE11ACB4BD7001C22ED /* lowSignal.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5BD2DDF1ACB4BD7001C22ED /* lowSignal.pdf */; };
 		B5BDDC19142FDC700044F56B /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5BDDC18142FDC700044F56B /* GameKit.framework */; };
 		B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C6809B156667A80099AB49 /* MapKit.framework */; };
 		B5D068B91581ED8D005A1C83 /* FloorPlanOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D068B81581ED8D005A1C83 /* FloorPlanOverlay.m */; };
@@ -195,6 +197,8 @@
 		B59BD118156443DB00433C17 /* GeodeticProjection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeodeticProjection.m; sourceTree = "<group>"; };
 		B5A3B00E14CC6140004A0E54 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		B5A3B00F14CC6140004A0E54 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		B5BD2DDE1ACB4BD7001C22ED /* fullSignal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = fullSignal.pdf; sourceTree = "<group>"; };
+		B5BD2DDF1ACB4BD7001C22ED /* lowSignal.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = lowSignal.pdf; sourceTree = "<group>"; };
 		B5BDDC18142FDC700044F56B /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B5C6809B156667A80099AB49 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B5D068B71581ED8D005A1C83 /* FloorPlanOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloorPlanOverlay.h; sourceTree = "<group>"; };
@@ -304,6 +308,8 @@
 		B57550381413D9A100193A4C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B5BD2DDE1ACB4BD7001C22ED /* fullSignal.pdf */,
+				B5BD2DDF1ACB4BD7001C22ED /* lowSignal.pdf */,
 				B582BFF61ABF02020049A0EE /* pedestrian.pdf */,
 				B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */,
 				B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */,
@@ -579,11 +585,13 @@
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
 				B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */,
+				B5BD2DE01ACB4BD7001C22ED /* fullSignal.pdf in Resources */,
 				B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */,
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
 				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
 				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
 				B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */,
+				B5BD2DE11ACB4BD7001C22ED /* lowSignal.pdf in Resources */,
 				8E3AF9FF1436159A00D88C95 /* settings.png in Resources */,
 				8E3AFA001436159A00D88C95 /* settings@2x.png in Resources */,
 				B5DD31BA14FD2DF0006D1F35 /* cymbalsShort.aiff in Resources */,
