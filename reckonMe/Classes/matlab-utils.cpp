@@ -41,7 +41,7 @@ vector<double> filter(const vector<double> &a, const vector<double> &b, const ve
 
     vector<double> y(x.size());
     
-    int i, j;
+    size_t i, j;
 	y[0] = b[0] * x[0];
 	for (i = 1; i < b.size(); i++) {
         y[i] = 0.0;
@@ -65,7 +65,7 @@ vector<double> filter(const vector<double> &a, const vector<double> &b, const ve
 
 vector<double> filtfilt (const vector<double> &a, const vector<double> &b, const vector<double> &x) {
     
-    int border_size = 3*a.size();
+    size_t border_size = 3*a.size();
 
 	assert(a.size() == b.size() && x.size() > 2*border_size);
 
@@ -93,16 +93,16 @@ vector<double> filtfilt (const vector<double> &a, const vector<double> &b, const
 }
 
 
-vector<PeakEntry> peakdet(const vector<double> &data, int leftIdx, int rightIdx, double threshold) {
+vector<PeakEntry> peakdet(const vector<double> &data, size_t leftIdx, size_t rightIdx, double threshold) {
         
     vector<PeakEntry> peak_indices;
     
     double mx = -HUGE_VALF;
     double mn = HUGE_VALF;
     bool look_for_max = true;
-    int mx_pos, mn_pos;
+    size_t mx_pos, mn_pos;
     
-    for (int i = leftIdx; i < rightIdx; i++) {
+    for (size_t i = leftIdx; i < rightIdx; i++) {
         double act = data[i];
         if (act > mx) {
             mx = act;

@@ -139,7 +139,7 @@ static PDRController *sharedSingleton;
     dispatch_queue_t computePDRqueue;
     
     double stepLength;
-    int distanceBetweenConsecutiveMeetings;
+    NSInteger distanceBetweenConsecutiveMeetings;
 }
 
 @synthesize view;
@@ -570,7 +570,7 @@ static PDRController *sharedSingleton;
         return;
     }
     
-    int dataSize = motionManagerData.size();
+    size_t dataSize = motionManagerData.size();
     
     vector<double> qx(dataSize), qy(dataSize), qz(dataSize), qw(dataSize);
     vector<double> normAcc(dataSize);
@@ -667,7 +667,7 @@ static PDRController *sharedSingleton;
         
     // strip data from the from the front to minimize boundary effects caused by filtering
     int margin = kFrontOverlapTime * kMinSamplingRate;
-    int rightIndex = dataSize - margin;
+    size_t rightIndex = dataSize - margin;
           
     // double check if we are left with enough data
     if (rightIndex < kWindowSize * kMinSamplingRate) 
@@ -697,7 +697,7 @@ static PDRController *sharedSingleton;
     
     for (int i = firstNewPeakIndex; i < gravityPeakIndices.size(); ++i) {
         
-        int j = gravityPeakIndices[i].index;
+        size_t j = gravityPeakIndices[i].index;
         
         if ((fabs(filtGravityX[j]) > kUserGravityThresholdX ||
              fabs(filtGravityY[j]) > kUserGravityThresholdY) &&
@@ -765,8 +765,8 @@ static PDRController *sharedSingleton;
     
     for (int i = startingIndex; i < gravityPeakIndices.size()-1; ++i) {
 
-        int j1 = gravityPeakIndices[i].index;          
-        int j2 = gravityPeakIndices[i+1].index;          
+        size_t j1 = gravityPeakIndices[i].index;
+        size_t j2 = gravityPeakIndices[i+1].index;
         
         // check for consecutive up- and down-peaks
         if (gravityPeakIndices[i].peakType == gravityPeakIndices[i+1].peakType) 
@@ -782,7 +782,7 @@ static PDRController *sharedSingleton;
         
         // acceleration peaks determine the forward walking direction, if only 
         // an acceleration peak lies close enough to the gravity peak
-        int userAccPeakIndicesSize = userAccPeakIndices.size(); 
+        size_t userAccPeakIndicesSize = userAccPeakIndices.size();
         while (nearestAccPeakIdx < userAccPeakIndicesSize - 1 && 
                ( fabs(timestamps[userAccPeakIndices[nearestAccPeakIdx].index] - timestamp) > 
                  fabs(timestamps[userAccPeakIndices[nearestAccPeakIdx+1].index] - timestamp) )) {

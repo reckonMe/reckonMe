@@ -439,8 +439,8 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     
     CGRect canvasRect = CGRectMake(0,
                                    0,
-                                   pathRect.size.width + fabsf(deltaX),
-                                   pathRect.size.height + fabsf(deltaY));
+                                   pathRect.size.width  + fabs(deltaX),
+                                   pathRect.size.height + fabs(deltaY));
     
     UIGraphicsBeginImageContextWithOptions(canvasRect.size,
                                            NO, //opaque=NO

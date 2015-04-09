@@ -242,7 +242,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender {
     
     [Settings sharedInstance].distanceBetweenConsecutiveMeetings = sender.value;
-    self.minRequiredDistanceLabel.text = [NSString stringWithFormat:@"Exchange every: %d m", [Settings sharedInstance].distanceBetweenConsecutiveMeetings];
+    self.minRequiredDistanceLabel.text = [NSString stringWithFormat:@"Exchange every: %ld m", (long)[Settings sharedInstance].distanceBetweenConsecutiveMeetings];
 }
 
 -(void)userTappedBackground:(UITapGestureRecognizer *)sender {

@@ -103,12 +103,12 @@ NSString* const kRSSIKey = @"RSSI";
     }
 }
 
--(int)distanceBetweenConsecutiveMeetings {
+-(NSInteger)distanceBetweenConsecutiveMeetings {
     
     return [[NSUserDefaults standardUserDefaults] integerForKey:kDistanceKey];
 }
 
--(void)setDistanceBetweenConsecutiveMeetings:(int)distanceBetweenConsecutiveMeetings {
+-(void)setDistanceBetweenConsecutiveMeetings:(NSInteger)distanceBetweenConsecutiveMeetings {
     
     if (   distanceBetweenConsecutiveMeetings >= kMinDistBetweenMeetings
         && distanceBetweenConsecutiveMeetings <= kMaxDistBetweenMeetings) {

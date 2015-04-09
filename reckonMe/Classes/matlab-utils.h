@@ -36,9 +36,9 @@ struct PeakEntry {
     enum PeakType { down = -1, undefined, up };
   
     PeakType peakType;
-    int index;
+    size_t index;
 
-    PeakEntry(int idx, PeakType pType) : index(idx), peakType(pType) {}
+    PeakEntry(size_t idx, PeakType pType) : index(idx), peakType(pType) {}
 };
 
 
@@ -50,6 +50,6 @@ vector<double> filtfilt (const vector<double> &a, const vector<double> &b, const
 
 // Detects local maxima. A point is considered a max peak if it has maximal value 
 // and is preceded (to the left) by a value lower by 'threshold' 
-vector<PeakEntry> peakdet(const vector<double> &data, int leftIdx, int rightIdx, double threshold);
+vector<PeakEntry> peakdet(const vector<double> &data, size_t leftIdx, size_t rightIdx, double threshold);
 
 #endif

@@ -48,7 +48,7 @@ extern const NSInteger kDefaultRSSI;
 +(Settings *)sharedInstance;
 
 @property (nonatomic) double stepLength;
-@property (nonatomic) int distanceBetweenConsecutiveMeetings;
+@property (nonatomic) NSInteger distanceBetweenConsecutiveMeetings;
 @property (nonatomic) BOOL beaconMode;
 @property (nonatomic) BOOL exchangeEnabled;
 @property (nonatomic) NSInteger rssi;
