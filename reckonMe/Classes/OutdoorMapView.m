@@ -151,11 +151,20 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
 - (void)dealloc {
     
     [mapView removeFromSuperview];
-    
     [mapView release];
-    [pathPoints release];
+    
+    //properties
     self.pathOverlay = nil;
+    self.rotationCenter = nil;
+    self.rotatableSubPath = nil;
+    self.rotatableSubPathView = nil;
     self.pinsMinusCorrectionPin = nil;
+    self.pathCopyAnnotation = nil;
+    self.pathCopy = nil;
+    self.pathCopyAnnotation = nil;
+    self.pathImageCopy = nil;
+    
+    [pathPoints release];
     [currentPosition release];
     [startingPosition release];
     [rotationAnchor release];

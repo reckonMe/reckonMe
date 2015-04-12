@@ -67,6 +67,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
     self.beaconLabel = nil;
     self.rssiStepper = nil;
     self.rssiLabel = nil;
+    self.rssiDescriptionLabel = nil;
     self.minRequiredDistanceLabel = nil;
     self.minRequiredDistanceStepper = nil;
 }

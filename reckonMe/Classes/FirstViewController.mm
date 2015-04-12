@@ -213,7 +213,8 @@ typedef enum {
     [self releaseSubviews];
     
     [path release];
-    self.lastGPSfix = self.lastPosition = nil;
+    self.lastGPSfix = nil;
+    self.lastPosition = nil;
     
     [[CompassAndGPS sharedInstance] removeListener:(id<SensorListener>) self];
     [[CompassAndGPS sharedInstance] stopCompass];
@@ -421,6 +422,7 @@ typedef enum {
     self.toolbar = nil;
     self.toolbarSpacer = nil;
     self.followPositionButton = nil;
+    self.followHeadingButton = nil;
     self.correctHeadingButton = nil;
     self.pdrButton = nil;
     self.settingsButton = nil;
