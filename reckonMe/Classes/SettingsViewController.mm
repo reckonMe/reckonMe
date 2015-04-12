@@ -79,8 +79,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
     
     UIVisualEffect *blurEffect;
     blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    self.blurryBackground = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-    [self.blurryBackground release];
+    self.blurryBackground = [[[UIVisualEffectView alloc] initWithEffect:blurEffect] autorelease];
     
     CGRect viewBounds = self.view.bounds;
     CGFloat originY = self.p2pExchangeSwitch.frame.origin.y - 20;

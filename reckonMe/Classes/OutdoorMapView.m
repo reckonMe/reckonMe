@@ -128,6 +128,7 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
                                                                        planPath:itzPath
                                                             scalePixelsPerMeter:8];
         [mapView addOverlay:itzOverlay];
+        [itzOverlay release];
         
         //DFKI floor plan overlay
         CLLocationCoordinate2D dfkiCenter = CLLocationCoordinate2DMake(49.429298, 7.7513730);
@@ -137,6 +138,7 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
                                                                         planPath:dfkiPath
                                                              scalePixelsPerMeter:35.1];
         [mapView addOverlay:dfkiOverlay];
+        [dfkiOverlay release];
         
         startingPositionFixingMode = NO;
         startingPinDragged = NO;
@@ -206,6 +208,7 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
                                                            peerName:peerName];
     [mapView addAnnotation:peer];
     [exchangeAnnotations addObject:peer];
+    [peer release];
 }
 
 -(void)removeExchanges {
@@ -584,7 +587,7 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
         circleRenderer.strokeColor = strokeColor;
         circleRenderer.lineWidth = 1;
         
-        return circleRenderer;
+        return [circleRenderer autorelease];
     }
     
     return nil;
