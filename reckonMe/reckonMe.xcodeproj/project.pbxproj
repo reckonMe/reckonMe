@@ -50,7 +50,6 @@
 		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
 		B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */; };
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
-		B5789A2D1564170B0087502C /* libProj4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5789A29156415B70087502C /* libProj4.a */; };
 		B582BFF41ABEFB1F0049A0EE /* PeerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */; };
 		B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B582BFF61ABF02020049A0EE /* pedestrian.pdf */; };
 		B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */; };
@@ -88,20 +87,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B5789A28156415B70087502C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B5789A21156415B60087502C /* Proj4 */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = Proj4;
-		};
-		B5789A2B1564165E0087502C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B5789A21156415B60087502C /* Proj4 */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = Proj4;
-		};
 		B595D30B1407C01C00EB1A91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B595D2D21407C01C00EB1A91 /* Project object */;
@@ -166,7 +151,6 @@
 		B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLE_P2PExchange.m; sourceTree = "<group>"; };
 		B56F44C21A3A53F0009CEEF4 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "itz-floorplanRotated.pdf"; sourceTree = "<group>"; };
-		B5789A21156415B60087502C /* Proj4 */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Proj4; path = ../Proj4/Proj4.xcodeproj; sourceTree = "<group>"; };
 		B582BFF21ABEFB1F0049A0EE /* PeerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerAnnotation.h; sourceTree = "<group>"; };
 		B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerAnnotation.m; sourceTree = "<group>"; };
 		B582BFF61ABF02020049A0EE /* pedestrian.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pedestrian.pdf; sourceTree = "<group>"; };
@@ -221,7 +205,6 @@
 			files = (
 				B56F44C31A3A53F0009CEEF4 /* CoreBluetooth.framework in Frameworks */,
 				B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */,
-				B5789A2D1564170B0087502C /* libProj4.a in Frameworks */,
 				8E31D16814E96CB700A28A86 /* GLKit.framework in Frameworks */,
 				B5A3B01014CC6140004A0E54 /* Accelerate.framework in Frameworks */,
 				B5A3B01114CC6140004A0E54 /* CoreAudio.framework in Frameworks */,
@@ -321,14 +304,6 @@
 			path = ../Resources;
 			sourceTree = "<group>";
 		};
-		B5789A22156415B60087502C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B5789A29156415B70087502C /* libProj4.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		B5796EAA14292D2D00C138BD /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,7 +345,6 @@
 		B595D2D01407C01C00EB1A91 = {
 			isa = PBXGroup;
 			children = (
-				B5789A21156415B60087502C /* Proj4 */,
 				B595D2E51407C01C00EB1A91 /* reckonMe */,
 				B595D30D1407C01C00EB1A91 /* reckonMeTests */,
 				B595D2DE1407C01C00EB1A91 /* Frameworks */,
@@ -501,7 +475,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				B5789A2C1564165E0087502C /* PBXTargetDependency */,
 			);
 			name = reckonMe;
 			productName = reckonMe;
@@ -533,7 +506,7 @@
 		B595D2D21407C01C00EB1A91 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0610;
+				LastTestingUpgradeCheck = 0630;
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					B595D2DA1407C01C00EB1A91 = {
@@ -551,12 +524,6 @@
 			mainGroup = B595D2D01407C01C00EB1A91;
 			productRefGroup = B595D2DC1407C01C00EB1A91 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = B5789A22156415B60087502C /* Products */;
-					ProjectRef = B5789A21156415B60087502C /* Proj4 */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				B595D2DA1407C01C00EB1A91 /* reckonMe */,
@@ -564,16 +531,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		B5789A29156415B70087502C /* libProj4.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libProj4.a;
-			remoteRef = B5789A28156415B70087502C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B595D2D91407C01C00EB1A91 /* Resources */ = {
@@ -711,11 +668,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B5789A2C1564165E0087502C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Proj4;
-			targetProxy = B5789A2B1564165E0087502C /* PBXContainerItemProxy */;
-		};
 		B595D30C1407C01C00EB1A91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B595D2DA1407C01C00EB1A91 /* reckonMe */;

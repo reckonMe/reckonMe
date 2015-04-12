@@ -4,9 +4,10 @@ platform :ios, '7.1'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'reckonMe' do
-pod 'DCIntrospect-ARC', '~> 0.0.8'
+pod 'DCIntrospect-ARC'
 pod 'UIImage+PDF'
 pod 'PrettyTimestamp'
+pod 'proj4'
 end
 
 target 'reckonMeTests' do

@@ -1,16 +1,19 @@
 PODS:
   - DCIntrospect-ARC (0.0.8)
   - PrettyTimestamp (1.1)
+  - proj4 (4.8.0)
   - UIImage+PDF (1.1.3)
 
 DEPENDENCIES:
-  - DCIntrospect-ARC (~> 0.0.8)
+  - DCIntrospect-ARC
   - PrettyTimestamp
+  - proj4
   - UIImage+PDF
 
 SPEC CHECKSUMS:
-  DCIntrospect-ARC: 89963e8f905ef26eac2884d58eb7021d30b02db0
-  PrettyTimestamp: ba24078af51cf06ec741cd9660d8dea25166ae06
-  UIImage+PDF: e2670143b9a404ce7def93cd4f7fd2c532aeba89
+  DCIntrospect-ARC: 68a97cc2e99420b21bfcd66865b5376701f8e7f5
+  PrettyTimestamp: 0d2c29936f0f3ebda1610cf65b4313ff82546074
+  proj4: ff32602f9361e23308d186dbfed67cc0e708fe95
+  UIImage+PDF: b8352e731529d8704b8b1bb1c086884ab61cd550
 
 COCOAPODS: 0.34.4
