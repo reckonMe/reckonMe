@@ -100,7 +100,8 @@ vector<PeakEntry> peakdet(const vector<double> &data, size_t leftIdx, size_t rig
     double mx = -HUGE_VALF;
     double mn = HUGE_VALF;
     bool look_for_max = true;
-    size_t mx_pos, mn_pos;
+    size_t mx_pos = 0;
+    size_t mn_pos = 0;
     
     for (size_t i = leftIdx; i < rightIdx; i++) {
         double act = data[i];
