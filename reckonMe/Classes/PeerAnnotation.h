@@ -14,7 +14,7 @@
 
 @property(nonatomic) CLLocationCoordinate2D coordinate;
 @property(nonatomic, copy) NSString *title;
-@property(nonatomic, readonly) NSString *subtitle;
+@property(nonatomic, readonly, copy) NSString *subtitle;
 @property(nonatomic, retain) NSDate *timestamp;
 
 @property(nonatomic, retain) MKCircle *circleOverlay;

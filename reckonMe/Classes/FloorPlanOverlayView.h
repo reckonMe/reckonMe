@@ -28,7 +28,7 @@
 #import <MapKit/MapKit.h>
 #import "FloorPlanOverlay.h"
 
-@interface FloorPlanOverlayView : MKOverlayView
+@interface FloorPlanOverlayView : MKOverlayRenderer
 
 -(id)initWithOverlay:(FloorPlanOverlay *)overlay;
 
