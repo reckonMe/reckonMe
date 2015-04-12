@@ -32,7 +32,6 @@
 #import "Gyroscope.h"
 #import "AlertSoundPlayer.h"
 #import "OutdoorMapView.h"
-#import "SettingsViewController.h"
 #import "Settings.h"
 #import "proj_api.h"
 #import "UIImage+PDF.h"
@@ -389,6 +388,7 @@ typedef enum {
                                                 animated:animated];
     
     [self updateStartButton];
+    self.mapView.showSatelliteImages = [Settings sharedInstance].showSatelliteImagery;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -704,11 +704,22 @@ typedef enum {
                                                                                   bundle:nil];
     
     settingsVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    settingsVC.delegate = self;
     
     [self presentViewController:settingsVC
                        animated:YES
                      completion:nil];
     [settingsVC release];
+}
+
+-(void)dismissSettingsViewController:(SettingsViewController *)sender {
+    
+    [sender dismissViewControllerAnimated:YES
+                               completion:^{
+                                   
+                                   //self.mapView.showSatelliteImages = [Settings sharedInstance].showSatelliteImagery;
+                               }];
+    self.mapView.showSatelliteImages = [Settings sharedInstance].showSatelliteImagery;
 }
 
 //MARK: - MapViewDelegate

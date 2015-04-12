@@ -100,7 +100,6 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
     if (self) {
         // Initialization code
         mapView = [[MKMapView alloc] initWithFrame:frame];
-        mapView.mapType = MKMapTypeHybrid;
         mapView.zoomEnabled = YES;
         mapView.pitchEnabled = NO;
         mapView.rotateEnabled = YES;
@@ -195,6 +194,16 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
 -(BOOL)showGPSfix {
     
     return mapView.showsUserLocation;
+}
+
+-(void)setShowSatelliteImages:(BOOL)showSatelliteImages {
+    
+    mapView.mapType = showSatelliteImages ? MKMapTypeHybrid : MKMapTypeStandard;
+}
+
+-(BOOL)showSatelliteImages {
+    
+    return (mapView.mapType == MKMapTypeHybrid);
 }
 
 -(void)updateGPSposition:(AbsoluteLocationEntry *)gpsPosition {

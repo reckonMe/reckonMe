@@ -46,12 +46,14 @@ const NSTimeInterval kAnimationDuration = 0.2;
 
 @synthesize blurryBackground;
 @synthesize stepLengthStepper, stepLengthLabel;
-@synthesize p2pExchangeSwitch, beaconSwitch, beaconLabel;
+@synthesize satelliteImageSwitch, p2pExchangeSwitch, beaconSwitch, beaconLabel;
 @synthesize rssiStepper, rssiLabel, rssiDescriptionLabel;
 @synthesize minRequiredDistanceStepper, minRequiredDistanceLabel;
+@synthesize delegate;
 
 - (void)dealloc {
     
+    self.delegate = nil;
     [self releaseSubviews];
     
     [super dealloc];
@@ -62,6 +64,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
     self.blurryBackground = nil;
     self.stepLengthStepper = nil;
     self.stepLengthLabel = nil;
+    self.satelliteImageSwitch = nil;
     self.p2pExchangeSwitch = nil;
     self.beaconSwitch = nil;
     self.beaconLabel = nil;
@@ -83,7 +86,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
     self.blurryBackground = [[[UIVisualEffectView alloc] initWithEffect:blurEffect] autorelease];
     
     CGRect viewBounds = self.view.bounds;
-    CGFloat originY = self.p2pExchangeSwitch.frame.origin.y - 20;
+    CGFloat originY = self.satelliteImageSwitch.frame.origin.y - 20;
     self.blurryBackground.frame = CGRectMake(viewBounds.origin.x,
                                              originY,
                                              viewBounds.size.width,
@@ -114,6 +117,8 @@ const NSTimeInterval kAnimationDuration = 0.2;
     self.stepLengthStepper.value = [Settings sharedInstance].stepLength;
     //update the label
     [self stepLengthChanged:self.stepLengthStepper];
+    
+    self.satelliteImageSwitch.on = [Settings sharedInstance].showSatelliteImagery;
     
     self.beaconSwitch.on = [Settings sharedInstance].beaconMode;
     //update the view
@@ -162,7 +167,12 @@ const NSTimeInterval kAnimationDuration = 0.2;
 -(IBAction)stepLengthChanged:(UIStepper *)sender {
     
     [Settings sharedInstance].stepLength = sender.value;
-    self.stepLengthLabel.text = [NSString stringWithFormat:@"Mean step length: %1.2f m", [Settings sharedInstance].stepLength];
+    self.stepLengthLabel.text = [NSString stringWithFormat:@"Mean Step Length: %1.2f m", [Settings sharedInstance].stepLength];
+}
+
+-(IBAction)satelliteImageSwitchChanged:(UISwitch *)sender {
+    
+    [Settings sharedInstance].showSatelliteImagery = sender.isOn;
 }
 
 -(IBAction)p2pExchangeChanged:(UISwitch *)sender {
@@ -242,7 +252,7 @@ const NSTimeInterval kAnimationDuration = 0.2;
 -(IBAction)minRequiredDistanceChanged:(UIStepper *)sender {
     
     [Settings sharedInstance].distanceBetweenConsecutiveMeetings = sender.value;
-    self.minRequiredDistanceLabel.text = [NSString stringWithFormat:@"Exchange every: %ld m", (long)[Settings sharedInstance].distanceBetweenConsecutiveMeetings];
+    self.minRequiredDistanceLabel.text = [NSString stringWithFormat:@"Exchange Every: %ld m", (long)[Settings sharedInstance].distanceBetweenConsecutiveMeetings];
 }
 
 -(void)userTappedBackground:(UITapGestureRecognizer *)sender {
@@ -252,15 +262,13 @@ const NSTimeInterval kAnimationDuration = 0.2;
     //above or left of controls?
     if (touch.y <= self.blurryBackground.frame.origin.y) {
         
-        [self dismissViewControllerAnimated:YES
-                                 completion:nil];
+        [self.delegate dismissSettingsViewController:self];
     }
 }
 
 -(void)userSwipedDown:(UISwipeGestureRecognizer *)sender {
     
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    [self.delegate dismissSettingsViewController:self];
 }
 
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

@@ -30,15 +30,10 @@
 extern const int kMinDistBetweenMeetings;
 extern const int kMaxDistBetweenMeetings;
 extern const int kDistBetweenMeetingsStepValue;
-extern const int kDefaultDistBetweenMeetings;
 
 extern const double kMinStepLength;
 extern const double kMaxStepLength;
 extern const double kStepLengthStepValue;
-extern const double kDefaultStepLength;
-
-extern const BOOL kDefaultExchangeEnabled;
-extern const BOOL kDefaultBeaconMode;
 
 extern const NSInteger kDefaultRSSI;
 
@@ -52,5 +47,6 @@ extern const NSInteger kDefaultRSSI;
 @property (nonatomic) BOOL beaconMode;
 @property (nonatomic) BOOL exchangeEnabled;
 @property (nonatomic) NSInteger rssi;
+@property (nonatomic) BOOL showSatelliteImagery;
 
 @end

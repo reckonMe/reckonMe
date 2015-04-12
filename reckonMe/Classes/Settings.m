@@ -30,15 +30,16 @@
 const int kMinDistBetweenMeetings = 10;
 const int kMaxDistBetweenMeetings = 200;
 const int kDistBetweenMeetingsStepValue = 10;
-const int kDefaultDistBetweenMeetings = 70;
+const int kDefaultDistBetweenMeetings = 10;
 
 const double kMinStepLength = 0.5;
 const double kMaxStepLength = 1.0;
 const double kStepLengthStepValue = 0.05;
-const double kDefaultStepLength = 0.85;
+const double kDefaultStepLength = 0.8;
 
 const BOOL kDefaultExchangeEnabled = YES;
 const BOOL kDefaultBeaconMode = NO;
+const BOOL kDefaultShowSatelliteImagery = NO;
 const NSInteger kDefaultRSSI = -70;
 
 NSString* const kDistanceKey = @"distBetweenEx"; 
@@ -46,6 +47,7 @@ NSString* const kStepLengthKey = @"stepLength";
 NSString* const kBeaconModeKey = @"beaconMode";
 NSString* const kExchangeEnabledKey = @"exchangeEnabled";
 NSString* const kRSSIKey = @"RSSI";
+NSString* const kSatelliteImageryKey = @"satelliteImagery";
 
 @implementation Settings
 
@@ -54,6 +56,7 @@ NSString* const kRSSIKey = @"RSSI";
 @dynamic beaconMode;
 @dynamic exchangeEnabled;
 @dynamic rssi;
+@dynamic showSatelliteImagery;
 
 +(Settings *)sharedInstance {
     
@@ -77,6 +80,7 @@ NSString* const kRSSIKey = @"RSSI";
                                   [NSNumber numberWithDouble:kDefaultStepLength], kStepLengthKey,
                                   [NSNumber numberWithBool:kDefaultBeaconMode], kBeaconModeKey,
                                   [NSNumber numberWithBool:kDefaultExchangeEnabled], kExchangeEnabledKey,
+                                  [NSNumber numberWithBool:kDefaultShowSatelliteImagery], kSatelliteImageryKey,
                                   [NSNumber numberWithInt:kDefaultRSSI], kRSSIKey,
                                   nil];
         
@@ -116,6 +120,17 @@ NSString* const kRSSIKey = @"RSSI";
         [[NSUserDefaults standardUserDefaults] setInteger:distanceBetweenConsecutiveMeetings
                                                    forKey:kDistanceKey];
     }
+}
+
+-(void)setShowSatelliteImagery:(BOOL)showSatelliteImagery {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:showSatelliteImagery
+                                            forKey:kSatelliteImageryKey];
+}
+
+-(BOOL)showSatelliteImagery {
+    
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kSatelliteImageryKey];
 }
 
 -(void)setBeaconMode:(BOOL)beaconMode {

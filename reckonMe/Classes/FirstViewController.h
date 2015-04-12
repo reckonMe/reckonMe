@@ -30,8 +30,9 @@
 #import "PDRController.h"
 #import "OutdoorMapView.h"
 #import "PantsPocketDetector.h"
+#import "SettingsViewController.h"
 
-@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, MapViewDelegate>
+@interface FirstViewController : UIViewController <UIActionSheetDelegate, PDRView, PantsPocketDetectorDelegate, MapViewDelegate, SettingsViewControllerDelegate>
 {
     
     PDRController *pdr;

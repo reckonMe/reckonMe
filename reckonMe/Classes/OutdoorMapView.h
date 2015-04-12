@@ -43,6 +43,7 @@
 
 @property(nonatomic, assign)id<MapViewDelegate> mapViewDelegate;
 @property(nonatomic) BOOL showGPSfix;
+@property(nonatomic) BOOL showSatelliteImages;
 
 -(void)addExchangeWithPeerAtPosition:(AbsoluteLocationEntry *)peerPosition peerName:(NSString *)peerName;
 -(void)removeExchanges;

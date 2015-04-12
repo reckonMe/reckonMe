@@ -27,13 +27,23 @@
 
 #import <UIKit/UIKit.h>
 
+@class SettingsViewController;
+@protocol SettingsViewControllerDelegate <NSObject>
+
+-(void)dismissSettingsViewController:(SettingsViewController *)sender;
+
+@end
+
 @interface SettingsViewController : UIViewController <UIGestureRecognizerDelegate>
+
+@property (nonatomic, assign) id<SettingsViewControllerDelegate> delegate;
 
 @property (nonatomic, retain) UIVisualEffectView *blurryBackground;
 
 @property (nonatomic, retain) IBOutlet UIStepper *stepLengthStepper;
 @property (nonatomic, retain) IBOutlet UILabel *stepLengthLabel;
 
+@property (nonatomic, retain) IBOutlet UISwitch *satelliteImageSwitch;
 @property (nonatomic, retain) IBOutlet UISwitch *p2pExchangeSwitch;
 @property (nonatomic, retain) IBOutlet UISwitch *beaconSwitch;
 @property (nonatomic, retain) IBOutlet UILabel *beaconLabel;
@@ -47,6 +57,7 @@
 
 -(IBAction)stepLengthChanged:(UIStepper *)sender;
 
+-(IBAction)satelliteImageSwitchChanged:(UISwitch *)sender;
 -(IBAction)p2pExchangeChanged:(UISwitch *)sender;
 -(IBAction)beaconSwitchChanged:(UISwitch *)sender;
 
