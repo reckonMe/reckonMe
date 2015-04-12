@@ -14,3 +14,8 @@ target 'reckonMeTests' do
 
 end
 
+# copy the acknowledgements to the settings bundle
+post_install do | installer |
+  require 'fileutils'
+  FileUtils.cp_r('Pods/Target Support Files/Pods-reckonMe/Pods-reckonMe-acknowledgements.plist', 'Resources/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
+end

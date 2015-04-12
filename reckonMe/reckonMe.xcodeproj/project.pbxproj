@@ -45,6 +45,7 @@
 		B5499E831425E85700BA7177 /* Gyroscope.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7E1425E85700BA7177 /* Gyroscope.m */; };
 		B5499E841425E85700BA7177 /* CompassAndGPS.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E801425E85700BA7177 /* CompassAndGPS.m */; };
 		B5499E8A1425E9A700BA7177 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5499E891425E9A700BA7177 /* CoreMotion.framework */; };
+		B55012991ADA9E7B00DB3B3B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B55012981ADA9E7B00DB3B3B /* Settings.bundle */; };
 		B5617661146ABD4000945446 /* PantsPocketDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = B5617660146ABD4000945446 /* PantsPocketDetector.m */; };
 		B5617663146AC44000945446 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5617662146AC44000945446 /* AVFoundation.framework */; };
 		B56F44BF1A38FED6009CEEF4 /* BLE_P2PExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = B56F44BE1A38FED6009CEEF4 /* BLE_P2PExchange.m */; };
@@ -144,6 +145,7 @@
 		B5499E7F1425E85700BA7177 /* CompassAndGPS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompassAndGPS.h; sourceTree = "<group>"; };
 		B5499E801425E85700BA7177 /* CompassAndGPS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompassAndGPS.m; sourceTree = "<group>"; };
 		B5499E891425E9A700BA7177 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		B55012981ADA9E7B00DB3B3B /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Resources/Settings.bundle; sourceTree = SOURCE_ROOT; };
 		B561765F146ABD4000945446 /* PantsPocketDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PantsPocketDetector.h; sourceTree = "<group>"; };
 		B5617660146ABD4000945446 /* PantsPocketDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PantsPocketDetector.m; sourceTree = "<group>"; };
 		B5617662146AC44000945446 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -420,6 +422,7 @@
 				B595D2E81407C01C00EB1A91 /* InfoPlist.strings */,
 				B595D2EB1407C01C00EB1A91 /* main.m */,
 				B595D2ED1407C01C00EB1A91 /* reckonMe-Prefix.pch */,
+				B55012981ADA9E7B00DB3B3B /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */,
 				B5F5D11815A597CB007C52F1 /* SettingsViewController.xib in Resources */,
 				8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */,
+				B55012991ADA9E7B00DB3B3B /* Settings.bundle in Resources */,
 				8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
