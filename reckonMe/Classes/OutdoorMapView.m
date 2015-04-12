@@ -37,8 +37,9 @@
 
 static NSString *startingPinTitle = @"Starting Position";
 static NSString *currentPinTitle = @"Current PDR Estimate";
-static NSString *rotationAnchorPinTitle = @"Rotation anchor";
-static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
+static NSString *rotationAnchorPinTitle = @"Rotation Anchor";
+static NSString *correctingPinSubtitle = @"Feel free to drag me.";
+static NSString *currentGPSLocationTitle = @"Current GPS Location";
 
 //path drawing properties
 #define kPathStrokeRGBColor 1.0, 0.0, 1.0, 0.8
@@ -510,10 +511,6 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
 }
 
 //MARK: - MKMapViewDelegate protocol
-
-//deprecated in iOS7: Implement the mapView:rendererForOverlay: method instead.
-//-(MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
-
 -(MKOverlayRenderer*)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     
     if (overlay == self.pathOverlay) {
@@ -600,6 +597,12 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
     static NSString *peerIdentifier = @"peer";
     
     MKPinAnnotationView *aView = nil;
+    
+    if (annotation == mapView.userLocation) {
+        
+        [(MKUserLocation *)annotation setTitle:currentGPSLocationTitle];
+        return [mapView viewForAnnotation:annotation];
+    }
     
     if (annotation == currentPosition) {
         
@@ -742,6 +745,18 @@ static NSString *correctingPinSubtitle = @"Tap and hold to drag me.";
                                                                                          origin:rotationAnchor.coordinate
                                                                                       Deviation:1];
             [self.mapViewDelegate userMovedRotationAnchorTo:[newAnchor autorelease]];
+        }
+    }
+}
+
+-(void)mapView:(MKMapView *)_mapView didAddAnnotationViews:(NSArray *)views {
+    
+    for (MKAnnotationView *annotationView in views) {
+        
+        if (annotationView.annotation == mapView.userLocation) {
+            
+            [mapView selectAnnotation:mapView.userLocation
+                             animated:YES];
         }
     }
 }
