@@ -713,14 +713,14 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
             peerView = [[[MKAnnotationView alloc] initWithAnnotation:annotation
                                                      reuseIdentifier:peerIdentifier] autorelease];
             UIImage *pedestrian = [UIImage imageWithPDFNamed:@"pedestrian.pdf"
-                                                    atHeight:20];
+                                                    atHeight:25];
             
             peerView.image = pedestrian;
             
         }
         peerView.annotation = annotation;
         peerView.canShowCallout = YES;
-        peerView.draggable = YES;
+        peerView.draggable = NO;
         
         return peerView;
     }
@@ -792,6 +792,12 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
         PeerAnnotation *peerAnnotation = (PeerAnnotation *) view.annotation;
         [mapView addOverlay:peerAnnotation.circleOverlay
                       level:MKOverlayLevelAboveRoads];
+        
+        //add a drop shadow
+        view.layer.shadowColor = [UIColor blackColor].CGColor;
+        view.layer.shadowOffset = CGSizeMake(2, -2);
+        view.layer.shadowOpacity = 0.7;
+        view.layer.shadowRadius = 3.0;
     }
 }
 
@@ -802,6 +808,9 @@ static NSString *currentGPSLocationTitle = @"Current GPS Location";
         //remove the circle
         PeerAnnotation *peerAnnotation = (PeerAnnotation *) view.annotation;
         [mapView removeOverlay:peerAnnotation.circleOverlay];
+        
+        //remove the shadow
+        view.layer.shadowOpacity = 0;
     }
 }
 
