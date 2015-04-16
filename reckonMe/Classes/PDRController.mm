@@ -783,7 +783,7 @@ static PDRController *sharedSingleton;
         // acceleration peaks determine the forward walking direction, if only 
         // an acceleration peak lies close enough to the gravity peak
         size_t userAccPeakIndicesSize = userAccPeakIndices.size();
-        while (nearestAccPeakIdx < userAccPeakIndicesSize - 1 && 
+        while (nearestAccPeakIdx + 1 < userAccPeakIndicesSize &&
                ( fabs(timestamps[userAccPeakIndices[nearestAccPeakIdx].index] - timestamp) > 
                  fabs(timestamps[userAccPeakIndices[nearestAccPeakIdx+1].index] - timestamp) )) {
                
