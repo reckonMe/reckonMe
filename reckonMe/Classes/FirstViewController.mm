@@ -178,9 +178,9 @@ typedef enum {
     
     CLLocationCoordinate2D passau = CLLocationCoordinate2DMake(48.565720, 13.450176);
     AbsoluteLocationEntry *passauLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                                eastingDelta:0
-                                                                               northingDelta:0
-                                                                                      origin:passau
+                                                                                eastingDelta:1497319.5480708349
+                                                                               northingDelta:6201479.87251422
+                                                                                      origin:CLLocationCoordinate2DMake(0, 0)
                                                                                    Deviation:1];
     self.lastPosition = [passauLocation autorelease];
     
@@ -861,9 +861,9 @@ typedef enum {
         [self.mapView clearPath];
         [self.mapView removeExchanges];
         
-        [self.mapView stopStartingPositionFixingMode];
-        
         if (!testing) {
+            
+            [self.mapView stopStartingPositionFixingMode];
             
             BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
             BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;

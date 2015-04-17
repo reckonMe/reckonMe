@@ -49,14 +49,8 @@
 
 
 - (void)runTestPathWithName:(NSString *) testName {
-
-    ProjectedPoint startingPoint;
-    startingPoint.northing = startingPoint.easting = 0;
     
     [firstViewController testPDR];
-    
-    // start PDR
-//    [pdr startPDRsessionWithGPSfix:startingPoint timestamp:0];
     
     NSString *gyroFilename = [NSString stringWithFormat:@"%@-GYRO", testName];
     NSString *accFilename = [NSString stringWithFormat:@"%@-ACC", testName];
