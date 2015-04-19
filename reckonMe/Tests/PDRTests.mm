@@ -47,6 +47,18 @@
     NSLog(@"%d", counter);
 }
 
+- (void)sendExchangeToPDR {
+    
+    AbsoluteLocationEntry *peerLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:[[NSDate date] timeIntervalSince1970]
+                                                                              eastingDelta:4
+                                                                             northingDelta:1
+                                                                                    origin:pdr.positionForExchange.absolutePosition
+                                                                                 Deviation:3];
+    [pdr didReceivePosition:peerLocation
+                     ofPeer:@"foobar"
+                 isRealName:NO];
+    [peerLocation release];
+}
 
 - (void)runTestPathWithName:(NSString *) testName {
     
@@ -100,13 +112,22 @@
         [[quaternionArr objectAtIndex:i] getValue:&q];
         [[accArr objectAtIndex:i] getValue:&acc];
         [[timestampArr objectAtIndex:i] getValue:&timestamp];
-        double delay = (i+1.)/200.;
+        double delay = (i+1.)/100.;
         
         FakeCMDeviceMotion *dm = [[FakeCMDeviceMotion alloc] initWithQuaternion:q
                                                                userAcceleration:acc
                                                                       timestamp:timestamp];
         
-        [self performSelector:@selector(sendSensorDataToPDR:) withObject:dm afterDelay:delay];
+        [self performSelector:@selector(sendSensorDataToPDR:)
+                   withObject:dm
+                   afterDelay:delay];
+        
+        if (i == 4150) {
+            
+            [self performSelector:@selector(sendExchangeToPDR)
+                       withObject:nil
+                       afterDelay:delay];
+        }
         
         // dm is retained by performSelector, we can release it
         [dm release];  
@@ -153,9 +174,14 @@
 }
 
 
-- (void)testPath01 {
+//- (void)testPath01 {
+//    
+//    [self runTestPathWithName:@"test04"];
+//}
+
+- (void)testPath02 {
     
-    [self runTestPathWithName:@"test04"];
+    [self runTestPathWithName:@"test05"];
 }
 
 

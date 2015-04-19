@@ -39,6 +39,8 @@
 		B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B51D3D6B1AC367610059BE17 /* Images.xcassets */; };
 		B537006C15B7092A00757BE0 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B537006B15B7092A00757BE0 /* Settings.m */; };
 		B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B53AAF88156A7C3E00714192 /* OutdoorMapView.m */; };
+		B53B01541AE4452600655587 /* test05-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = B53B01521AE4452600655587 /* test05-ACC.txt */; };
+		B53B01551AE4452600655587 /* test05-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = B53B01531AE4452600655587 /* test05-GYRO.txt */; };
 		B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */; };
 		B54276C914505C720072ACA5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54276C814505C720072ACA5 /* AudioToolbox.framework */; };
 		B5499E811425E85700BA7177 /* AbstractSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7A1425E85600BA7177 /* AbstractSensor.m */; };
@@ -136,6 +138,8 @@
 		B537006B15B7092A00757BE0 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B53AAF87156A7C3E00714192 /* OutdoorMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutdoorMapView.h; sourceTree = "<group>"; };
 		B53AAF88156A7C3E00714192 /* OutdoorMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutdoorMapView.m; sourceTree = "<group>"; };
+		B53B01521AE4452600655587 /* test05-ACC.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test05-ACC.txt"; sourceTree = "<group>"; };
+		B53B01531AE4452600655587 /* test05-GYRO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "test05-GYRO.txt"; sourceTree = "<group>"; };
 		B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = CompassWithoutCircleLarge.pdf; sourceTree = "<group>"; };
 		B54276C814505C720072ACA5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B5499E791425E85600BA7177 /* AbstractSensor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AbstractSensor.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -443,6 +447,8 @@
 		B595D30E1407C01D00EB1A91 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B53B01521AE4452600655587 /* test05-ACC.txt */,
+				B53B01531AE4452600655587 /* test05-GYRO.txt */,
 				8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */,
 				8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */,
 				8E9CDE4C15B859C300ADDC7E /* test03-ACC.txt */,
@@ -544,6 +550,7 @@
 				8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */,
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
+				B53B01541AE4452600655587 /* test05-ACC.txt in Resources */,
 				B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */,
 				B5BD2DE01ACB4BD7001C22ED /* fullSignal.pdf in Resources */,
 				B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */,
@@ -560,6 +567,7 @@
 				8E5C0B23159A031700E1D21C /* gps-arrow@2x.png in Resources */,
 				8E5C0B4A159B77C000E1D21C /* gps-round-button-depressed.png in Resources */,
 				8E5C0B4B159B77C000E1D21C /* gps-round-button-depressed@2x.png in Resources */,
+				B53B01551AE4452600655587 /* test05-GYRO.txt in Resources */,
 				8E5C0B4D159C72A200E1D21C /* gps-round-button-pressed@2x.png in Resources */,
 				8E5C0B58159C7B5600E1D21C /* gps-round-button-pressed.png in Resources */,
 				B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */,

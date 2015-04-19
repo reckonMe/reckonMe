@@ -180,8 +180,8 @@ typedef enum {
     
     //CLLocationCoordinate2D passau = CLLocationCoordinate2DMake(48.565720, 13.450176);
     AbsoluteLocationEntry *passauLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                                eastingDelta:1497316.5480708349
-                                                                               northingDelta:6201479.87251422
+                                                                                eastingDelta:1497298.182018
+                                                                               northingDelta:6201507.186685
                                                                                       origin:CLLocationCoordinate2DMake(0, 0)
                                                                                    Deviation:1];
     self.lastPosition = [passauLocation autorelease];
@@ -845,7 +845,7 @@ typedef enum {
     
     self.testing = YES;
     [self.mapView moveCurrentPositionMarkerTo:self.lastPosition];
-    lastHeading = 2;
+    lastHeading = -122;
     [self didReceiveEvent:StartButtonPressed];
 }
 
