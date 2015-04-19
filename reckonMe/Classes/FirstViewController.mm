@@ -140,6 +140,7 @@ typedef enum {
 @synthesize lastGPSfix;
 
 @synthesize pdrOn;
+@synthesize testing;
 
 //MARK: -
 -(id)initWithCoder:(NSCoder *)aDecoder {
@@ -173,12 +174,13 @@ typedef enum {
     
     mapFollowsHeading = NO;
     pdrOn = NO;
+    testing = NO;
     
     path = [[NSMutableArray alloc] initWithCapacity:kInitialPathCapacity];
     
-    CLLocationCoordinate2D passau = CLLocationCoordinate2DMake(48.565720, 13.450176);
+    //CLLocationCoordinate2D passau = CLLocationCoordinate2DMake(48.565720, 13.450176);
     AbsoluteLocationEntry *passauLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                                eastingDelta:1497319.5480708349
+                                                                                eastingDelta:1497316.5480708349
                                                                                northingDelta:6201479.87251422
                                                                                       origin:CLLocationCoordinate2DMake(0, 0)
                                                                                    Deviation:1];
@@ -463,12 +465,11 @@ typedef enum {
                 
                 if (self.status == WaitingForStartingFix) {
                     
-                    [self stopStartingPositionFixingMode];
                     [self startPDR];
                     [self startPocketDetector];
                     self.status = TrackingPaused;
                     
-                    if ([Settings sharedInstance].beaconMode) {
+                    if ([Settings sharedInstance].beaconMode || self.testing) {
                         
                         [self didReceiveEvent:DetectedInPocket];
                     }
@@ -726,7 +727,11 @@ typedef enum {
 -(void)userCorrectedPositionTo:(AbsoluteLocationEntry *)newCorrectedPosition onMapView:(OutdoorMapView *)view {
     
     self.lastPosition = newCorrectedPosition;
-    self.lastPosition.timestamp = [[NSDate date] timeIntervalSince1970];
+#warning Test if setting the timestamp only incapacitates the unit tests or also a live session
+    if (!self.testing) {
+        
+        self.lastPosition.timestamp = [[NSDate date] timeIntervalSince1970];
+    }
     
     [self correctPositionTo:self.lastPosition];
 }
@@ -836,17 +841,15 @@ typedef enum {
 }
 
 //MARK: - PDR
--(void)startPDR {
-    
-    [self startPDR:NO];
-}
-
 -(void)testPDR {
     
-    [self startPDR:YES];
+    self.testing = YES;
+    [self.mapView moveCurrentPositionMarkerTo:self.lastPosition];
+    lastHeading = 2;
+    [self didReceiveEvent:StartButtonPressed];
 }
 
--(void)startPDR:(BOOL)testing {
+-(void)startPDR {
     
     if (!pdrOn) {
         
@@ -861,9 +864,9 @@ typedef enum {
         [self.mapView clearPath];
         [self.mapView removeExchanges];
         
-        if (!testing) {
-            
-            [self.mapView stopStartingPositionFixingMode];
+        [self.mapView stopStartingPositionFixingMode];
+        
+        if (!self.testing) {
             
             BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
             BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;

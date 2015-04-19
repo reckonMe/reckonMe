@@ -50,9 +50,7 @@
 }
 
 @property (nonatomic) BOOL pdrOn;
-
--(void)startPDR;
--(void)stopPDR;
+@property (nonatomic) BOOL testing;
 
 -(void)testPDR;
 
