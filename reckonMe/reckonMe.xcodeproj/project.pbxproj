@@ -8,16 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		8E0318E0143513210014FB18 /* SettingsViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E0318DE143513200014FB18 /* SettingsViewController.mm */; };
-		8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF471432407300451568 /* pdr-icon-retina.png */; };
-		8E07EF4B1432416800451568 /* pdr-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E07EF4A1432416800451568 /* pdr-icon.png */; };
 		8E08B585141E04AD0023729B /* matlab-utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E08B584141E04AD0023729B /* matlab-utils.cpp */; };
 		8E31D16814E96CB700A28A86 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E31D16714E96CB700A28A86 /* GLKit.framework */; };
 		8E3AF9FF1436159A00D88C95 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E3AF9FD1436159A00D88C95 /* settings.png */; };
 		8E3AFA001436159A00D88C95 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E3AF9FE1436159A00D88C95 /* settings@2x.png */; };
 		8E58B4C016B02B0E009989C9 /* test04-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */; };
 		8E58B4C116B02B0E009989C9 /* test04-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */; };
-		8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BE16B02B0E009989C9 /* test04-ACC.txt */; };
-		8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E58B4BF16B02B0E009989C9 /* test04-GYRO.txt */; };
 		8E5C0B22159A031700E1D21C /* gps-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B20159A031600E1D21C /* gps-arrow.png */; };
 		8E5C0B23159A031700E1D21C /* gps-arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B21159A031700E1D21C /* gps-arrow@2x.png */; };
 		8E5C0B4A159B77C000E1D21C /* gps-round-button-depressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B48159B77C000E1D21C /* gps-round-button-depressed.png */; };
@@ -26,8 +22,6 @@
 		8E5C0B58159C7B5600E1D21C /* gps-round-button-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E5C0B57159C7B5600E1D21C /* gps-round-button-pressed.png */; };
 		8E9CDE4E15B859C300ADDC7E /* test03-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E9CDE4C15B859C300ADDC7E /* test03-ACC.txt */; };
 		8E9CDE4F15B859C300ADDC7E /* test03-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E9CDE4D15B859C300ADDC7E /* test03-GYRO.txt */; };
-		8E9CDE5015B8680400ADDC7E /* test03-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E9CDE4C15B859C300ADDC7E /* test03-ACC.txt */; };
-		8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = 8E9CDE4D15B859C300ADDC7E /* test03-GYRO.txt */; };
 		8E9F366B14297D64006CE285 /* PDRController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8E9F366A14297D64006CE285 /* PDRController.mm */; };
 		8E9F366C14297D9C006CE285 /* LocationEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E5525471429470C006D5D1D /* LocationEntry.m */; };
 		8EDDDF98152B4C06007D31B4 /* PDRTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8EDDDF97152B4C06007D31B4 /* PDRTests.mm */; };
@@ -39,8 +33,6 @@
 		B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B51D3D6B1AC367610059BE17 /* Images.xcassets */; };
 		B537006C15B7092A00757BE0 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B537006B15B7092A00757BE0 /* Settings.m */; };
 		B53AAF89156A7C3E00714192 /* OutdoorMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B53AAF88156A7C3E00714192 /* OutdoorMapView.m */; };
-		B53B01541AE4452600655587 /* test05-ACC.txt in Resources */ = {isa = PBXBuildFile; fileRef = B53B01521AE4452600655587 /* test05-ACC.txt */; };
-		B53B01551AE4452600655587 /* test05-GYRO.txt in Resources */ = {isa = PBXBuildFile; fileRef = B53B01531AE4452600655587 /* test05-GYRO.txt */; };
 		B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B5403E621ABE133B00779B4D /* CompassWithoutCircleLarge.pdf */; };
 		B54276C914505C720072ACA5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B54276C814505C720072ACA5 /* AudioToolbox.framework */; };
 		B5499E811425E85700BA7177 /* AbstractSensor.m in Sources */ = {isa = PBXBuildFile; fileRef = B5499E7A1425E85600BA7177 /* AbstractSensor.m */; };
@@ -55,7 +47,6 @@
 		B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */; };
 		B582BFF41ABEFB1F0049A0EE /* PeerAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */; };
 		B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */ = {isa = PBXBuildFile; fileRef = B582BFF61ABF02020049A0EE /* pedestrian.pdf */; };
-		B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */ = {isa = PBXBuildFile; fileRef = B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */; };
 		B59295B2157F66FB008380CE /* PinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B59295B1157F66FB008380CE /* PinAnnotation.m */; };
 		B595D2E01407C01C00EB1A91 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2DF1407C01C00EB1A91 /* UIKit.framework */; };
 		B595D2E21407C01C00EB1A91 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B595D2E11407C01C00EB1A91 /* Foundation.framework */; };
@@ -82,7 +73,6 @@
 		B5C6809C156667A80099AB49 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5C6809B156667A80099AB49 /* MapKit.framework */; };
 		B5D068B91581ED8D005A1C83 /* FloorPlanOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D068B81581ED8D005A1C83 /* FloorPlanOverlay.m */; };
 		B5D068BD1581EDC6005A1C83 /* FloorPlanOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = B5D068BC1581EDC6005A1C83 /* FloorPlanOverlayView.m */; };
-		B5DD31BA14FD2DF0006D1F35 /* cymbalsShort.aiff in Resources */ = {isa = PBXBuildFile; fileRef = B5DD31B914FD2DF0006D1F35 /* cymbalsShort.aiff */; };
 		B5DF906B147D0DB900A39293 /* AlertSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DF906A147D0DB900A39293 /* AlertSoundPlayer.m */; };
 		B5F5D11815A597CB007C52F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */; };
 		B5FF80361590D55200B3601C /* PathCopyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B5FF80351590D55200B3601C /* PathCopyAnnotation.m */; };
@@ -103,8 +93,6 @@
 		74600FE66BE57AD0402645C4 /* Pods-reckonMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reckonMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-reckonMe/Pods-reckonMe.debug.xcconfig"; sourceTree = "<group>"; };
 		8E0318DD143513200014FB18 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8E0318DE143513200014FB18 /* SettingsViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsViewController.mm; sourceTree = "<group>"; };
-		8E07EF471432407300451568 /* pdr-icon-retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon-retina.png"; sourceTree = "<group>"; };
-		8E07EF4A1432416800451568 /* pdr-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdr-icon.png"; sourceTree = "<group>"; };
 		8E08B584141E04AD0023729B /* matlab-utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "matlab-utils.cpp"; sourceTree = "<group>"; };
 		8E08B586141E06D50023729B /* matlab-utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "matlab-utils.h"; sourceTree = "<group>"; };
 		8E31D16714E96CB700A28A86 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -160,7 +148,6 @@
 		B582BFF21ABEFB1F0049A0EE /* PeerAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeerAnnotation.h; sourceTree = "<group>"; };
 		B582BFF31ABEFB1F0049A0EE /* PeerAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeerAnnotation.m; sourceTree = "<group>"; };
 		B582BFF61ABF02020049A0EE /* pedestrian.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = pedestrian.pdf; sourceTree = "<group>"; };
-		B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "itz-grayHalf.png"; sourceTree = "<group>"; };
 		B59295B0157F66FB008380CE /* PinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinAnnotation.h; sourceTree = "<group>"; };
 		B59295B1157F66FB008380CE /* PinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinAnnotation.m; sourceTree = "<group>"; };
 		B595D2DB1407C01C00EB1A91 /* reckonMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reckonMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +182,6 @@
 		B5D068B81581ED8D005A1C83 /* FloorPlanOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloorPlanOverlay.m; sourceTree = "<group>"; };
 		B5D068BB1581EDC6005A1C83 /* FloorPlanOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloorPlanOverlayView.h; sourceTree = "<group>"; };
 		B5D068BC1581EDC6005A1C83 /* FloorPlanOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FloorPlanOverlayView.m; sourceTree = "<group>"; };
-		B5DD31B914FD2DF0006D1F35 /* cymbalsShort.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = cymbalsShort.aiff; sourceTree = "<group>"; };
 		B5DF9069147D0DB900A39293 /* AlertSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertSoundPlayer.h; sourceTree = "<group>"; };
 		B5DF906A147D0DB900A39293 /* AlertSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertSoundPlayer.m; sourceTree = "<group>"; };
 		B5F5D11715A597CB007C52F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -301,9 +287,7 @@
 				B5BD2DDF1ACB4BD7001C22ED /* lowSignal.pdf */,
 				B582BFF61ABF02020049A0EE /* pedestrian.pdf */,
 				B514BFC41A9FCA8900932149 /* dfki-2.OG-trimmed.png */,
-				B58C6B5C15A097D8005A88CD /* itz-grayHalf.png */,
 				B572E5BA1582215100132C40 /* itz-floorplanRotated.pdf */,
-				B5DD31B914FD2DF0006D1F35 /* cymbalsShort.aiff */,
 				B5796EAA14292D2D00C138BD /* Icons */,
 			);
 			name = Resources;
@@ -322,8 +306,6 @@
 				8E5C0B21159A031700E1D21C /* gps-arrow@2x.png */,
 				8E3AF9FD1436159A00D88C95 /* settings.png */,
 				8E3AF9FE1436159A00D88C95 /* settings@2x.png */,
-				8E07EF4A1432416800451568 /* pdr-icon.png */,
-				8E07EF471432407300451568 /* pdr-icon-retina.png */,
 			);
 			name = Icons;
 			path = ../Resources;
@@ -546,35 +528,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E9CDE5015B8680400ADDC7E /* test03-ACC.txt in Resources */,
-				8E9CDE5115B8680400ADDC7E /* test03-GYRO.txt in Resources */,
 				B595D2EA1407C01C00EB1A91 /* InfoPlist.strings in Resources */,
 				B595D2F31407C01C00EB1A91 /* MainWindow.xib in Resources */,
-				B53B01541AE4452600655587 /* test05-ACC.txt in Resources */,
 				B5403E631ABE133C00779B4D /* CompassWithoutCircleLarge.pdf in Resources */,
 				B5BD2DE01ACB4BD7001C22ED /* fullSignal.pdf in Resources */,
 				B582BFF71ABF02020049A0EE /* pedestrian.pdf in Resources */,
 				B514BFC51A9FCA8900932149 /* dfki-2.OG-trimmed.png in Resources */,
-				8E07EF49143240B500451568 /* pdr-icon-retina.png in Resources */,
-				8E07EF4B1432416800451568 /* pdr-icon.png in Resources */,
 				B51D3D6C1AC367610059BE17 /* Images.xcassets in Resources */,
 				B5BD2DE11ACB4BD7001C22ED /* lowSignal.pdf in Resources */,
 				8E3AF9FF1436159A00D88C95 /* settings.png in Resources */,
 				8E3AFA001436159A00D88C95 /* settings@2x.png in Resources */,
-				B5DD31BA14FD2DF0006D1F35 /* cymbalsShort.aiff in Resources */,
 				B572E5BB1582215100132C40 /* itz-floorplanRotated.pdf in Resources */,
 				8E5C0B22159A031700E1D21C /* gps-arrow.png in Resources */,
 				8E5C0B23159A031700E1D21C /* gps-arrow@2x.png in Resources */,
 				8E5C0B4A159B77C000E1D21C /* gps-round-button-depressed.png in Resources */,
 				8E5C0B4B159B77C000E1D21C /* gps-round-button-depressed@2x.png in Resources */,
-				B53B01551AE4452600655587 /* test05-GYRO.txt in Resources */,
 				8E5C0B4D159C72A200E1D21C /* gps-round-button-pressed@2x.png in Resources */,
 				8E5C0B58159C7B5600E1D21C /* gps-round-button-pressed.png in Resources */,
-				B58C6B5D15A097D8005A88CD /* itz-grayHalf.png in Resources */,
 				B5F5D11815A597CB007C52F1 /* SettingsViewController.xib in Resources */,
-				8E58B4C216B02BDA009989C9 /* test04-ACC.txt in Resources */,
 				B55012991ADA9E7B00DB3B3B /* Settings.bundle in Resources */,
-				8E58B4C316B02BE2009989C9 /* test04-GYRO.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
