@@ -398,7 +398,8 @@ typedef enum {
     [super viewDidAppear:animated];
     
     //the scrolling only takes place when mapView is on screen
-    [self.mapView moveMapCenterTo:lastPosition];
+    [self.mapView moveMapCenterTo:self.lastPosition];
+    [mapView updateGPSposition:self.lastPosition];
     
     //listen for changes in preferences.
     [[NSNotificationCenter defaultCenter] addObserver:self

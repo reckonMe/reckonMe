@@ -122,6 +122,12 @@
                    withObject:dm
                    afterDelay:delay];
         
+        //stop halfway through in order to take decent screenshots
+        if (i == 3000) {
+            
+            break;
+        }
+        
         if (i == 4150) {
             
             [self performSelector:@selector(sendExchangeToPDR)
