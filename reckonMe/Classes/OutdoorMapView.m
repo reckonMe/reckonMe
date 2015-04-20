@@ -36,7 +36,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 static NSString *startingPinTitle = @"Starting Position";
-static NSString *currentPinTitle = @"Current PDR Estimate";
+static NSString *currentPinTitle = @"Current Estimate";
 static NSString *rotationAnchorPinTitle = @"Rotation Anchor";
 static NSString *correctingPinSubtitle = @"Feel free to drag me.";
 static NSString *currentGPSLocationTitle = @"Current GPS Location";
