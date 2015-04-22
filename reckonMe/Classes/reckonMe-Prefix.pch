@@ -7,7 +7,9 @@
 // DEBUG on/off
 // #define DEBUG_MODE
 
-#define LogMethod(nsstring) NSLog(@"%@<%#x>:%@ %@", NSStringFromClass([self class]), (unsigned int) self, NSStringFromSelector(_cmd), nsstring);
+#ifndef DEBUG
+    #define NSLog(...);
+#endif
 
 #ifndef __IPHONE_3_0
 #warning "This project uses features only available in iPhone SDK 3.0 and later."
