@@ -399,7 +399,12 @@ typedef enum {
     
     //the scrolling only takes place when mapView is on screen
     [self.mapView moveMapCenterTo:self.lastPosition];
-    [mapView updateGPSposition:self.lastPosition];
+    
+    #if TARGET_IPHONE_SIMULATOR
+        //Fake a CoreLocation update, as they don't occur in the simulator.
+        //Doing so on the device makes OutdoorMapView ignore "real" updates, because their accuracy is always worse than lastPosition's.
+        [mapView updateGPSposition:self.lastPosition];
+    #endif
     
     //listen for changes in preferences.
     [[NSNotificationCenter defaultCenter] addObserver:self
