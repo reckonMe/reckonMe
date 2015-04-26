@@ -174,14 +174,14 @@ typedef enum {
     
     mapFollowsHeading = NO;
     pdrOn = NO;
-    testing = NO;
+    self.testing = YES;
     
     path = [[NSMutableArray alloc] initWithCapacity:kInitialPathCapacity];
     
     //CLLocationCoordinate2D passau = CLLocationCoordinate2DMake(48.565720, 13.450176);
     AbsoluteLocationEntry *passauLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:0
-                                                                                eastingDelta:1497298.182018
-                                                                               northingDelta:6201507.186685
+                                                                                eastingDelta:1497282.9770925757//1497298.182018
+                                                                               northingDelta:6201493.5034911996//6201507.186685
                                                                                       origin:CLLocationCoordinate2DMake(0, 0)
                                                                                    Deviation:1];
     self.lastPosition = [passauLocation autorelease];
@@ -400,11 +400,15 @@ typedef enum {
     //the scrolling only takes place when mapView is on screen
     [self.mapView moveMapCenterTo:self.lastPosition];
     
-    #if TARGET_IPHONE_SIMULATOR
+    //#if TARGET_IPHONE_SIMULATOR
         //Fake a CoreLocation update, as they don't occur in the simulator.
         //Doing so on the device makes OutdoorMapView ignore "real" updates, because their accuracy is always worse than lastPosition's.
+    if (self.testing) {
+        
         [mapView updateGPSposition:self.lastPosition];
-    #endif
+        [self.mapView moveCurrentPositionMarkerTo:self.lastPosition];
+    }
+    //#endif
     
     //listen for changes in preferences.
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -472,10 +476,10 @@ typedef enum {
                 if (self.status == WaitingForStartingFix) {
                     
                     [self startPDR];
-                    [self startPocketDetector];
+                    if (!self.testing) [self startPocketDetector];
                     self.status = TrackingPaused;
                     
-                    if ([Settings sharedInstance].beaconMode || self.testing) {
+                    if ([Settings sharedInstance].beaconMode) {
                         
                         [self didReceiveEvent:DetectedInPocket];
                     }
@@ -557,7 +561,7 @@ typedef enum {
      */
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         
-        [[Gyroscope sharedInstance] addListener:pdr];
+        if (!self.testing) [[Gyroscope sharedInstance] addListener:pdr];
         
         [AlertSoundPlayer.sharedInstance say:@"Starting."
                       interruptOngoingSpeech:NO
@@ -573,7 +577,7 @@ typedef enum {
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         //remove the pdr as a listener, but continue
-        [[Gyroscope sharedInstance] removeListener:pdr];
+        if (!self.testing) [[Gyroscope sharedInstance] removeListener:pdr];
         
         [AlertSoundPlayer.sharedInstance say:@"Pausing."
                       interruptOngoingSpeech:YES
@@ -832,7 +836,7 @@ typedef enum {
 
 //MARK: - PantsPocketStatusDelegate (switching all other sensors on and off)
 -(void)devicesPocketStatusChanged:(BOOL)isInPocket {
-    
+    NSLog(@"inPocket: %d", isInPocket);
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         
         if (isInPocket) {
@@ -851,7 +855,7 @@ typedef enum {
     
     self.testing = YES;
     [self.mapView moveCurrentPositionMarkerTo:self.lastPosition];
-    lastHeading = -122;
+    lastHeading = -100;//actually -122;
     [self didReceiveEvent:StartButtonPressed];
 }
 
@@ -872,34 +876,33 @@ typedef enum {
         
         [self.mapView stopStartingPositionFixingMode];
         
-        if (!self.testing) {
+        
+        
+        BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
+        BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
+        
+        [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
+        
+        if (beaconMode) {
             
-            BOOL beaconMode = [Settings sharedInstance].exchangeEnabled &&  [Settings sharedInstance].beaconMode;
-            BOOL walkerMode = [Settings sharedInstance].exchangeEnabled && ![Settings sharedInstance].beaconMode;
+            [[BLE_P2PExchange sharedInstance] startStationaryBeaconMode];
             
-            [BLE_P2PExchange sharedInstance].advertisedPosition = self.lastPosition;
+        } else {
             
-            if (beaconMode) {
+            [AlertSoundPlayer.sharedInstance say:@"Please put me into your pocket."
+                          interruptOngoingSpeech:NO
+                                         vibrate:NO];
+            //start the sensors
+            [[Gyroscope sharedInstance] start];
+            //#warning Workaround: add self as listener in order to really start the motion manager now, in order to get the pathRotionamount "right"
+            [[Gyroscope sharedInstance] addListener:(id<SensorListener>)self];
+            if (!self.testing) [[CompassAndGPS sharedInstance] start];
+            
+            if (walkerMode && !self.testing) {
                 
-                [[BLE_P2PExchange sharedInstance] startStationaryBeaconMode];
-                
-            } else {
-                
-                [AlertSoundPlayer.sharedInstance say:@"Please put me into your pocket."
-                              interruptOngoingSpeech:NO
-                                             vibrate:NO];
-                
-                //start the sensors
-                [[Gyroscope sharedInstance] start];
-#warning Workaround: add self as listener in order to really start the motion manager now, in order to get the pathRotionamount "right"
-                [[Gyroscope sharedInstance] addListener:(id<SensorListener>)self];
-                [[CompassAndGPS sharedInstance] start];
-                
-                if (walkerMode) {
-                    
-                    [[BLE_P2PExchange sharedInstance] startWalkerMode];
-                }
+                [[BLE_P2PExchange sharedInstance] startWalkerMode];
             }
+            
         }
         
         //determine the starting point and start PDR
@@ -938,6 +941,8 @@ typedef enum {
 }
 
 -(void)didReceiveCompassValueWithMagneticHeading:(double)magneticHeading trueHeading:(double)trueHeading headingAccuracy:(double)headingAccuracy X:(double)x Y:(double)y Z:(double)z timestamp:(NSTimeInterval)timestamp label:(int)label {
+    
+    if (self.testing) return;
 
     //filtering parameters
     const double rate = 0.1; //in [0...1] determines the amount by which a new value is "incorporated" into the result
@@ -981,6 +986,8 @@ typedef enum {
 }
 
 -(void)didReceiveGPSvalueWithLongitude:(double)longitude latitude:(double)latitude altitude:(double)altitude speed:(double)speed course:(double)course horizontalAccuracy:(double)horizontalAccuracy verticalAccuracy:(double)verticalAccuracy timestamp:(NSTimeInterval)timestamp label:(int)label {
+    
+    if (self.testing) return;
     
     CLLocationCoordinate2D gpsLocation = CLLocationCoordinate2DMake(latitude, longitude);
     AbsoluteLocationEntry *newLocation = [[AbsoluteLocationEntry alloc] initWithTimestamp:timestamp

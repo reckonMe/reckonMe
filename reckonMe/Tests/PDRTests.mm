@@ -43,8 +43,8 @@
     [pdr didReceiveDeviceMotion:(CMDeviceMotion*)dm timestamp:dm.timestamp];   
     static int counter = 0;
     counter++;
-    if (counter % 100 == 1)
-    NSLog(@"%d", counter);
+    //if (counter % 100 == 1)
+    //NSLog(@"%d", counter);
 }
 
 - (void)sendExchangeToPDR {
@@ -60,9 +60,21 @@
     [peerLocation release];
 }
 
+- (void)sendInPocketToVC:(NSNumber *)isInPocket {
+    
+    [firstViewController devicesPocketStatusChanged:[isInPocket boolValue]];
+}
+
 - (void)runTestPathWithName:(NSString *) testName {
     
-    [firstViewController testPDR];
+    double delayOffset = 8;
+    [firstViewController performSelector:@selector(testPDR)
+                              withObject:nil
+                              afterDelay:delayOffset];
+    delayOffset += 3.5;
+    [self performSelector:@selector(sendInPocketToVC:)
+               withObject:@YES
+               afterDelay:delayOffset];
     
     NSString *gyroFilename = [NSString stringWithFormat:@"%@-GYRO", testName];
     NSString *accFilename = [NSString stringWithFormat:@"%@-ACC", testName];
@@ -112,27 +124,36 @@
         [[quaternionArr objectAtIndex:i] getValue:&q];
         [[accArr objectAtIndex:i] getValue:&acc];
         [[timestampArr objectAtIndex:i] getValue:&timestamp];
-        double delay = (i+1.)/100.;
+        double delay = (i+1.)/75.;
         
         FakeCMDeviceMotion *dm = [[FakeCMDeviceMotion alloc] initWithQuaternion:q
                                                                userAcceleration:acc
                                                                       timestamp:timestamp];
         
+        double totalDelay = delayOffset + delay;
         [self performSelector:@selector(sendSensorDataToPDR:)
                    withObject:dm
-                   afterDelay:delay];
+                   afterDelay:totalDelay];
         
-        //stop halfway through in order to take decent screenshots
-        if (i == 3000) {
+        if (i == 1500) {
             
-            break;
+            [self performSelector:@selector(sendInPocketToVC:)
+                       withObject:@NO
+                       afterDelay:totalDelay];
+        }
+        //perform heading correction by hand
+        if (i == 2300) {
+            
+            [self performSelector:@selector(sendInPocketToVC:)
+                       withObject:@YES
+                       afterDelay:totalDelay];
         }
         
         if (i == 4150) {
             
             [self performSelector:@selector(sendExchangeToPDR)
                        withObject:nil
-                       afterDelay:delay];
+                       afterDelay:totalDelay];
         }
         
         // dm is retained by performSelector, we can release it
@@ -158,6 +179,7 @@
     
     // dirty pointer to FirstViewController
     firstViewController = (FirstViewController *) appDelegate.window.rootViewController;
+    firstViewController.testing = YES;
     
     pdr = [PDRController sharedInstance];
     STAssertTrue(pdr.pdrRunning == NO, @"PDR should not be running during setUp");
