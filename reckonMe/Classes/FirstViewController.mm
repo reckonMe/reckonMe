@@ -1038,6 +1038,19 @@ typedef enum {
     
     [self.mapView addExchangeWithPeerAtPosition:position
                                        peerName:isRealName ? peerName : @"Another User"];
+    
+    if (isRealName) {
+        
+        [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", peerName]
+                      interruptOngoingSpeech:NO
+                                     vibrate:YES];
+        
+    } else {
+        
+        [AlertSoundPlayer.sharedInstance say:@"Hello!"
+                      interruptOngoingSpeech:NO
+                                     vibrate:YES];
+    }
 }
 
 - (void)didReceiveCompletePath:(NSArray *)newPath {

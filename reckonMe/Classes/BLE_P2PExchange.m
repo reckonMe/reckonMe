@@ -211,19 +211,6 @@ NSString *reckonMeUUID = @"97FD5E48-639B-489F-B2F3-3A99C126512C";
                                    ofPeer:deviceName
                                isRealName:isRealDeviceName];
         [peerPosition release];
-        
-        if (isRealDeviceName) {
-            
-            [AlertSoundPlayer.sharedInstance say:[NSString stringWithFormat:@"Hello, %@!", deviceName]
-                          interruptOngoingSpeech:NO
-                                         vibrate:YES];
-        
-        } else {
-            
-            [AlertSoundPlayer.sharedInstance say:@"Hello!"
-                          interruptOngoingSpeech:NO
-                                         vibrate:YES];
-        }
     }
 }
 
