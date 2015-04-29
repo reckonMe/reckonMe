@@ -1,0 +1,7 @@
+//extract frames image2: output format single images
+ffmpeg -i reckonMeAppPreview.mp4 -vf "fps=3,scale=iw/2:ih/2" -f image2 out%04d.png
+//frames used
+framesUsed.txt
+//create GIF, dithering off, fuzz matches similar color values to one, delay 1/1 of a second, OptimizeTransparency makes pixels share their color values with previous frame by being transparent
+//see: http://blog.room208.org/post/48793543478
+convert +dither -fuzz 2% -delay 1x1 *.png -coalesce -layers OptimizeTransparency animation.gif
