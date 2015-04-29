@@ -3,7 +3,9 @@ reckonMe
 
 Live inertial navigation, proximity detection and collaborative localisation on a mobile device (iOS).
 
-video: [http://vimeo.com/reckonme/reckonme-demo](http://vimeo.com/reckonme/reckonme-demo)
+![Preview](iTunesConnectAssets/reckonMe.gif?raw=true "Animated Preview")
+
+Video: [http://vimeo.com/reckonme/reckonme-demo](http://vimeo.com/reckonme/reckonme-demo)
 
 
 Feature Overview (initial release)
