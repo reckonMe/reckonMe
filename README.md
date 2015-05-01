@@ -22,7 +22,7 @@ The approach is rather simple: Given a starting position (fix), one's current po
 
 Once started, reckonMe evaluates your iPhone's gyroscope and accelerometer data in order to detect your steps and their direction. It does not rely on external data, such as GPS or any other infrastructure. Therefore, it is ideally suited for indoor positioning, where GPS is typically unavailable.
 
-However, DR is far from perfect. Over time, the errors in the heading and speed estimates accumulate to ever-greater values. This is where collaboration comes into play: The error in an individual estimate can be significantly reduced if shared with others and combined.
+However, DR is far from perfect. Over time, the errors in the heading and speed estimates accumulate to ever-greater values. This is where collaboration comes into play: The error in an individual location estimate can be significantly reduced if these estimates are shared with others and combined.
 
 While reckonMe is running, its current position estimate is constantly broadcasted using Bluetooth Low-Energy (BLE) to be picked up by other peers. Once a peer is close enough, its position estimate is incorporated into one's own estimate. Even though some individuals may be worse of after an exchange, the average systemic error shrinks as a location "awareness" emerges.
 
@@ -44,33 +44,32 @@ and the walking direction.
 
 Over time, several versions with slightly different features have been developed:
 
-- [Version 1.2.3](https://github.com/reckonMe/reckonMe/releases/tag/thesisBen) for iOS 6, whose features are:
+- [Version 1.2.3](https://github.com/reckonMe/reckonMe/releases/tag/thesisBen) for iOS 6, extensively evaluated in [Ben's master's thesis](Assets/bensThesis.pdf) (German 'Diplomarbeit'), whose features are:
 	 
 	 - Collaborative localisation:
 	 
-		-	When two devices detect being close to each other, the application may decide to automatically exchange and update their absolute location estimates. The premise: this improvement not only affects the two involved users, but also all the others they meet and collaborate with in the future. 
+		-	When two devices detect being close to each other, they automatically exchange and update their location estimates. The premise: this improvement not only affects the two involved users, but also all the others they meet and collaborate with in the future. 
 
 		-	The app can also run in a *Stationary Beacon Mode*, with fixed location. It serves then as a `beacon' and corrects the location estimates of other devices.
 		
-		-	GameKit's `GKSession` is used for establishing the peer-to-peer Bluetooth connections. Due to the lack of an API for the signal strength (RSSI), sound is used for detecting proximity: 
+		-	GameKit's `GKSession` is used for establishing the peer-to-peer Bluetooth connections. Due to the lack of an API for the signal strength (RSSI), sound is used for detecting proximity. 
 		
-	- Sound-based Proximity detection (with an accuracy of 3m, see [conference paper](http://doi.acm.org/10.1145/ 2389148.2389152)):
+	- Sound-based proximity detection (with an accuracy of 3m, see [conference paper](http://doi.acm.org/10.1145/ 2389148.2389152)):
 
 		-	First, Bluetooth pairing is used to confirm that the two devices are broadly in the same space, i.e. are 'eligible' for the close-proximity test.
 
-		-	Next, one device starts emitting repeating sound patterns in the inaudible 18 kHz spectrum and the other tries to detect them.
+		-	Next, one device starts emitting repeating sound patterns in the inaudible 18 kHz spectrum and the other tries to detect them. Once detected, an exchange is initiated.
 
 	- [Watch a demo on vimeo](http://vimeo.com/reckonme/reckonme-demo)
 	
-- [Version 2.x](https://github.com/reckonMe/reckonMe/tree/ble_p2p) (the current default branch ble_p2p, current App Store version) for iOS 8, which is a descendant of 1.2 with several changes:
+- [Version 2.x](https://github.com/reckonMe/reckonMe/tree/ble_p2p) (the current default **branch ble_p2p**, also current App Store version) for iOS 8, which is a descendant of 1.2 with several changes:
 
 	- UI changes to accommodate the new, "flat" design
 	
 	- Collaborative localisation:
 	
 		- The now deprecated `GKSession` has been dropped in favor of a connectionless Bluetooth Low Energy approach using CoreBluetooth's `CBCentralManager` and `CBPeripheralManager`. Instead of establishing a connection, each device is simultaneously broadcasting its position and scanning for other devices. The position is encoded in a Base64 string used as the device's name.
-		
-		- Since the signal strength is now accessible, it is used as a proxy for proximity and the sound-based approach has been dropped.
+		- Since the signal strength is now accessible, it is used as a proxy for proximity and the sound-based approach has been dropped. As a result, a mutual exchange is not guaranteed to happen, as the two devices may have different RSSI measurements and no further information is exchanged due to the lack of a connection.
 	- Furthermore, the recording of sessions has been dropped.
 		
 - The [master branch](https://github.com/reckonMe/reckonMe/tree/master) is also a descendant of version 1.2. It also uses Bluetooth Low Energy for proximity detection, but instead of individual exchanges, it constantly pushes the collected data to a common CouchDB backend for further processing.
