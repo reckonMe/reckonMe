@@ -3,7 +3,7 @@
 Live inertial navigation and collaborative localisation on an iPhone.
 
 ![Preview](iTunesConnectAssets/reckonMe.gif?raw=true "Animated Preview")
-![Preview](iTunesConnectAssets/4,7inch/4half.png?raw=true "Settings Screen")
+![Preview](iTunesConnectAssets/4,7inch/4smaller.png?raw=true "Settings Screen")
 
 ##How-to
 
