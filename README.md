@@ -44,7 +44,7 @@ and the walking direction.
 
 Over time, several versions with slightly different features have been developed:
 
-- [Version 1.2.3](https://github.com/reckonMe/reckonMe/releases/tag/thesisBen) for iOS 6, extensively evaluated in [Ben's master's thesis](Assets/bensThesis.pdf) (German 'Diplomarbeit'), whose features are:
+- [Version 1.2.3](https://github.com/reckonMe/reckonMe/releases/tag/thesisBen) for iOS 6, extensively evaluated in [Ben's master's thesis](Assets/bensThesis.pdf?raw=true) (German 'Diplomarbeit'), whose features are:
 	 
 	 - Collaborative localisation:
 	 
