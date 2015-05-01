@@ -27,7 +27,7 @@ However, DR is far from perfect. Over time, the errors in the heading and speed 
 While reckonMe is running, its current position estimate is constantly broadcasted using Bluetooth Low-Energy (BLE) to be picked up by other peers. Once a peer is close enough, its position estimate is incorporated into one's own estimate. Even though some individuals may be worse of after an exchange, the average systemic error shrinks as a location "awareness" emerges.
 
 
-##Inertial navigation:
+##Inertial navigation: Details
 	
 -	Phone orientation: derived from the *CMAttitudeReferenceFrameXArbitraryZVertical* reference frame, i.e. accelerometer & gyroscope only. Pros: immune to the indoor magnetometer distortions. Cons: long-term yaw calibration required due to the gyroscope drift.
 
@@ -71,7 +71,7 @@ Over time, several versions with slightly different features have been developed
 		- The now deprecated `GKSession` has been dropped in favor of a connectionless Bluetooth Low Energy approach using CoreBluetooth's `CBCentralManager` and `CBPeripheralManager`. Instead of establishing a connection, each device is simultaneously broadcasting its position and scanning for other devices. The position is encoded in a Base64 string used as the device's name.
 		
 		- Since the signal strength is now accessible, it is used as a proxy for proximity and the sound-based approach has been dropped.
-	- Furthermore, the recording of sessions has been dropped
+	- Furthermore, the recording of sessions has been dropped.
 		
 - The [master branch](https://github.com/reckonMe/reckonMe/tree/master) is also a descendant of version 1.2. It also uses Bluetooth Low Energy for proximity detection, but instead of individual exchanges, it constantly pushes the collected data to a common CouchDB backend for further processing.
 
