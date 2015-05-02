@@ -1,4 +1,4 @@
-#reckonMe [![Download on the App Store](https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.svg)](https://itunes.apple.com/us/app/reckonme/id951420572?mt=8)
+#reckonMe [![Download on the App Store](https://linkmaker.itunes.apple.com/htmlResources/assets/en_us/images/web/linkmaker/badge_appstore-lrg.svg)](https://itunes.apple.com/us/app/reckonme/id951420572?mt=8)
 
 Live inertial navigation and collaborative localisation on an iPhone.
 
@@ -9,11 +9,11 @@ Live inertial navigation and collaborative localisation on an iPhone.
 
 * Un-mute your iPhone so you can hear what's going on.
 * Put the red pin onto your starting position on the map. It is automatically moved to the current GPS position until you drag it.
- * Tap "Start Dead-Reckoning".
- * Put the unlocked iPhone into your pocket.
- * Walk around. reckonMe tries to detect your steps and their direction.
- * Should you notice a drift in the path you walked, you can manually adjust its heading as well as the position estimate itself.
- * Meet other reckonMe users and automagically exchange your estimates.
+* Tap "Start Dead-Reckoning".
+* Put the unlocked iPhone into your pocket.
+* Walk around. reckonMe tries to detect your steps and their direction.
+* Should you notice a drift in the path you walked, you can manually adjust its heading as well as the position estimate itself.
+* Meet other reckonMe users and automagically exchange your estimates.
 
 
 ##Overview
