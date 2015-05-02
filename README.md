@@ -1,4 +1,4 @@
-#reckonMe
+#reckonMe [![Download on the App Store](https://linkmaker.itunes.apple.com/htmlResources/assets/en_us//images/web/linkmaker/badge_appstore-lrg.svg)](https://itunes.apple.com/us/app/reckonme/id951420572?mt=8)
 
 Live inertial navigation and collaborative localisation on an iPhone.
 
@@ -62,15 +62,19 @@ Over time, several versions with slightly different features have been developed
 
 	- [Watch a demo on vimeo](http://vimeo.com/reckonme/reckonme-demo)
 	
-- [Version 2.x](https://github.com/reckonMe/reckonMe/tree/ble_p2p) (the current default **branch ble_p2p**, also current App Store version) for iOS 8, which is a descendant of 1.2 with several changes:
+- [Version 2.x](https://github.com/reckonMe/reckonMe/tree/ble_p2p) (the current default **branch ble_p2p**, also current [App Store](https://itunes.apple.com/us/app/reckonme/id951420572?mt=8) version) for iOS 8, which is a descendant of 1.2 with several changes:
 
 	- UI changes to accommodate the new, "flat" design
 	
 	- Collaborative localisation:
 	
 		- The now deprecated `GKSession` has been dropped in favor of a connectionless Bluetooth Low Energy approach using CoreBluetooth's `CBCentralManager` and `CBPeripheralManager`. Instead of establishing a connection, each device is simultaneously broadcasting its position and scanning for other devices. The position is encoded in a Base64 string used as the device's name.
+		
 		- Since the signal strength is now accessible, it is used as a proxy for proximity and the sound-based approach has been dropped. As a result, a mutual exchange is not guaranteed to happen, as the two devices may have different RSSI measurements and no further information is exchanged due to the lack of a connection.
+		
 	- Furthermore, the recording of sessions has been dropped.
+	
+	- [Watch the App Preview](iTunesConnectAssets/reckonMeAppPreview.mp4?raw=true "App Preview Video")
 		
 - The [master branch](https://github.com/reckonMe/reckonMe/tree/master) is also a descendant of version 1.2. It also uses Bluetooth Low Energy for proximity detection, but instead of individual exchanges, it constantly pushes the collected data to a common CouchDB backend for further processing.
 
